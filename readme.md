@@ -1,7 +1,7 @@
 <!--
  * @Author: blueWALL-E
  * @Date: 2024-10-31 22:45:46
- * @LastEditTime: 2024-12-26 23:16:33
+ * @LastEditTime: 2024-12-27 19:58:28
  * @FilePath: \AHV_open\readme.md
  * @Description: AHV文件的相关说明
  * @Wearing:  Read only, do not modify place!!! 
@@ -22,4 +22,4 @@
 
 ## 运行方法
 
-&emsp;&emsp;采用的是英制坐标系,在运行程序之前请先运行first.m文件 完成路径加载
+&emsp;&emsp;在运行程序之前请先运行first.m文件 完成路径加载
