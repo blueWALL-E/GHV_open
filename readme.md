@@ -1,7 +1,7 @@
 <!--
  * @Author: blueWALL-E
  * @Date: 2024-10-31 22:45:46
- * @LastEditTime: 2024-12-27 21:46:21
+ * @LastEditTime: 2024-12-27 22:28:00
  * @FilePath: \GHV_open\readme.md
  * @Description: AHV文件的相关说明
  * @Wearing:  Read only, do not modify place!!! 
@@ -9,7 +9,7 @@
 -->
 # 项目介绍
 
-&emsp;&emsp;一切高超声速飞行器（GHV）飞控的设计与研究都离不开动力学模型。现有GHV参数存在保密级别高，数据稀缺且完整度不高等特点。为避免相关研究者应GHV模型参数问题影响科研进度或重复造轮子，故创建此项目。
+&emsp;&emsp;一切高超声速飞行器（GHV）飞控的设计与研究都离不开动力学模型。现有GHV参数普遍存在保密级别高，数据稀缺且完整度不高等缺点。为避免相关研究者因GHV模型参数问题影响科研进度或重复造轮子，故创建此项目。
 
 &emsp;&emsp;本项目为NASA于20世纪90年代公开的高超声速飞行器（winged—cone）的完整的动力学模型。
 
@@ -44,6 +44,7 @@
 ├─slprj -MATLAB/Simulink相关配置文件夹
 └─doc -说明文档文件夹
       Hypersonic vehicle simulation model Winged-cone configuration.pdf -NASA winged-cone飞行器原始文档
+      高超声速飞行器动力学模型.docx -GHV动力学模型推导
 GHV_open.slx -GHV飞行器simulink仿真文件
 GHV_open.slxc -simulink缓存文件
 init.m -初始化加载文件
