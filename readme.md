@@ -1,7 +1,7 @@
 <!--
  * @Author: blueWALL-E
  * @Date: 2024-10-31 22:45:46
- * @LastEditTime: 2024-12-27 21:43:33
+ * @LastEditTime: 2024-12-27 21:46:21
  * @FilePath: \GHV_open\readme.md
  * @Description: AHV文件的相关说明
  * @Wearing:  Read only, do not modify place!!! 
@@ -53,5 +53,4 @@ readme.md
 
 ## LICENSE
 
-&emsp;&emsp;**GPL-2.0 license**
-&emsp;&emsp;许可证详细信息参考LICENSE文件
+&emsp;&emsp;**GPL-2.0 license**&emsp;&emsp;许可证详细信息参考LICENSE文件
