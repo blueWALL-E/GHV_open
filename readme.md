@@ -1,7 +1,7 @@
 <!--
  * @Author: blueWALL-E
  * @Date: 2024-10-31 22:45:46
- * @LastEditTime: 2024-12-27 21:12:30
+ * @LastEditTime: 2024-12-27 21:15:10
  * @FilePath: \GHV_open\readme.md
  * @Description: AHV文件的相关说明
  * @Wearing:  Read only, do not modify place!!! 
@@ -26,7 +26,7 @@
 
 ## 项目文件树
 
-├─.vscode -vscode相关配置文件夹
+├─.vscode -vscode相关配置文件夹<br>
 ├─GHV_control -控制算法文件夹
     &emsp;&emsp;├─FBL_M.m -反馈线性化控制
     &emsp;&emsp;├─lie_solving.m -反馈线性化中lie导数求解过程
