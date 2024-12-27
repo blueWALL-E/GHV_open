@@ -2,8 +2,8 @@
 /*
  * @Author: blueWALL-E
  * @Date: 2024-10-15 20:26:14
- * @LastEditTime: 2024-12-23 10:54:16
- * @FilePath: \AHV\AHV_modle\tra_dyn.m
+ * @LastEditTime: 2024-12-27 22:47:15
+ * @FilePath: \GHV_open\GHV_modle\tra_dyn.m
  * @Description: 平动动力学 第三组方程
  * @Wearing:  Read only, do not modify place!!!
  * @Shortcut keys:  ctrl+alt+/ ctrl+alt+z

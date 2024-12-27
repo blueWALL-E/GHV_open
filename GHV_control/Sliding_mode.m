@@ -2,8 +2,8 @@
 /*
  * @Author: blueWALL-E
  * @Date: 2024-12-23 10:40:15
- * @LastEditTime: 2024-12-23 11:12:59
- * @FilePath: \AHV\AHV_control\Sliding_mode.m
+ * @LastEditTime: 2024-12-27 22:45:49
+ * @FilePath: \GHV_open\GHV_control\Sliding_mode.m
  * @Description: 俯仰通道滑模控制器
  * @Wearing:  Read only, do not modify place!!!
  * @Shortcut keys:  ctrl+alt+/ ctrl+alt+z

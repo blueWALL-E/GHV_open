@@ -1,14 +1,14 @@
 %{
 /*
  * @Author: blueWALL-E
- * @Date: 2024-11-03 10:35:01
- * @LastEditTime: 2024-12-22 20:03:17
- * @FilePath: \AHV\AHV_control\FBL_M.m
+ * @Date: 2024-12-26 23:04:05
+ * @LastEditTime: 2024-12-27 22:45:33
+ * @FilePath: \GHV_open\GHV_control\FBL_M.m
  * @Description: 利用力矩实现三个姿态角的反馈线性化
  * @Wearing:  Read only, do not modify place!!!
  * @Shortcut keys:  ctrl+alt+/ ctrl+alt+z
  */
-%}
+ %}
 
 %反馈线性化1-利用力矩实现三个姿态角的反馈线性化
 %input:

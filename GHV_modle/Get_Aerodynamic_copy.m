@@ -2,8 +2,8 @@
 /*
 * @Author:blueWALL - E
 * @Date:2024 - 10 - 12 20:27:01
- * @LastEditTime: 2024-10-27 10:01:05
- * @FilePath: \AHV\Get_Aerodynamic_copy.m
+ * @LastEditTime: 2024-12-27 22:46:14
+ * @FilePath: \GHV_open\GHV_modle\Get_Aerodynamic_copy.m
 * @Description: 高超声速飞行器气动力分析
 * @Wearing:Read only, do not modify place ! !!
 * @Shortcut keys:ctrl + alt +/ ctrl + alt + z

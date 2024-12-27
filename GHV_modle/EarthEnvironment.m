@@ -2,8 +2,8 @@
 /*
  * @Author: blueWALL-E
  * @Date: 2024-10-16 16:57:42
- * @LastEditTime: 2024-11-03 17:13:03
- * @FilePath: \AHV\AHV_modle\EarthEnvironment.m
+ * @LastEditTime: 2024-12-27 22:46:02
+ * @FilePath: \GHV_open\GHV_modle\EarthEnvironment.m
  * @Description: 获得地球大气USSA76和重力参数
  * @Wearing:  Read only, do not modify place!!!
  * @Shortcut keys:  ctrl+alt+/ ctrl+alt+z

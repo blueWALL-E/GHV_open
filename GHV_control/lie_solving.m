@@ -2,8 +2,8 @@
 /*
  * @Author: blueWALL-E
  * @Date: 2024-11-01 17:09:49
- * @LastEditTime: 2024-11-03 10:34:35
- * @FilePath: \AHV\AHV_control\lie_solving.m
+ * @LastEditTime: 2024-12-27 22:45:40
+ * @FilePath: \GHV_open\GHV_control\lie_solving.m
  * @Description: 李式导数的求解 为控制器设计做准备
  * @Wearing:  Read only, do not modify place!!!
  * @Shortcut keys:  ctrl+alt+/ ctrl+alt+z

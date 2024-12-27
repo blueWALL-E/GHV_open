@@ -2,8 +2,8 @@
 /*
  * @Author: blueWALL-E
  * @Date: 2024-10-11 20:59:54
- * @LastEditTime: 2024-12-22 21:26:57
- * @FilePath: \AHV\AHV_modle\rot_dyn.m
+ * @LastEditTime: 2024-12-27 22:46:33
+ * @FilePath: \GHV_open\GHV_modle\rot_dyn.m
  * @Description: 转动动力学方程 第一组方程
  * @Wearing:  Read only, do not modify place!!!
  * @Shortcut keys:  ctrl+alt+/ ctrl+alt+z
