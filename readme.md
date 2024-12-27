@@ -26,7 +26,8 @@
 
 ## 项目文件树
 
-├─.vscode -vscode相关配置文件夹 <br>
+├─.vscode -vscode相关配置文件夹
+
 ├─GHV_control -控制算法文件夹
     &emsp;&emsp;├─FBL_M.m -反馈线性化控制
     &emsp;&emsp;├─lie_solving.m -反馈线性化中lie导数求解过程
