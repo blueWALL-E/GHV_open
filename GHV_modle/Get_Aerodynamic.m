@@ -2,7 +2,7 @@
 /*
  * @Author: blueWALL-E
  * @Date: 2024-10-12 20:27:01
- * @LastEditTime: 2025-01-12 20:57:09
+ * @LastEditTime: 2025-03-23 21:04:21
  * @FilePath: \GHV_open\GHV_modle\Get_Aerodynamic.m
  * @Description: 高超声速飞行器气动力分析
  * @Wearing:  Read only, do not modify place!!!
@@ -26,8 +26,7 @@
 % Mair  单位 N 气动力矩 在机体坐标系中
 % C     单位n.d.气动参数矩阵
 function [M, Fair, Mair, Q, C] = Get_Aerodynamic(LE, RE, RUD, air_ang, v, w, vc, rho)
-    %//TODO 可能涉及到单位换算问题所有输入输出的数据均为国际标准单位制 或者无量纲单位
-    %//TODO 需要对整个气动参数代码格式进行调整 原格式没有可读性
+    %//因涉及到单位换算问题，为统一标准，尽可能降低出错概率，所有输入输出的数据均为国际标准单位制 或者无量纲单位
     % 内部计算使用了一部分英制单位参与计算，请一定注意单位制之间的不同
     % 在马赫数分段点，气动参数并不连续
     % 气动参数并非特别理想，当飞行器攻角大于12度 小于0度 马赫数大于24时 参数失效
