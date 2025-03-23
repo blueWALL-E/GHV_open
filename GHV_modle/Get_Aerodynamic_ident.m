@@ -2,7 +2,7 @@
 /*
  * @Author: blueWALL-E
  * @Date: 2024-10-12 20:27:01
- * @LastEditTime: 2025-01-16 21:25:09
+ * @LastEditTime: 2025-01-20 20:35:44
  * @FilePath: \GHV_open\GHV_modle\Get_Aerodynamic_ident.m
  * @Description: 高超声速飞行器气动力分析-仅用于气动参数辨识
  * @Wearing:  Read only, do not modify place!!!
@@ -25,7 +25,7 @@
 % Fair  单位 N 气动力 在速度坐标系中 D Y L
 % Mair  单位 N 气动力矩 在机体坐标系中Mx My Mz
 
-function [D_iu, Y_iu, L_iu, l_iu, m_iu, n_iu] = Get_Aerodynamic_ident(LE, RE, RUD, alpha, beta, M, p, q, r, vc, rho)
+function [D, Y, L, Mx, My, Mz] = Get_Aerodynamic_ident(LE, RE, RUD, alpha, beta, M, p, q, r, vc, rho)
     %//TODO 可能涉及到单位换算问题所有输入输出的数据均为国际标准单位制 或者无量纲单位
     %//TODO 需要对整个气动参数代码格式进行调整 原格式没有可读性
     % 内部计算使用了一部分英制单位参与计算，请一定注意单位制之间的不同
@@ -81,12 +81,12 @@ function [D_iu, Y_iu, L_iu, l_iu, m_iu, n_iu] = Get_Aerodynamic_ident(LE, RE, RU
     end
 
     %气动参数写成分量形式
-    CD = C(1, :);
-    CY = C(2, :);
-    CL = C(3, :);
-    Cl = C(4, :);
-    Cm = C(5, :);
-    Cn = C(6, :);
+    CL = C.L;
+    CD = C.D;
+    CY = C.Y;
+    Cl = C.l;
+    Cm = C.m;
+    Cn = C.n;
 
     %气动力定义在速度坐标系下的表达式
     D_iu = Q_iu .* s_iu .* CD; %阻力Xv
@@ -108,13 +108,13 @@ function [D_iu, Y_iu, L_iu, l_iu, m_iu, n_iu] = Get_Aerodynamic_ident(LE, RE, RU
     %                       m_iu + x_cg_iu * (D_iu .* sin(alpha) + L_iu .* cos(alpha)); ...
     %                       n_iu + x_cg_iu * Y_iu];
 
-    % D = Fair(1, 1); %读取阻力数据
-    % Y = Fair(2, 1); %读取侧向力数据
-    % L = Fair(3, 1); %读取升力数据
+    D = 4.44822 * D_iu; %读取阻力数据
+    Y = 4.44822 * Y_iu; %读取侧向力数据
+    L = 4.44822 * L_iu; %读取升力数据
 
-    % Mx = Mair(1, 1);
-    % My = Mair(2, 1);
-    % Mz = Mair(3, 1);
+    Mx = 1.35582 * (l_iu); %读取滚转力矩数据
+    My = 1.35582 * (m_iu + x_cg_iu * (D_iu .* sin(alpha) + L_iu .* cos(alpha))); %读取俯仰力矩数据
+    Mz = 1.35582 * (n_iu + x_cg_iu * Y_iu); %读取偏航力矩数据
 
 end
 
@@ -447,13 +447,20 @@ function C = low_speed(LE, RE, RUD, M, ALPHA, BETA, p, q, r, v, b, c) % M < 1.25
     CY = CYB .* BETA + CY_RE + CY_LE + CY_RUD; %CY     单位 n.d. 侧向力系数
 
     Cl = Cllbv .* BETA + Cll_RE + Cll_LE + Cll_RUD ...
-        + Cllr .* ((r .* b) / (2 * v)) + Cllp .* ((p .* b) / (2 * v)); %Cl     单位 n.d. 滚转通道的气动力矩系数
+        + Cllr .* ((r .* b) ./ (2 * v)) + Cllp .* ((p .* b) ./ (2 * v)); %Cl     单位 n.d. 滚转通道的气动力矩系数
     Cm = Cmbv + Cm_RE + Cm_LE + Cm_RUD ...
-        + Cm_q .* ((q .* c) / (2 * v)); %Cm     单位 n.d. 俯仰通道的气动力矩系数
+        + Cm_q .* ((q .* c) ./ (2 * v)); %Cm     单位 n.d. 俯仰通道的气动力矩系数
     Cn = Cnbv .* BETA + Cn_RE + Cn_LE + Cn_RUD ...
-        + Cnr .* ((r .* b) / (2 * v)) + Cnp .* ((p .* b) / (2 * v)); %Cn      单位 n.d. 偏航通道的气动力矩系数
+        + Cnr .* ((r .* b) ./ (2 * v)) + Cnp .* ((p .* b) ./ (2 * v)); %Cn      单位 n.d. 偏航通道的气动力矩系数
 
-    C = [CD; CY; CL; Cl; Cm; Cn]; %输出气动参数
+    C.L = CL;
+    C.D = CD;
+    C.Y = CY;
+    C.l = Cl;
+    C.m = Cm;
+    C.n = Cn;
+
+    % C = [CD; CY; CL; Cl; Cm; Cn]; %输出气动参数
 
 end
 
@@ -851,13 +858,19 @@ function C = medium_speed(LE, RE, RUD, M, ALPHA, BETA, p, q, r, v, b, c) % 1.25 
     CY = CYB .* BETA + CY_RE + CY_LE + CY_RUD; %CY     单位 n.d. 侧向力系数
 
     Cl = Cllbv .* BETA + Cll_RE + Cll_LE + Cll_RUD ...
-        + Cllr .* ((r .* b) / (2 * v)) + Cllp .* ((p .* b) / (2 * v)); %Cl     单位 n.d. 滚转通道的气动力矩系数
+        + Cllr .* ((r .* b) ./ (2 * v)) + Cllp .* ((p .* b) ./ (2 * v)); %Cl     单位 n.d. 滚转通道的气动力矩系数
     Cm = Cmbv + Cm_RE + Cm_LE + Cm_RUD ...
-        + Cm_q .* ((q .* c) / (2 * v)); %Cm     单位 n.d. 俯仰通道的气动力矩系数
+        + Cm_q .* ((q .* c) ./ (2 * v)); %Cm     单位 n.d. 俯仰通道的气动力矩系数
     Cn = Cnbv .* BETA + Cn_RE + Cn_LE + Cn_RUD ...
-        + Cnr .* ((r .* b) / (2 * v)) + Cnp .* ((p .* b) / (2 * v)); %Cn      单位 n.d. 偏航通道的气动力矩系数
+        + Cnr .* ((r .* b) ./ (2 * v)) + Cnp .* ((p .* b) ./ (2 * v)); %Cn      单位 n.d. 偏航通道的气动力矩系数
 
-    C = [CD; CY; CL; Cl; Cm; Cn]; %输出气动参数
+    C.L = CL;
+    C.D = CD;
+    C.Y = CY;
+    C.l = Cl;
+    C.m = Cm;
+    C.n = Cn;
+    % C = [CD; CY; CL; Cl; Cm; Cn]; %输出气动参数
 end
 
 %medium_speed 高速段飞行器气动参数计算  M > 4
@@ -1186,11 +1199,17 @@ function C = high_speed(LE, RE, RUD, M, ALPHA, BETA, p, q, r, v, b, c) % M > 4
     CY = CYB .* BETA + CY_RE + CY_LE + CY_RUD; %CY     单位 n.d. 侧向力系数
 
     Cl = Cllbv .* BETA + Cll_RE + Cll_LE + Cll_RUD ...
-        + Cllr .* ((r .* b) / (2 * v)) + Cllp .* ((p .* b) / (2 * v)); %Cl     单位 n.d. 滚转通道的气动力矩系数
+        + Cllr .* ((r .* b) ./ (2 * v)) + Cllp .* ((p .* b) ./ (2 * v)); %Cl     单位 n.d. 滚转通道的气动力矩系数
     Cm = Cmbv + Cm_RE + Cm_LE + Cm_RUD ...
-        + Cm_q .* ((q * c) / (2 * v)); %Cm     单位 n.d. 俯仰通道的气动力矩系数
+        + Cm_q .* ((q * c) ./ (2 * v)); %Cm     单位 n.d. 俯仰通道的气动力矩系数
     Cn = Cnbv .* BETA + Cn_RE + Cn_LE + Cn_RUD ...
-        + Cnr .* ((r .* b) / (2 * v)) + Cnp .* ((p .* b) / (2 * v)); %Cn      单位 n.d. 偏航通道的气动力矩系数
+        + Cnr .* ((r .* b) ./ (2 * v)) + Cnp .* ((p .* b) ./ (2 * v)); %Cn      单位 n.d. 偏航通道的气动力矩系数
 
-    C = [CD; CY; CL; Cl; Cm; Cn]; %输出气动参数
+    C.L = CL;
+    C.D = CD;
+    C.Y = CY;
+    C.l = Cl;
+    C.m = Cm;
+    C.n = Cn;
+    % C = [CD; CY; CL; Cl; Cm; Cn]; %输出气动参数
 end
