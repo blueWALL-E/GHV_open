@@ -1,3 +1,6 @@
 # 排除临时文件
 draft.m
 *.mldatx
+*.slxc
+# 排除缓存文件夹
+slprj/
