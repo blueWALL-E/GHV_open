@@ -4,7 +4,7 @@
  * @Date: 2024-10-12 20:27:01
  * @LastEditTime: 2025-03-31 21:18:15
  * @FilePath: \GHV_open\GHV_modle\Get_Aerodynamic_ident.m
- * @Description: 高超声速飞行器气动力分析-仅用于气动参数辨识
+ * @Description: 高超声速飞行器气动力分析-仅用于气动参数辨识 支持完整的矩阵运算
  * @Wearing:  Read only, do not modify place!!!
  * @Shortcut keys:  ctrl+alt+/ ctrl+alt+z
  */
