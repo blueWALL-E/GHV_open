@@ -1,7 +1,7 @@
 <!--
  * @Author: blueWALL-E
  * @Date: 2024-10-31 22:45:46
- * @LastEditTime: 2025-05-20 23:02:21
+ * @LastEditTime: 2025-05-25 00:11:10
  * @FilePath: \GHV_open\readme.md
  * @Description: AHV文件的相关说明
  * @Wearing:  Read only, do not modify place!!! 
@@ -28,10 +28,11 @@
 
 2. 在MATLAB命令行窗口中 运行init.m文件 完成路径加载
 3. 在MATLAB/Simulink中 运行GHV_open.slx文件 开始属于你的仿真
+4. 在MATLAB/Simulink中 运行GHV_open_blocks.slx文件(使用航天航天工具包搭建的仿真平台)
 
 # 4. 功能简介
 
-等待完善
+等待完善 端午假期结束之前一定完成此部分内容
 
 # 5. 文件树
 
@@ -56,7 +57,9 @@ GHV_open
 │  ├─ rot_kin.m -转动运动学
 │  ├─ tra_dyn.m -平动运动学
 │  └─ tra_kin.m -平动动力学
+├─ GHV_Configuration.m -飞行器初始化文件
 ├─ GHV_open.slx -GHV飞行器simulink仿真文件
+├─ GHV_open_blocks.slx -GHV飞行器simulink仿真文件，使用simulink航天航天工具包搭建
 ├─ init.m -初始化加载文件
 ├─ LICENSE -许可证
 └─ readme.md -项目说明文档
