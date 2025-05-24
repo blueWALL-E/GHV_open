@@ -2,7 +2,7 @@
 /*
  * @Author: blueWALL-E
  * @Date: 2024-11-01 17:21:49
- * @LastEditTime: 2025-05-23 22:22:03
+ * @LastEditTime: 2025-05-24 22:34:57
  * @FilePath: \GHV_open\init.m
  * @Description: 完成工作区文件夹加载工作
  * @Wearing:  Read only, do not modify place!!!
@@ -11,7 +11,7 @@
  %}
 
 % 获取当前文件夹路径
-
+clear; %清空工作区
 currentFolder = pwd;
 
 % 生成包含所有子文件夹的路径
