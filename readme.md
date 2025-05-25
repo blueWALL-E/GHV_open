@@ -1,7 +1,7 @@
 <!--
  * @Author: blueWALL-E
  * @Date: 2024-10-31 22:45:46
- * @LastEditTime: 2025-05-25 00:31:36
+ * @LastEditTime: 2025-05-25 21:32:35
  * @FilePath: \GHV_open\readme.md
  * @Description: AHV文件的相关说明
  * @Wearing:  Read only, do not modify place!!! 
@@ -10,10 +10,9 @@
 
 # 1. 项目介绍
 
-&emsp;&emsp;一切高超声速飞行器（GHV）飞控的设计与研究都离不开气动参数模型。现有GHV气动参数普遍存在保密级别高，数据稀缺且不完整等缺点。为避免相关研究者因GHV气动模型参数问题影响科研进度或重复造轮子，故创建此项目。  
-&emsp;&emsp;本项目为NASA于20世纪90年代公开的高超声速飞行器（Winged—cone）的完整的动力学模型。  
-&emsp;&emsp;目前滑翔段6自由度模型已经完成建模，相关技术文档和全过程动力学模型会在后续更新中提供。并欢迎所有人参与到此项目中。
-&emsp;&emsp;目前有两个仿真平台，一个是纯人工搭建，一个是使用航空航天工具包构建，欢迎所有人克隆并寻找bug。
+&emsp;&emsp;一切高超声速飞行器（Generic Hypersonic Vehicle）飞控的设计与研究都离不开气动参数模型。现有GHV气动参数普遍存在保密级别高，数据稀缺且不完整等缺点。为避免相关研究者因GHV气动模型参数问题影响科研进度或重复造轮子，故创建此项目。  
+&emsp;&emsp;本项目为NASA于20世纪90年代公开的高超声速飞行器（Winged—cone）的完整动力学模型。包含两个仿真平台，一个是用matlab function纯公式构建（GHV_open_equation.slx），一个是使用航空航天工具包构建（GHV_open_equation.slx），用户可根据自身需要选择合适的平台，新手建议使用GHV_open_equation.slx仿真平台。  
+&emsp;&emsp;已完成无动力滑翔段6自由度模型建模，相关技术文档和全过程动力学模型会在后续更新中提供。并欢迎所有人参与到此项目中并寻找bug。  
 
 # 2. 环境要求
 
@@ -27,13 +26,36 @@
    git clone https://github.com/blueWALL-E/GHV_open.git
    ```
 
-2. 在MATLAB命令行窗口中 运行init.m文件 完成路径加载
-3. 在MATLAB/Simulink中 运行GHV_open.slx文件 开始属于你的仿真
-4. 在MATLAB/Simulink中 运行GHV_open_blocks.slx文件(使用航天航天工具包搭建的仿真平台)
+2. 运行GHV_open_equation.slx:需要先运行init.m文件，完成路径加载，然后再运行GHV_open_equation.slx文件。
+3. 运行GHV_open_equation.slx文件:直接运行即可。
 
 # 4. 功能简介
 
-等待完善
+本项目提供以下核心功能：
+
+1. **完整的6自由度动力学建模**  
+   - 实现了高超声速飞行器在无动力滑翔段的完整动力学建模，包括平动和转动的动力学与运动学。
+   - 支持基于气动参数的精确仿真，适用于飞控算法验证和性能分析。
+
+2. **多种仿真平台支持**  
+   - **GHV_open_equation.slx**：基于MATLAB函数的纯公式构建，适合对动力学方程的深入研究。
+   - **GHV_open_toolbox.slx**：基于Simulink航空航天工具包构建，适合快速搭建和扩展仿真环境。
+
+3. **控制算法实现**  
+   - 提供了两种经典控制算法接口：(目前仅仅提供接口 控制效果不保证)
+     - **反馈线性化控制（FBL）**：通过Lie导数求解实现非线性系统的线性化控制。
+     - **滑模控制（SMC）**：适用于高超声速飞行器的鲁棒控制设计。
+
+4. **模块化设计**  
+   - 动力学模型、气动参数和控制算法均采用模块化设计，便于扩展和替换。
+   - 提供多种气动参数实现版本（如简化版、矩阵运算版），满足不同仿真需求。
+
+5. **技术文档支持**  
+   - 提供详细的技术文档，包括：(相关内容会尽快完善)
+     - 飞行器说明文档。
+     - 气动参数数据库。
+     - 动力学建模过程和控制算法说明。
+   - 帮助用户快速上手并理解模型的实现细节。
 
 # 5. 文件树
 
@@ -48,9 +70,10 @@ GHV_open
 │  ├─ FBL_M.m -反馈线性化控制
 │  ├─ lie_solving.m -反馈线性化中lie导数求解过程
 │  └─ Sliding_mode.m  -滑模控制
-├─ GHV_modle -飞行器动力学模型文件夹
+├─ GHV_model -飞行器动力学模型文件夹
 │  ├─ EarthEnvironment.m -地球环境
-│  ├─ Get_Aerodynamic.m -GHV气动参数（实际仿真使用版本）
+│  ├─ Aerodynamic_coefficients.m -GHV气动参数(实际GHV_open_toolbox仿真使用版本)
+│  ├─ Get_Aerodynamic.m -GHV气动参数（实际GHV_open_equation仿真使用版本）
 │  ├─ Get_Aerodynamic_copy.m -GHV气动参数备份文件
 │  ├─ Get_Aerodynamic_ident.m -GHV气动参数仅用于参数分析（完整实现气动参数的矩阵运算）
 │  ├─ Get_Aerodynamic_Simplified.m -GHV气动参数简化版（暂未实现仅保留接口）
@@ -58,9 +81,9 @@ GHV_open
 │  ├─ rot_kin.m -转动运动学
 │  ├─ tra_dyn.m -平动运动学
 │  └─ tra_kin.m -平动动力学
-├─ GHV_Configuration.m -飞行器初始化文件
-├─ GHV_open.slx -GHV飞行器simulink仿真文件
-├─ GHV_open_blocks.slx -GHV飞行器simulink仿真文件，使用simulink航天航天工具包搭建
+├─ GHV_Configuration.m -飞行器基本参数配置文件
+├─ GHV_open_equation.slx -GHV飞行器simulink仿真文件，使用MatlabFunction纯公式构建
+├─ GHV_open_toolbox.slx -GHV飞行器simulink仿真文件，使用simulink航天航天工具包搭建
 ├─ init.m -初始化加载文件
 ├─ LICENSE -许可证
 └─ readme.md -项目说明文档
@@ -98,3 +121,13 @@ GNU GPLv2 也对软件使用设置了限制：
 
 - **责任限制**：软件按“现有状态”提供，开发者不对软件的使用或分发过程中的任何问题负责。
 - **无担保**：该协议明确表示软件没有任何明示或暗示的担保，开发者不对软件的性能或适用性负责。
+
+# 7. 备注
+
+&emsp;&emsp;请忽略头部注释中的此行代码：
+
+``` C
+    @Shortcut keys:  ctrl+alt+/ ctrl+alt+z
+```
+
+&emsp;&emsp;此为原作者编辑器自定义快捷键，与本项目无关。
