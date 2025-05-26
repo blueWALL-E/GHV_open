@@ -22,7 +22,7 @@ try
     GHV_Configuration(); % 替换为你的初始化脚本名（无需加 .m）
     disp('✅ 参数初始化脚本 GHV_Configuration.m 已执行');
 catch ME
-    warning('init_aircraft_params.m 执行失败');
+    warning('GHV_Configuration.m 执行失败');
 
 end
 
