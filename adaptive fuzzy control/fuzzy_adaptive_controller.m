@@ -2,7 +2,7 @@
 /*
 * @Author:blueWALL-E
 * @Date:2025-06-16 20:43:30
- * @LastEditTime: 2025-06-17 10:46:57
+ * @LastEditTime: 2025-06-25 21:49:28
  * @FilePath: \GHV_open\adaptive fuzzy control\fuzzy_adaptive_controller.m
 * @Description: 自适应模糊控制模块
 * @Wearing:Read only, do not modify place !!!
@@ -13,7 +13,7 @@
 %input:
 % air_ang:    单位 rad      气流角 alpha攻角 beta侧滑角
 % w:          单位 rad/s    机体转动角速度 wx,wy,wz 1*3
-% V:          单位 m/s      飞行器的空速 简化认为空速和低速相等
+% V:          单位 m/s      飞行器的空速 简化认为空速和低速相等 //TODO 这个变量有问题 需要修改
 % fuzzy_theta: 27x1         自适应权重
 % s:          单位 n.d.     控制滑模面
 %output:
