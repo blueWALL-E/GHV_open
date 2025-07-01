@@ -2,7 +2,7 @@
 /*
 * @Author:blueWALL-E
 * @Date:2025-05-23 21:43:50
- * @LastEditTime: 2025-06-26 10:35:43
+ * @LastEditTime: 2025-07-02 00:06:26
  * @FilePath: \GHV_open\GHV_Configuration.m
 * @Description: 飞行器基本参数信息
 * @Wearing:Read only, do not modify place !!!
