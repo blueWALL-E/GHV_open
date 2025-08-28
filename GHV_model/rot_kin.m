@@ -3,7 +3,7 @@
  * @Author: blueWALL-E
  * @Date: 2024-10-11 21:36:21
  * @LastEditTime: 2024-12-27 22:47:04
- * @FilePath: \GHV_open\GHV_modle\rot_kin.m
+ * @FilePath: \GHV_open\GHV_model\rot_kin.m
  * @Description: 转动运动学方程 第二组方程
  * @Wearing:  Read only, do not modify place!!!
  * @Shortcut keys:  ctrl+alt+/ ctrl+alt+z
