@@ -2,7 +2,7 @@
 /*
 * @Author:blueWALL-E
 * @Date:2025-06-17 09:58:51
- * @LastEditTime: 2025-06-26 11:25:30
+ * @LastEditTime: 2025-08-31 21:44:28
  * @FilePath: \GHV_open\adaptive fuzzy control\robust_control.m
 * @Description: 鲁棒控制模块
 * @Wearing:Read only, do not modify place !!!
@@ -18,11 +18,13 @@
 % uro:      单位 n.d.     鲁棒控制输出
 
 function [d_rho, uro] = robust_control(s, rho)
-    epsilon = 0.01; % 滑模面宽度
-    gamma_rho = 132;
-    a = 0.001;
+    epsilon = 0.005; % 滑模面宽度
+    gamma_rho = 100; % 自适应增益
+    a = 0.001; % Lyapunov方程计算得到所需项
 
-    uro = rho * (tanh(s / epsilon));
+    % 鲁棒控制律
+    uro = rho * (tanh(s / epsilon)); % 饱和函数代替符号函数，减小抖振
+    % 自适应律
     d_rho = gamma_rho * (abs(s) - 0.2785 * epsilon - a * rho);
 
 end
