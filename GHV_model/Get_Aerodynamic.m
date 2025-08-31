@@ -3,7 +3,7 @@
  * @Author: blueWALL-E
  * @Date: 2024-10-12 20:27:01
  * @LastEditTime: 2025-04-28 22:34:06
- * @FilePath: \GHV_open\GHV_modle\Get_Aerodynamic.m
+ * @FilePath: \GHV_open\GHV_model\Get_Aerodynamic.m
  * @Description: 高超声速飞行器气动力分析
  * @Wearing:  Read only, do not modify place!!!
  * @Shortcut keys:  ctrl+alt+/ ctrl+alt+z

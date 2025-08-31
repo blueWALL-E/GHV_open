@@ -2,8 +2,8 @@
 /*
  * @Author: blueWALL-E
  * @Date: 2024-10-16 21:15:44
- * @LastEditTime: 2024-12-27 22:47:24
- * @FilePath: \GHV_open\GHV_modle\tra_kin.m
+ * @LastEditTime: 2025-08-28 21:49:43
+ * @FilePath: \GHV_open\GHV_model\tra_kin.m
  * @Description: 平动运动学 第四组方程
  * @Wearing:  Read only, do not modify place!!!
  * @Shortcut keys:  ctrl+alt+/ ctrl+alt+z
