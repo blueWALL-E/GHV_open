@@ -19,6 +19,7 @@
 % w     单位 rad/s飞行器转动角速度
 % v     单位 m/s 飞行器速度标量
 % M     单位 n.d. 马赫数
+% GHV_cfg 飞行器基本参数结构体
 
 %output
 % C     单位n.d.气动参数矩阵  C = [CD; CY; CL; Cl; Cm; Cn];
