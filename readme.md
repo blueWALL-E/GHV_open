@@ -1,9 +1,9 @@
 <!--
  * @Author: blueWALL-E
  * @Date: 2024-10-31 22:45:46
- * @LastEditTime: 2025-09-22 00:26:42
+ * @LastEditTime: 2025-09-22 10:01:56
  * @FilePath: \GHV_open\readme.md
- * @Description: AHV文件的相关说明
+ * @Description: GHV文件的相关说明
  * @Wearing:  Read only, do not modify place!!! 
  * @Shortcut keys:  ctrl+alt+/ ctrl+alt+z
 -->
@@ -142,4 +142,4 @@ GNU GPLv2 也对软件使用设置了限制：
 ```
 
 &emsp;&emsp;此为原作者编辑器自定义快捷键，与本项目无关。
-推送测试 忽略此行
+
