@@ -2,8 +2,8 @@
 /*
 * @Author:blueWALL-E
 * @Date:2025-09-15 14:33:57
-* @LastEditTime: 2025-09-23 00:08:50
-* @FilePath: \GHV_open\GHV_model\Propulsion_model.m
+ * @LastEditTime: 2025-09-23 22:52:40
+ * @FilePath: \GHV_open\GHV_model\Propulsion_model.m
 * @Description: 组合发动机推力模型
 * @Wearing:Read only, do not modify place !!!
 * @Shortcut keys:ctrl+alt+/ ctrl+alt+z
@@ -33,13 +33,14 @@ function [F_T, M_T, Isp, dmass] = Propulsion_model(PLA, H, Ma, delta_y, delta_z,
     x_cT = GHV_cfg.x_cT;
     x_cg_element = x_cg(1, 1);
     %输入检查
-    if Ma < 0 || Ma > 24
+    if Ma < 0 || Ma > 24 %马赫数检查
         error(' Mach number input error, should be between 0 and 24');
-    end
-
-    if Ma <= 2 %涡轮发动机
+    elseif PLA < 0 || PLA > 1 %油门开度检查
+        error(' PLA input error, should be between 0 and 1');
+    elseif PLA == 0 %油门为0时直接返回0
+        T_norm = 0;
+    elseif Ma <= 2 %涡轮发动机
         T_norm = PLA * (2.99e-8 -32.81 * H +1.43e-3 * H ^ 2 -2.59e-8 * H ^ 3 +3.75e3 * Ma);
-
     elseif Ma <= 6 %冲压发动机
         T_norm = PLA * (3.93e-8 ...
             +3.94e5 * Ma ...
@@ -49,20 +50,14 @@ function [F_T, M_T, Isp, dmass] = Propulsion_model(PLA, H, Ma, delta_y, delta_z,
             +1.16e5 * Ma .^ 5 ...
             -1.50e4 * Ma .^ 6 ...
             +7.53e2 * Ma .^ 7);
-
     else %火箭发动机
-        %//TODO 油门为0时推力为负数 这个感觉还是有些bug在里面等待后续处理
+        %//TODO 油门为0时推力为负数 文献就这样写的 但感觉是个bug
         if H < 17373.6
             T_norm = -5.43e4 + 2.178 * H +3.24e5 * PLA + 0.374 * H * PLA;
         else
             T_norm = -1.64e4 +6.69295e5 * PLA;
         end
 
-    end
-
-    %油门为0时推力为0
-    if PLA == 0
-        T_norm = 0;
     end
 
     %推力矢量分解
@@ -72,9 +67,9 @@ function [F_T, M_T, Isp, dmass] = Propulsion_model(PLA, H, Ma, delta_y, delta_z,
     Tz = T_norm * sind(delta_z);
     F_T = [Tx, Ty, Tz];
     %力矩计算
-    l = 0;
-    m = (x_cT - x_cg_element) * Tz;
-    n =- (x_cT - x_cg_element) * Ty;
+    l = 0; %滚转力矩
+    m = (x_cT - x_cg_element) * Tz; %俯仰力矩
+    n =- (x_cT - x_cg_element) * Ty; %偏航力矩
     M_T = [l, m, n];
 
     %比冲模型
