@@ -33,8 +33,8 @@ GHV_cfg.I = diag([GHV_cfg.Ix, GHV_cfg.Iy, GHV_cfg.Iz]); %单位 kg*m^2 机体转
 Simulink.Bus.createObject(GHV_cfg); %名字是slBus1 作为总线信号 方便simulink调用
 
 %飞行器初始状态
-Ma = 6; %初始马赫数
-altitude = 10000; %初始高度 单位 m
+Ma = 6; %初始马赫数 6
+altitude = 20000; %初始高度 单位 m 10000
 [~, vc, ~, ~, ~] = EarthEnvironment(altitude); %获取大气参数
 Position_init = [0; 0; -altitude]; % 初始位置 大地坐标系
 Euler_init = [0; 0; 0]; %初始姿态 欧拉角 机体坐标系
