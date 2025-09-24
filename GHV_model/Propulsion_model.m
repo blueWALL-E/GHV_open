@@ -2,7 +2,7 @@
 /*
 * @Author:blueWALL-E
 * @Date:2025-09-15 14:33:57
- * @LastEditTime: 2025-09-23 22:52:40
+ * @LastEditTime: 2025-09-24 21:08:07
  * @FilePath: \GHV_open\GHV_model\Propulsion_model.m
 * @Description: 组合发动机推力模型
 * @Wearing:Read only, do not modify place !!!
@@ -65,7 +65,7 @@ function [F_T, M_T, Isp, dmass] = Propulsion_model(PLA, H, Ma, delta_y, delta_z,
     Tx = T_norm * cosd(delta_y) * cosd(delta_z);
     Ty = T_norm * cosd(delta_z) * sind(delta_y);
     Tz = T_norm * sind(delta_z);
-    F_T = [Tx, Ty, Tz];
+    F_T = [-Tx, Ty, Tz];
     %力矩计算
     l = 0; %滚转力矩
     m = (x_cT - x_cg_element) * Tz; %俯仰力矩
