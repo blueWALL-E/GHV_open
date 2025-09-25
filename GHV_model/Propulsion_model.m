@@ -2,7 +2,7 @@
 /*
 * @Author:blueWALL-E
 * @Date:2025-09-15 14:33:57
- * @LastEditTime: 2025-09-24 21:08:07
+ * @LastEditTime: 2025-09-26 00:23:29
  * @FilePath: \GHV_open\GHV_model\Propulsion_model.m
 * @Description: 组合发动机推力模型
 * @Wearing:Read only, do not modify place !!!
@@ -24,7 +24,7 @@
 % M_T     单位 N*m 发动机力矩 3*1向量
 % Isp   单位 s 比冲
 % dmass 单位 kg/s 燃料消耗率
-
+%//TODO Ma＞6 油门为0时推力为负数 Ma5左右 推力为负数 文献就这样写的 但感觉是个bug
 function [F_T, M_T, Isp, dmass] = Propulsion_model(PLA, H, Ma, delta_y, delta_z, GHV_cfg, x_cg)
     %输出矩阵定义
     F_T = zeros(1, 3); %#ok<PREALL>
@@ -81,7 +81,7 @@ function [F_T, M_T, Isp, dmass] = Propulsion_model(PLA, H, Ma, delta_y, delta_z,
         + 0.06806 * Ma .^ 5 ...
         - 0.0007576 * Ma .^ 6;
     %燃料消耗率
-    g0 = 9.80665; %标准重力加速度
+    g0 = 9.80665; %标准重力加速度 单位 m/s^2
     dmass = -T_norm / (Isp * g0); %燃料消耗率
 
 end
