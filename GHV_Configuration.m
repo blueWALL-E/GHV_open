@@ -2,7 +2,7 @@
 /*
 * @Author:blueWALL-E
 * @Date:2025-05-23 21:43:50
- * @LastEditTime: 2025-09-23 00:49:52
+ * @LastEditTime: 2025-09-26 00:21:03
  * @FilePath: \GHV_open\GHV_Configuration.m
 * @Description: 飞行器基本参数信息
 * @Wearing:Read only, do not modify place !!!
@@ -12,7 +12,6 @@
 
 %单位换算常数 尽量避免使用吧 但保留这个接口
 d2r = pi / 180; % Conversion Deg to Rad
-g = 9.81; % Gravity [m/s/s]
 m2ft = 3.28084; % meter to feet
 Kg2slug = 0.0685218; % Kg to slug
 Kg2lb = 2.20462; % Kg to lb
