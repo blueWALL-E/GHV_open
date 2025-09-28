@@ -1,13 +1,13 @@
 %{
 /*
-* @Author:blueWALL-E
-* @Date:2025-06-17 09:58:51
- * @LastEditTime: 2025-09-28 23:11:00
+ * @Author:blueWALL-E
+ * @Date:2025-06-17 09:58:51
+ * @LastEditTime: 2025-09-28 23:24:35
  * @FilePath: \GHV_open\GHV_control\adaptive fuzzy control\robust_control.m
-* @Description: 鲁棒控制模块
-* @Wearing:Read only, do not modify place !!!
-* @Shortcut keys: ctrl+alt+/ ctrl+alt+z
-*/
+ * @Description: 鲁棒控制模块
+ * @Wearing:Read only, do not modify place !!!
+ * @Shortcut keys: ctrl+alt+/ ctrl+alt+z
+ */
 %}
 %鲁棒控制模块
 %input:
