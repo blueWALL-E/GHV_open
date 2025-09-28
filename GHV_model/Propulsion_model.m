@@ -1,13 +1,13 @@
 %{
 /*
-* @Author:blueWALL-E
-* @Date:2025-09-15 14:33:57
+ * @Author:blueWALL-E
+ * @Date:2025-09-15 14:33:57
  * @LastEditTime: 2025-09-26 00:23:29
  * @FilePath: \GHV_open\GHV_model\Propulsion_model.m
-* @Description: 组合发动机推力模型
-* @Wearing:Read only, do not modify place !!!
-* @Shortcut keys:ctrl+alt+/ ctrl+alt+z
-*/
+ * @Description: 组合发动机推力模型
+ * @Wearing:Read only, do not modify place !!!
+ * @Shortcut keys: ctrl+alt+/ ctrl+alt+z
+ */
 %}
 
 %Propulsion_model 组合发动机推力模型

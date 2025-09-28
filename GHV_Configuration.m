@@ -1,13 +1,13 @@
 %{
 /*
-* @Author:blueWALL-E
-* @Date:2025-05-23 21:43:50
+ * @Author:blueWALL-E
+ * @Date:2025-05-23 21:43:50
  * @LastEditTime: 2025-09-26 00:21:03
  * @FilePath: \GHV_open\GHV_Configuration.m
-* @Description: 飞行器基本参数信息
-* @Wearing:Read only, do not modify place !!!
-* @Shortcut keys: ctrl+alt+/ ctrl+alt+z
-*/
+ * @Description: 飞行器基本参数信息
+ * @Wearing:Read only, do not modify place !!!
+ * @Shortcut keys: ctrl+alt+/ ctrl+alt+z
+ */
 %}
 
 %单位换算常数 尽量避免使用吧 但保留这个接口
