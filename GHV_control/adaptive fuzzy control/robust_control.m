@@ -1,13 +1,13 @@
 %{
 /*
-* @Author:blueWALL-E
-* @Date:2025-06-17 09:58:51
- * @LastEditTime: 2025-08-31 21:44:28
- * @FilePath: \GHV_open\adaptive fuzzy control\robust_control.m
-* @Description: 鲁棒控制模块
-* @Wearing:Read only, do not modify place !!!
-* @Shortcut keys: ctrl+alt+/ ctrl+alt+z
-*/
+ * @Author:blueWALL-E
+ * @Date:2025-06-17 09:58:51
+ * @LastEditTime: 2025-09-29 14:31:19
+ * @FilePath: \GHV_open\GHV_control\adaptive fuzzy control\robust_control.m
+ * @Description: 鲁棒控制模块
+ * @Wearing:Read only, do not modify place !!!
+ * @Shortcut keys: ctrl+alt+/ ctrl+alt+z
+ */
 %}
 %鲁棒控制模块
 %input:
@@ -19,7 +19,7 @@
 
 function [d_rho, uro] = robust_control(s, rho)
     epsilon = 0.005; % 滑模面宽度
-    gamma_rho = 100; % 自适应增益
+    gamma_rho = 170; % 自适应增益
     a = 0.001; % Lyapunov方程计算得到所需项
 
     % 鲁棒控制律
