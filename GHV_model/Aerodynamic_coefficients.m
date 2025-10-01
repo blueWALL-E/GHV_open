@@ -2,7 +2,7 @@
 /*
  * @Author:blueWALL - E
  * @Date:2025 - 05 - 23 23:25:42
- * @LastEditTime: 2025-09-28 22:03:27
+ * @LastEditTime: 2025-10-02 00:17:24
  * @FilePath: \GHV_open\GHV_model\Aerodynamic_coefficients.m
  * @Description:计算气动系数
  * @Wearing:Read only, do not modify place !!!
@@ -26,7 +26,7 @@
 % 阻力系数 侧向力系数 升力系数 滚转力矩系数 俯仰力矩系数 偏航力矩系数
 function Coef = Aerodynamic_coefficients(LE, RE, RUD, air_ang, v, w, M, GHV_cfg)
     %输出变量大小定义
-    Coef = zeros(1, 6);
+    Coef = zeros(6, 1);
 
     % 已对整个气动参数代码格式进行调整 原格式没有可读性
     % _iu表示英制单位 没有下标表示标准单位制
@@ -73,7 +73,8 @@ function Coef = Aerodynamic_coefficients(LE, RE, RUD, air_ang, v, w, M, GHV_cfg)
         C = high_speed(LE, RE, RUD, M, ALPHA, BETA, p, q, r, v, b, c); % M > 4
     end
 
-    Coef = reshape(C, 1, 6);
+    Coef = reshape(C, 6, 1); %转化为列向量
+
 end
 
 %low_speed 低速段飞行器气动参数计算 M < 1.25
@@ -411,7 +412,7 @@ function C = low_speed(LE, RE, RUD, M, ALPHA, BETA, p, q, r, v, b, c) % M < 1.25
     Cn = Cnbv .* BETA + Cn_RE + Cn_LE + Cn_RUD ...
         + Cnr .* ((r .* b) / (2 * v)) + Cnp .* ((p .* b) / (2 * v)); %Cn      单位 n.d. 偏航通道的气动力矩系数
 
-    C = [-CD, CY, -CL, Cl, Cm, Cn]; %输出气动参数
+    C = [-CD; CY; -CL; Cl; Cm; Cn]; %输出气动参数
 
 end
 
@@ -816,7 +817,7 @@ function C = medium_speed(LE, RE, RUD, M, ALPHA, BETA, p, q, r, v, b, c) % 1.25 
     Cn = Cnbv .* BETA + Cn_RE + Cn_LE + Cn_RUD ...
         + Cnr .* ((r .* b) / (2 * v)) + Cnp .* ((p .* b) / (2 * v)); %Cn      单位 n.d. 偏航通道的气动力矩系数
 
-    C = [-CD, CY, -CL, Cl, Cm, Cn]; %输出气动参数
+    C = [-CD; CY; -CL; Cl; Cm; Cn]; %输出气动参数
 end
 
 %medium_speed 高速段飞行器气动参数计算  M > 4
@@ -1151,5 +1152,5 @@ function C = high_speed(LE, RE, RUD, M, ALPHA, BETA, p, q, r, v, b, c) % M > 4
     Cn = Cnbv .* BETA + Cn_RE + Cn_LE + Cn_RUD ...
         + Cnr .* ((r .* b) / (2 * v)) + Cnp .* ((p .* b) / (2 * v)); %Cn      单位 n.d. 偏航通道的气动力矩系数
 
-    C = [-CD, CY, -CL, Cl, Cm, Cn]; %输出气动参数
+    C = [-CD; CY; -CL; Cl; Cm; Cn]; %输出气动参数
 end
