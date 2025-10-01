@@ -2,7 +2,7 @@
 /*
  * @Author: blueWALL-E
  * @Date: 2024-11-01 17:21:49
- * @LastEditTime: 2025-05-24 22:34:57
+ * @LastEditTime: 2025-09-28 22:03:20
  * @FilePath: \GHV_open\init.m
  * @Description: 完成工作区文件夹加载工作
  * @Wearing:  Read only, do not modify place!!!
@@ -28,5 +28,3 @@ end
 
 % 显示结果
 disp(['已完成工作区文件加载: ', currentFolder]);
-
-

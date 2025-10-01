@@ -1,13 +1,13 @@
 %{
 /*
-* @Author:blueWALL - E
-* @Date:2025 - 05 - 23 23:25:42
- * @LastEditTime: 2025-05-24 23:30:47
- * @FilePath: \GHV_open\GHV_modle\Aerodynamic_coefficients.m
-* @Description:计算气动系数
-* @Wearing:Read only, do not modify place ! !!
-* @Shortcut keys:ctrl + alt +/ ctrl + alt + z
-*/
+ * @Author:blueWALL - E
+ * @Date:2025 - 05 - 23 23:25:42
+ * @LastEditTime: 2025-09-28 22:03:27
+ * @FilePath: \GHV_open\GHV_model\Aerodynamic_coefficients.m
+ * @Description:计算气动系数
+ * @Wearing:Read only, do not modify place !!!
+ * @Shortcut keys: ctrl+alt+/ ctrl+alt+z
+ */
 %}
 
 %Get_Aerodynamic 计算GHV的气动参数
@@ -19,6 +19,7 @@
 % w     单位 rad/s飞行器转动角速度
 % v     单位 m/s 飞行器速度标量
 % M     单位 n.d. 马赫数
+% GHV_cfg 飞行器基本参数结构体
 
 %output
 % C     单位n.d.气动参数矩阵  C = [CD; CY; CL; Cl; Cm; Cn];
