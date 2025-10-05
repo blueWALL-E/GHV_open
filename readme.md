@@ -1,7 +1,7 @@
 <!--
  * @Author: blueWALL-E
  * @Date: 2024-10-31 22:45:46
- * @LastEditTime: 2025-10-04 18:52:40
+ * @LastEditTime: 2025-10-05 22:40:23
  * @FilePath: \GHV_open\readme.md
  * @Description: GHV文件的相关说明
  * @Wearing:  Read only, do not modify place!!! 
@@ -10,13 +10,22 @@
 
 # GHV_open
 
-[![License: GPL‑2.0](https://img.shields.io/badge/License-GPL%20v2-blue.svg)](LICENSE)
+[![License: GPL‑2.0](https://img.shields.io/badge/License-GPL%20v2-blue.svg)](LICENSE) ![MATLAB](https://img.shields.io/badge/MATLAB-R2023b-orange?logo=matlab) ![GitHub last commit](https://img.shields.io/github/last-commit/blueWALL-E/GHV_open)
 
 ## 简介
 
-&emsp;&emsp;**GHV_open** 是一个面向高超声速飞行器（Generic Hypersonic Vehicle）的开源动力学与 GNC（制导、导航与控制）仿真研究平台。项目包含完整的 6 自由度动力学模型、气动力模型、发动机模型、地球环境以及多种控制算法示例，旨在为研究人员和飞控工程师提供一个可扩展、可复现的高超声速飞行器 GNC 仿真平台。  
+&emsp;&emsp;**GHV_open** 是一个面向高超声速飞行器（Generic Hypersonic Vehicle）的开源动力学与 GNC（制导、导航与控制）仿真研究平台。项目包含完整的 6 自由度动力学模型、气动力模型、发动机模型、地球环境以及多种控制算法示例，旨在为研究人员和飞控工程师提供一个可扩展、可复现的高超声速飞行器综合仿真平台。  
+
+<p align="center">
+  <img src="docs/仿真平台截图.jpg" alt="GHV_open **picture**" width="100%">
+  <br>
+  <em>图 1：高超声速飞行器动力学仿真平台</em>
+</p>
+
+<!-- 
 &emsp;&emsp;下图为高超声速飞行器动力学仿真平台截图
-![GHV 模型结构](docs/仿真平台截图.jpg)
+![GHV 模型结构](docs/仿真平台截图.jpg) 
+-->
 
 ## 背景与依据
 
@@ -109,16 +118,16 @@ init;  % 加载项目路径与默认配置
 
 ## 贡献指南
 
-欢迎任何贡献，包括但不限于：
+欢迎任何贡献，包括但不限于（按重要程度排序）：
 
 - 🛠️  修复各种 bug
+- 🚀  完善发动机模型数据
+- ✈️  设计高超声速飞行器飞行轨迹
 - 📚  完善说明文档
 - 📈  丰富控制算法
-- ✈️  设计高超声速飞行器飞行轨迹
-- 🌡️  建立热相关模型
-- 🚀  完善发动机模型数据
-- 🌐  增加英文版文档
-
+- 🧩 建立飞行器弹性模型  
+- 🌡️  建立热环境相关模型  
+  
 流程：
 
 1. Fork 本仓库
