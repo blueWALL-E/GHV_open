@@ -27,8 +27,8 @@
 %//TODO Ma＞6 油门为0时推力为负数 Ma5左右 推力为负数 文献就这样写的 但感觉是个bug
 function [F_T, M_T, Isp, dmass] = Propulsion_model(PLA, H, Ma, delta_y, delta_z, GHV_cfg, x_cg)
     %输出矩阵定义
-    F_T = zeros(1, 3); %#ok<PREALL>
-    M_T = zeros(1, 3); %#ok<PREALL>
+    F_T = zeros(3, 1); %#ok<PREALL>
+    M_T = zeros(3, 1); %#ok<PREALL>
     %输入参数提取
     x_cT = GHV_cfg.x_cT;
     x_cg_element = x_cg(1, 1);
@@ -65,12 +65,12 @@ function [F_T, M_T, Isp, dmass] = Propulsion_model(PLA, H, Ma, delta_y, delta_z,
     Tx = T_norm * cosd(delta_y) * cosd(delta_z);
     Ty = T_norm * cosd(delta_z) * sind(delta_y);
     Tz = T_norm * sind(delta_z);
-    F_T = [-Tx, Ty, Tz];
+    F_T = [-Tx; Ty; Tz];
     %力矩计算
     l = 0; %滚转力矩
     m = (x_cT - x_cg_element) * Tz; %俯仰力矩
     n =- (x_cT - x_cg_element) * Ty; %偏航力矩
-    M_T = [l, m, n];
+    M_T = [l; m; n];
 
     %比冲模型
     Isp = 1867 ...
