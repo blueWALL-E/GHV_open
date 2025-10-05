@@ -1,3 +1,17 @@
 {
-    "todo-tree.tree.scanMode": "current file"
+    "todo-tree.tree.scanMode": "current file",
+    "conventionalCommits.scopes": [
+        "dyn", // 动力学模型 (Dynamics)：6DoF 刚体方程、运动学、质量与惯量
+        "aero", // 气动模型 (Aerodynamics)：升力、阻力、力矩、气动数据库
+        "prop", // 推进 (Propulsion)：发动机、推力、油耗等动力学模型
+        "env", // 环境 (Environment)：大气模型、风、重力、地球模型
+        "traj", // 轨迹 (Trajectory)：飞行轨迹生成与仿真、边界条件、任务场景
+        "guid", // 制导 (Guidance)：再入制导、制导律、轨迹跟踪算法
+        "ctrl", // 控制 (Control)：控制律设计、增稳、航迹保持、执行机构接口
+        "docs", // 文档 (Documentation)：说明文档、README、理论推导、使用手册
+        "data", // 数据 (Data)：输入/输出数据、测试样例、标定/仿真结果
+        "test", // 测试 (Testing)：单元测试、集成测试、测试脚本
+        "sim", // 仿真 (Simulation)：仿真框架、仿真工具、仿真配置
+        "*" // 其他 (Other)：不属于上述类别的提交
+    ]
 }
