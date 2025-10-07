@@ -2,7 +2,7 @@
 /*
  * @Author:blueWALL-E
  * @Date:2025-05-23 21:43:50
- * @LastEditTime: 2025-10-04 18:16:57
+ * @LastEditTime: 2025-10-07 23:34:17
  * @FilePath: \GHV_open\GHV_Configuration.m
  * @Description: 飞行器基本参数信息
  * @Wearing:Read only, do not modify place !!!
@@ -33,7 +33,7 @@ Simulink.Bus.createObject(GHV_cfg); %名字是slBus1 作为总线信号 方便si
 
 %飞行器初始状态
 Ma = 6; %初始马赫数 7
-altitude = 20000; %初始高度 单位 m 10000
+altitude = 10000; %初始高度 单位 m 10000
 [~, vc, ~, ~, ~] = EarthEnvironment(altitude); %获取大气参数
 Position_init = [0; 0; -altitude]; % 初始位置 大地坐标系ned 北东地
 LLA_init = [19.6144722; 110.9510972; altitude]; %初始位置 大地坐标系 纬度 经度 高度
