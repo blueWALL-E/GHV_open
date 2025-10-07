@@ -19,7 +19,7 @@
 
 function [d_rho, uro] = robust_control(s, rho)
     epsilon = 0.005; % 滑模面宽度
-    gamma_rho = 170; % 自适应增益
+    gamma_rho = 100; % 自适应增益
     a = 0.001; % Lyapunov方程计算得到所需项
 
     % 鲁棒控制律
