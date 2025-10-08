@@ -2,7 +2,7 @@
 /*
  * @Author:blueWALL-E
  * @Date:2025-09-15 14:33:57
- * @LastEditTime: 2025-10-07 23:19:21
+ * @LastEditTime: 2025-10-08 11:25:58
  * @FilePath: \GHV_open\GHV_model\Propulsion_model.m
  * @Description: 组合发动机推力模型
  * @Wearing:Read only, do not modify place !!!
@@ -54,7 +54,7 @@ function [F_T, M_T, Isp, dmass] = Propulsion_model(PLA, H, Ma, delta_y, delta_z,
     else %火箭发动机
         %//TODO 油门为0时推力为负数 文献就这样写的 但感觉是个bug
         if H < 17373.6
-            T_norm = 2.95 .* H +1.44e6 .* PLA +1.66 .* H .* PLA;
+            T_norm = 2.95 .* H +1.44e6 .* PLA + 1.66 .* H .* PLA;
         else
             T_norm = 2.41e6 .* PLA;
         end
