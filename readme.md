@@ -1,7 +1,7 @@
 <!--
  * @Author: blueWALL-E
  * @Date: 2024-10-31 22:45:46
- * @LastEditTime: 2025-10-05 22:40:23
+ * @LastEditTime: 2025-10-11 00:24:14
  * @FilePath: \GHV_open\readme.md
  * @Description: GHV文件的相关说明
  * @Wearing:  Read only, do not modify place!!! 
@@ -99,10 +99,10 @@ cd GHV_open
 
 #### **Step2** — 设置飞行器初始配置并初始化路径
 
-编辑 `GHV_Configuration.m`（飞行器基本参数配置文件），完成后在 MATLAB 中执行：
+编辑 `GHV_Configuration.m`（飞行器基本参数配置文件），完成后在 MATLAB 命令行窗口中执行：
 
 ```bash
-init;  % 加载项目路径与默认配置
+init  % 加载项目路径与默认配置
 ```
 
 #### Step 3 — 运行仿真平台
@@ -141,8 +141,8 @@ init;  % 加载项目路径与默认配置
 
 ## 致谢
 
-- 美国国家航空航天局兰利研究中心提供的winged-cone高超声速飞行器数据
-- 项目作者：**blueWALL-E**（我自己）
+- Winged-Cone高超声速飞行器数据提供者：[美国国家航空航天局](https://github.com/nasa)兰利研究中心
+- 项目作者：[blueWALL-E](https://github.com/blueWALL-E)（原始项目创作者）
 
 ## 备注
 
