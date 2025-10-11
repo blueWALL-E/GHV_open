@@ -2,6 +2,6 @@
 draft.m
 *.mldatx
 *.slxc
-*.SLDPRT
+*.mat
 # 排除缓存文件夹
 slprj/
