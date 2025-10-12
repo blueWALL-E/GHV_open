@@ -820,7 +820,7 @@ function C = medium_speed(LE, RE, RUD, M, ALPHA, BETA, p, q, r, v, b, c) % 1.25 
     C = [-CD; CY; -CL; Cl; Cm; Cn]; %输出气动参数
 end
 
-%medium_speed 高速段飞行器气动参数计算  M > 4
+%high_speed 高速段飞行器气动参数计算  M > 4
 %input
 % LE    单位 度     左舵角度
 % RE    单位 度     右舵角度
