@@ -2,7 +2,7 @@
 /*
  * @Author:blueWALL - E
  * @Date:2025 - 05 - 23 23:25:42
- * @LastEditTime: 2025-10-12 15:38:32
+ * @LastEditTime: 2025-10-12 22:53:58
  * @FilePath: \GHV_open\GHV_model\Aerodynamic_coefficients_affine.m
  * @Description:计算气动系数中的仿射部分，用于控制器的设计工作
  * @Wearing:Read only, do not modify place !!!
@@ -51,9 +51,10 @@ function Coef_F = Aerodynamic_coefficients_affine(air_ang, v, w, M, GHV_cfg)
         error('error:M<0');
     end
 
-    % if (M > 24)
-    %     error('error:M>24');
-    % end
+    if (M > 24)
+        error('error:M>24');
+    end
+
     b = GHV_cfg.b_ref; %单位 m 机翼展长
     c = GHV_cfg.c_ref; %单位 m 机翼平均弦长
     %计算并输出气动参数
