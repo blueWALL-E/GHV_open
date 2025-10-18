@@ -2,8 +2,8 @@
 /*
  * @Author:blueWALL-E
  * @Date:2025-10-12 19:46:57
- * @LastEditTime: 2025-10-12 22:51:30
- * @FilePath: \GHV_open\GHV_control\attitude_adaptive_smc.m
+ * @LastEditTime: 2025-10-14 11:41:36
+ * @FilePath: \GHV_open\GHV_control\adaptive fuzzy control\attitude_adaptive_smc.m
  * @Description:MIMO非仿射自适应姿态控制
  * @Wearing:Read only, do not modify place !!!
  * @Shortcut keys:ctrl+alt+/ ctrl+alt+z
@@ -68,31 +68,41 @@ function [LE, RE, RUD, d_rho_smc] = attitude_adaptive_smc(I, w, aero_ang, dd_aer
     n_F = M_F(3, 1);
 
     %控制参数
-    %滑模面权重
-    eta_mu = 5;
-    eta_alpha = 10;
-    eta_beta = 10;
+    %滑模面权重-比例项
+    lambad_p_mu = 0;
+    lambad_p_alpha = 5;
+    lambad_p_beta = 0;
+    %滑模面权重-比例项
+    lambad_I_mu = 0;
+    lambad_I_alpha = 0;
+    lambad_I_beta = 0;
     %趋近率权重
-    k_mu = 0.1;
+    k_mu = 0;
     k_alpha = 0.1;
-    k_beta = 1;
+    k_beta = 0;
     %滑模面宽度
     epsilon_mu = 0.005;
     epsilon_alpha = 0.005;
     epsilon_beta = 0.005;
     %自适应增益
-    gamma_rho_mu = 1;
-    gamma_rho_alpha = 1;
-    gamma_rho_beta = 1;
+    gamma_rho_mu = 0;
+    gamma_rho_alpha = 90;
+    gamma_rho_beta = 0;
     %Lyapunov设计项
-    a_mu = 2;
-    a_alpha = 2;
-    a_beta = 4;
+    a_mu = 0;
+    a_alpha = 0.001;
+    a_beta = 0;
 
     %滑模面计算
-    S_mu = d_mu_e + 2 * eta_mu * mu_e +eta_mu ^ 2 * i_mu_e;
-    S_alpha = d_alpha_e + 2 * eta_alpha * alpha_e + eta_alpha ^ 2 * i_alpha_e;
-    S_beta = d_beta_e + 2 * eta_beta * beta_e + eta_beta ^ 2 * i_beta_e;
+    S_mu = d_mu_e ...
+        + lambad_p_mu * mu_e ...
+        + lambad_I_mu * i_mu_e;
+    S_alpha = d_alpha_e ...
+        + lambad_p_alpha * alpha_e ...
+        + lambad_I_alpha * i_alpha_e;
+    S_beta = d_beta_e ...
+        + lambad_p_beta * beta_e ...
+        + lambad_I_beta * i_beta_e;
 
     %仿射项计算
     F_mu = ((Ix - Iy - Iz) / Iz) * p * q * sin(alpha) + ((Ix + Iy - Iz) / Ix) * q * r * cos(alpha) ...
@@ -102,19 +112,22 @@ function [LE, RE, RUD, d_rho_smc] = attitude_adaptive_smc(I, w, aero_ang, dd_aer
         + (sin(alpha) / Ix) * l_F - (cos(alpha) / Iz) * n_F;
 
     %mu通道控制律
-    u_eq_mu = dd_mu_d + 2 * eta_mu * d_mu_e + eta_mu ^ 2 * mu_e - F_mu + k_mu * S_mu; %等效控制律
+    u_eq_mu = dd_mu_d + lambad_p_mu * d_mu_e + lambad_I_mu * mu_e - F_mu + k_mu * S_mu; %等效控制律
     u_ro_mu = rho_mu * tanh(S_mu / epsilon_mu); %鲁棒控制律
-    u_mu = u_eq_mu + u_ro_mu; %总控制律
+    % u_mu = u_eq_mu + u_ro_mu; %总控制律
+    u_mu = 0; %总控制律
     d_rho_smc_mu = gamma_rho_mu * (abs(S_mu) - 0.2785 * epsilon_mu - a_mu * rho_mu); %自适应律
     %alpha通道控制律
-    u_eq_alpha = dd_alpha_d + 2 * eta_alpha * d_alpha_e + eta_alpha ^ 2 * alpha_e - F_alpha + k_alpha * S_alpha; %等效控制律
+    u_eq_alpha = dd_alpha_d + lambad_p_alpha * d_alpha_e + lambad_I_alpha * alpha_e + k_alpha * S_alpha; %等效控制律
+    % u_eq_alpha = dd_alpha_d + lambad_p_alpha * d_alpha_e + lambad_I_alpha * alpha_e - F_alpha + k_alpha * S_alpha; %等效控制律
     u_ro_alpha = rho_alpha * tanh(S_alpha / epsilon_alpha); %鲁棒控制律
     u_alpha = u_eq_alpha + u_ro_alpha; %总控制律
     d_rho_smc_alpha = gamma_rho_alpha * (abs(S_alpha) - 0.2785 * epsilon_alpha - a_alpha * rho_alpha); %自适应律
     %beta通道控制律
-    u_eq_beta = dd_beta_d + 2 * eta_beta * d_beta_e + eta_beta ^ 2 * beta_e - F_beta + k_beta * S_beta; %等效控制律
+    u_eq_beta = dd_beta_d + lambad_p_beta * d_beta_e + lambad_I_beta * beta_e - F_beta + k_beta * S_beta; %等效控制律
     u_ro_beta = rho_beta * tanh(S_beta / epsilon_beta); %鲁棒控制律
-    u_beta = u_eq_beta + u_ro_beta; %总控制律
+    % u_beta = u_eq_beta + u_ro_beta; %总控制律
+    u_beta = 0; %总控制律
     d_rho_smc_beta = gamma_rho_beta * (abs(S_beta) - 0.2785 * epsilon_beta - a_beta * rho_beta); %自适应律
 
     %舵面计算
