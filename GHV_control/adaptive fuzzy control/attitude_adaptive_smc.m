@@ -2,7 +2,7 @@
 /*
  * @Author:blueWALL-E
  * @Date:2025-10-12 19:46:57
- * @LastEditTime: 2025-10-14 11:41:36
+ * @LastEditTime: 2025-10-19 20:28:46
  * @FilePath: \GHV_open\GHV_control\adaptive fuzzy control\attitude_adaptive_smc.m
  * @Description:MIMO非仿射自适应姿态控制
  * @Wearing:Read only, do not modify place !!!
@@ -117,12 +117,14 @@ function [LE, RE, RUD, d_rho_smc] = attitude_adaptive_smc(I, w, aero_ang, dd_aer
     % u_mu = u_eq_mu + u_ro_mu; %总控制律
     u_mu = 0; %总控制律
     d_rho_smc_mu = gamma_rho_mu * (abs(S_mu) - 0.2785 * epsilon_mu - a_mu * rho_mu); %自适应律
+
     %alpha通道控制律
     u_eq_alpha = dd_alpha_d + lambad_p_alpha * d_alpha_e + lambad_I_alpha * alpha_e + k_alpha * S_alpha; %等效控制律
     % u_eq_alpha = dd_alpha_d + lambad_p_alpha * d_alpha_e + lambad_I_alpha * alpha_e - F_alpha + k_alpha * S_alpha; %等效控制律
     u_ro_alpha = rho_alpha * tanh(S_alpha / epsilon_alpha); %鲁棒控制律
     u_alpha = u_eq_alpha + u_ro_alpha; %总控制律
     d_rho_smc_alpha = gamma_rho_alpha * (abs(S_alpha) - 0.2785 * epsilon_alpha - a_alpha * rho_alpha); %自适应律
+
     %beta通道控制律
     u_eq_beta = dd_beta_d + lambad_p_beta * d_beta_e + lambad_I_beta * beta_e - F_beta + k_beta * S_beta; %等效控制律
     u_ro_beta = rho_beta * tanh(S_beta / epsilon_beta); %鲁棒控制律
@@ -131,8 +133,11 @@ function [LE, RE, RUD, d_rho_smc] = attitude_adaptive_smc(I, w, aero_ang, dd_aer
     d_rho_smc_beta = gamma_rho_beta * (abs(S_beta) - 0.2785 * epsilon_beta - a_beta * rho_beta); %自适应律
 
     %舵面计算
-    LE = u_alpha - u_beta; %左舵偏转角度
-    RE = u_alpha + u_beta; %右舵偏转角度
-    RUD = u_mu; %方向舵偏转角度
+    LE = u_alpha; %左舵偏转角度
+    % LE = u_alpha - u_beta; %左舵偏转角度
+    RE = u_alpha; %右舵偏转角度
+    % RE = u_alpha + u_beta; %右舵偏转角度
+    RUD = 0; %方向舵偏转角度
+    % RUD = u_mu; %方向舵偏转角度
     d_rho_smc = [d_rho_smc_mu; d_rho_smc_alpha; d_rho_smc_beta]; %自适应权重更新向量
 end
