@@ -2,7 +2,7 @@
 /*
  * @Author: blueWALL-E
  * @Date: 2025-10-19 14:52:06
- * @LastEditTime: 2025-10-19 15:13:36
+ * @LastEditTime: 2025-10-19 20:08:25
  * @FilePath: \GHV_open\GHV_trajectory\Reference_Flight_Timeline.m
  * @Description: 参考飞行时序
  * @Wearing:  Read only, do not modify place!!!
@@ -23,12 +23,15 @@ function att_ang = Reference_Flight_Timeline(t)
     %爬升阶段
     if t < 50
         %程序转弯
-        theta = deg2rad(t); %俯仰角匀速增加到50度
-    elseif t >= 50 && t < 150
+        theta = deg2rad(t * 0.4); %俯仰角匀速增加到50度
+    elseif t >= 50 && t < 90
         %固定姿态飞行
-        theta = deg2rad(50); %保持50度俯仰角
+        theta = deg2rad(20); %保持50度俯仰角
+    elseif t >= 90 && t < 150
+        %程序转弯
+        theta = deg2rad(20 - (t - 90) * (1/3)); %俯仰角匀速减小到0度
     else
-        theta = deg2rad(50); %保持50度俯仰角
+        theta = 0; %水平飞行
     end
 
     att_ang = [0; theta; 0]; %滚转角为0，偏航角为0
