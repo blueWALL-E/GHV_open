@@ -2,7 +2,7 @@
 /*
  * @Author: blueWALL-E
  * @Date: 2024-10-12 20:27:01
- * @LastEditTime: 2025-04-28 22:34:06
+ * @LastEditTime: 2025-10-19 17:28:43
  * @FilePath: \GHV_open\GHV_model\Get_Aerodynamic.m
  * @Description: 高超声速飞行器气动力分析
  * @Wearing:  Read only, do not modify place!!!
@@ -22,6 +22,7 @@
 % rho   单位 kg/m3 大气密度
 
 %output
+% M     单位 n.d. 马赫数
 % Fair  单位 N 气动力 在速度坐标系中
 % Mair  单位 N 气动力矩 在机体坐标系中
 % C     单位n.d.气动参数矩阵
