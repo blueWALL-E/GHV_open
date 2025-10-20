@@ -2,7 +2,7 @@
 /*
  * @Author:blueWALL-E
  * @Date:2025-10-12 19:46:57
- * @LastEditTime: 2025-10-19 20:28:46
+ * @LastEditTime: 2025-10-20 12:04:20
  * @FilePath: \GHV_open\GHV_control\adaptive fuzzy control\attitude_adaptive_smc.m
  * @Description:MIMO非仿射自适应姿态控制
  * @Wearing:Read only, do not modify place !!!
@@ -26,9 +26,11 @@
 % RE         单位 deg   右舵偏转角度
 % RUD        单位 deg   方向舵偏转角度
 % d_rho_smc  单位 n.d.  自适应权重更新向量 3*1
-function [LE, RE, RUD, d_rho_smc] = attitude_adaptive_smc(I, w, aero_ang, dd_aero_ang_d, aero_ang_e, d_aero_ang_e, i_aero_ang_e, rho_smc, M_F)
+% S          单位 n.d.  滑模面向量 3*1
+function [LE, RE, RUD, d_rho_smc, S] = attitude_adaptive_smc(I, w, aero_ang, dd_aero_ang_d, aero_ang_e, d_aero_ang_e, i_aero_ang_e, rho_smc, M_F)
     %输出变量初始化
     d_rho_smc = zeros(3, 1); %#ok<PREALL>
+    S = zeros(3, 1); %#ok<PREALL>
     %输入变量赋值
     %转动惯量矩阵对角线元素
     Ix = I(1, 1);
@@ -132,6 +134,7 @@ function [LE, RE, RUD, d_rho_smc] = attitude_adaptive_smc(I, w, aero_ang, dd_aer
     u_beta = 0; %总控制律
     d_rho_smc_beta = gamma_rho_beta * (abs(S_beta) - 0.2785 * epsilon_beta - a_beta * rho_beta); %自适应律
 
+    %输出
     %舵面计算
     LE = u_alpha; %左舵偏转角度
     % LE = u_alpha - u_beta; %左舵偏转角度
@@ -140,4 +143,5 @@ function [LE, RE, RUD, d_rho_smc] = attitude_adaptive_smc(I, w, aero_ang, dd_aer
     RUD = 0; %方向舵偏转角度
     % RUD = u_mu; %方向舵偏转角度
     d_rho_smc = [d_rho_smc_mu; d_rho_smc_alpha; d_rho_smc_beta]; %自适应权重更新向量
+    S = [S_mu; S_alpha; S_beta]; %滑模面向量
 end
