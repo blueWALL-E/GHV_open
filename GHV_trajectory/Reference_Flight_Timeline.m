@@ -2,7 +2,7 @@
 /*
  * @Author: blueWALL-E
  * @Date: 2025-10-19 14:52:06
- * @LastEditTime: 2025-10-20 11:31:01
+ * @LastEditTime: 2025-10-20 11:34:58
  * @FilePath: \GHV_open\GHV_trajectory\Reference_Flight_Timeline.m
  * @Description: 参考飞行时序
  * @Wearing:  Read only, do not modify place!!!
@@ -34,7 +34,7 @@ function att_ang = Reference_Flight_Timeline(t)
     % else
     %     theta = 0; %水平飞行
     % end
-    if t <= 130
+    if t <= 130 %上升段
         p1 = 4.873e-09;
         p2 = -2.341e-06;
         p3 = 0.0004286;
@@ -44,6 +44,8 @@ function att_ang = Reference_Flight_Timeline(t)
 
         theta_deg = p1 * t ^ 5 + p2 * t ^ 4 + p3 * t ^ 3 + p4 * t ^ 2 + p5 * t + p6;
         theta = deg2rad(theta_deg); %转换为弧度制
+    else
+        error('Time exceeds the reference flight timing design(t>=130s)');
     end
 
     att_ang = [0; theta; 0]; %滚转角为0，偏航角为0
