@@ -2,7 +2,7 @@
 /*
  * @Author: blueWALL-E
  * @Date: 2024-10-11 21:36:21
- * @LastEditTime: 2025-10-18 20:29:32
+ * @LastEditTime: 2025-10-21 10:25:47
  * @FilePath: \GHV_open\GHV_model\rot_kin.m
  * @Description: 转动运动学方程 第二组方程
  * @Wearing:  Read only, do not modify place!!!
