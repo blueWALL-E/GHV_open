@@ -31,7 +31,7 @@ function [F_T, M_T, Isp, dmass] = Propulsion_model(PLA, H, Ma, delta_y, delta_z,
     M_T = zeros(3, 1); %#ok<PREALL>
     %输入参数提取
     x_cT = GHV_cfg.x_cT;
-    x_cg_element = x_cg(1, 1);
+    x_cg_element = x_cg;
     %输入检查
     if Ma < 0 || Ma > 24 %马赫数检查
         error(' Mach number input error, should be between 0 and 24');

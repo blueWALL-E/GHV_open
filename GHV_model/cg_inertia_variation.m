@@ -28,7 +28,7 @@ function [x_cg, I, dI_dmass] = cg_inertia_variation(mass)
 
     % 重心位置
     x_cg_element = 1.65e-10 * mass ^ 2 -5.57e-5 * mass + 7.37;
-    x_cg = [-x_cg_element; 0; 0];
+    x_cg = x_cg_element;
 
     % 转动惯量对质量的导数
     dIxx_dmass = 1991/100 - (5238875316933513 * mass) / 36893488147419103232;
