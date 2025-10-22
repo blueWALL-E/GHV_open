@@ -2,7 +2,7 @@
 /*
  * @Author: blueWALL-E
  * @Date: 2024-10-12 20:27:01
- * @LastEditTime: 2025-10-19 17:28:43
+ * @LastEditTime: 2025-10-22 15:42:15
  * @FilePath: \GHV_open\GHV_model\Get_Aerodynamic.m
  * @Description: 高超声速飞行器气动力分析
  * @Wearing:  Read only, do not modify place!!!
@@ -124,7 +124,7 @@ function [M, Fair, Mair, Q, C] = Get_Aerodynamic(LE, RE, RUD, air_ang, v, w, vc,
     %速度坐标系下 气动力 只计算大小 考虑方向 系数为单位换算 1 lb = 4.44822 N
     Fair = 4.44822 * [D_iu; Y_iu; L_iu]; %考虑方向的情况[-D_iu; Y_iu; -L_iu]
     %机体坐标系下 气动力矩 系数为单位换算 1 lb*ft = 1.35582 N*m
-    Mair = 1.35582 * [l_iu; m_iu + x_cg_iu .* (D_iu .* sin(alpha) + L_iu .* cos(alpha)); n_iu + x_cg_iu .* Y_iu];
+    Mair = 1.35582 * [l_iu; m_iu + x_cg_iu .* (D_iu .* sin(alpha) + L_iu .* cos(alpha)); n_iu - x_cg_iu .* Y_iu];
 end
 
 %low_speed 低速段飞行器气动参数计算 M < 1.25
