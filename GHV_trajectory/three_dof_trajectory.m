@@ -27,8 +27,8 @@
 %d_h:      单位 m/s     垂直位置变化率
 function [d_V, d_gamma, d_x, d_h] = three_dof_trajectory(T, D, L, alpha, m, g, V, gamma)
 
-    d_V = ((T * cos(alpha) + D) / m )- g * sin(gamma);
-    d_gamma = ((T * sin(alpha) - L) / m - g * cos(gamma)) / V;
+    d_V = ((T * cos(alpha) - D) / m )- g * sin(gamma);
+    d_gamma = ((T * sin(alpha) + L) / m - g * cos(gamma)) / V;
     d_x = V * cos(gamma);
     d_h = V * sin(gamma);
 
