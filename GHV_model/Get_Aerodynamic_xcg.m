@@ -2,7 +2,7 @@
 /*
  * @Author: blueWALL-E
  * @Date: 2024-10-12 20:27:01
- * @LastEditTime: 2025-10-19 17:50:50
+ * @LastEditTime: 2025-10-25 17:11:06
  * @FilePath: \GHV_open\GHV_model\Get_Aerodynamic_xcg.m
  * @Description: 高超声速飞行器气动力分析
  * @Wearing:  Read only, do not modify place!!!
@@ -88,16 +88,26 @@ function [M, Fair, Mair, Q, C] = Get_Aerodynamic_xcg(LE, RE, RUD, air_ang, v, w,
 
     %计算并输出气动参数
     % 0阶连续处理
+    % if (M < 1.15)
+    %     C = low_speed(LE, RE, RUD, M, ALPHA, BETA, p, q, r, v_iu, b_iu, c_iu); % M < 1.25
+    % elseif (M < 1.35)
+    %     C = ((1.35 - M) / 0.2) * low_speed(LE, RE, RUD, M, ALPHA, BETA, p, q, r, v_iu, b_iu, c_iu) ...
+    %         + ((M - 1.15) / 0.2) * medium_speed(LE, RE, RUD, M, ALPHA, BETA, p, q, r, v_iu, b_iu, c_iu);
+    % elseif (M < 3.9)
+    %     C = medium_speed(LE, RE, RUD, M, ALPHA, BETA, p, q, r, v_iu, b_iu, c_iu); % 1.25 < m < 4
+    % elseif (M < 4.1)
+    %     C = ((4.1 - M) / 0.2) * medium_speed(LE, RE, RUD, M, ALPHA, BETA, p, q, r, v_iu, b_iu, c_iu) ...
+    %         + ((M - 3.9) / 0.2) * high_speed(LE, RE, RUD, M, ALPHA, BETA, p, q, r, v_iu, b_iu, c_iu);
+    % else
+    %     C = high_speed(LE, RE, RUD, M, ALPHA, BETA, p, q, r, v_iu, b_iu, c_iu); % M > 4
+    % end
+
     if (M < 1.15)
         C = low_speed(LE, RE, RUD, M, ALPHA, BETA, p, q, r, v_iu, b_iu, c_iu); % M < 1.25
-    elseif (M < 1.35)
-        C = ((1.35 - M) / 0.2) * low_speed(LE, RE, RUD, M, ALPHA, BETA, p, q, r, v_iu, b_iu, c_iu) ...
-            + ((M - 1.15) / 0.2) * medium_speed(LE, RE, RUD, M, ALPHA, BETA, p, q, r, v_iu, b_iu, c_iu);
-    elseif (M < 3.9)
+
+    elseif (M < 4)
         C = medium_speed(LE, RE, RUD, M, ALPHA, BETA, p, q, r, v_iu, b_iu, c_iu); % 1.25 < m < 4
-    elseif (M < 4.1)
-        C = ((4.1 - M) / 0.2) * medium_speed(LE, RE, RUD, M, ALPHA, BETA, p, q, r, v_iu, b_iu, c_iu) ...
-            + ((M - 3.9) / 0.2) * high_speed(LE, RE, RUD, M, ALPHA, BETA, p, q, r, v_iu, b_iu, c_iu);
+
     else
         C = high_speed(LE, RE, RUD, M, ALPHA, BETA, p, q, r, v_iu, b_iu, c_iu); % M > 4
     end
