@@ -2,7 +2,7 @@
 /*
  * @Author: blueWALL-E
  * @Date: 2025-10-23 22:15:21
- * @LastEditTime: 2025-10-23 23:22:05
+ * @LastEditTime: 2025-10-25 17:41:30
  * @FilePath: \GHV_open\GHV_trajectory\reference_alpha.m
  * @Description: 参考攻角变化规律
  * @Wearing:  Read only, do not modify place!!!
@@ -19,9 +19,11 @@ function alpha = reference_alpha(t, Ma)
 
     if t < 130
         alpha = 7;
-    else
+    elseif t <= 1873
         alpha = p1 * Ma ^ 5 + p2 * Ma ^ 4 + p3 * Ma ^ 3 + p4 * Ma ^ 2 + p5 * Ma + p6;
         % alpha = 0.5;
+    else
+        alpha = 0.1;
     end
 
 end
