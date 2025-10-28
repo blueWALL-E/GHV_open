@@ -2,7 +2,7 @@
 /*
  * @Author: blueWALL-E
  * @Date: 2024-10-11 21:36:21
- * @LastEditTime: 2024-12-27 22:47:04
+ * @LastEditTime: 2025-10-21 10:25:47
  * @FilePath: \GHV_open\GHV_model\rot_kin.m
  * @Description: 转动运动学方程 第二组方程
  * @Wearing:  Read only, do not modify place!!!
@@ -14,10 +14,10 @@
 %机体坐标系下 输入输出向量均为列向量
 %input:
 %att_ang:   单位 rad    机体对大地的欧拉角 姿态角 phi滚转角 theta俯仰角 psi偏航角
-%w:         单位 rad/s  机体转动角速度 wx,wy,wz 1*3
+%w:         单位 rad/s  机体转动角速度 wx,wy,wz 3*1
 
 %output:
-%d_att_ang: 单位 rad/s  姿态角速度 1*3
+%d_att_ang: 单位 rad/s  姿态角速度 3*1
 function d_att_ang = rot_kin(att_ang, w)
     d_att_ang = zeros(3, 1); %#ok<PREALL>
     %输入变量赋值
