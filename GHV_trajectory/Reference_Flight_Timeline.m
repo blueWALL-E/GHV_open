@@ -2,7 +2,7 @@
 /*
  * @Author: blueWALL-E
  * @Date: 2025-10-19 14:52:06
- * @LastEditTime: 2025-10-26 21:09:19
+ * @LastEditTime: 2025-11-01 22:41:21
  * @FilePath: \GHV_open\GHV_trajectory\Reference_Flight_Timeline.m
  * @Description: 参考飞行时序
  * @Wearing:  Read only, do not modify place!!!
@@ -32,7 +32,7 @@ function [aero_ang, Control_Propulsion] = Reference_Flight_Timeline(t, Ma)
     if t <= 140 %时间小于130s 时 维持高攻角爬升
         alpha = 6;
         PLA = 1;
-    elseif t <= 2500 % 时间在130s到1873s之间 时 采用最佳升阻比攻角 跳跃滑翔
+    elseif t <= 2500 % 时间在130s到2500s之间 时 采用最佳升阻比攻角 跳跃滑翔
         alpha = p1 * Ma ^ 5 + p2 * Ma ^ 4 + p3 * Ma ^ 3 + p4 * Ma ^ 2 + p5 * Ma + p6;
         PLA = 0;
     else % 时间大于1873s 时 俯冲
