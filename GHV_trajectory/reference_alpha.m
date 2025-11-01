@@ -2,7 +2,7 @@
 /*
  * @Author: blueWALL-E
  * @Date: 2025-10-23 22:15:21
- * @LastEditTime: 2025-10-27 12:00:28
+ * @LastEditTime: 2025-10-31 15:26:29
  * @FilePath: \GHV_open\GHV_trajectory\reference_alpha.m
  * @Description: 参考攻角变化规律
  * @Wearing:  Read only, do not modify place!!!
@@ -19,13 +19,13 @@ function alpha = reference_alpha(t, Ma)
 
     transition_time = 5; % 过渡时间（秒）
     t1 = 140; % 起始时间点 130
-    t2 = 1840; % 结束时间点 1873
+    t2 = 2500; % 结束时间点 1873
 
     if t < t1
-        alpha = 7;
+        alpha = 6;
     elseif t < t1 + transition_time
-        % 平滑过渡：从 alpha = 7 到多项式计算值
-        alpha_start = 7;
+        % 平滑过渡：从 alpha = 6 到多项式计算值
+        alpha_start = 6;
         alpha_end = p1 * Ma ^ 5 + p2 * Ma ^ 4 + p3 * Ma ^ 3 + p4 * Ma ^ 2 + p5 * Ma + p6;
         alpha = alpha_start + (alpha_end - alpha_start) * (t - t1) / transition_time;
     elseif t <= t2
