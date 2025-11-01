@@ -32,7 +32,7 @@ function [aero_ang, Control_Propulsion] = Reference_Flight_Timeline(t, Ma)
     if t <= 140 %时间小于130s 时 维持高攻角爬升
         alpha = 6;
         PLA = 1;
-    elseif t <= 1873 % 时间在130s到1873s之间 时 采用最佳升阻比攻角 跳跃滑翔
+    elseif t <= 2500 % 时间在130s到1873s之间 时 采用最佳升阻比攻角 跳跃滑翔
         alpha = p1 * Ma ^ 5 + p2 * Ma ^ 4 + p3 * Ma ^ 3 + p4 * Ma ^ 2 + p5 * Ma + p6;
         PLA = 0;
     else % 时间大于1873s 时 俯冲
