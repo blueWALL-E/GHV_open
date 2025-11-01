@@ -2,7 +2,7 @@
 /*
  * @Author:blueWALL-E
  * @Date:2025-05-23 21:43:50
- * @LastEditTime: 2025-10-23 21:46:31
+ * @LastEditTime: 2025-11-01 22:33:34
  * @FilePath: \GHV_open\GHV_Configuration.m
  * @Description: 飞行器基本参数信息
  * @Wearing:Read only, do not modify place !!!
@@ -24,7 +24,7 @@ GHV_cfg.b_ref = 18.29; %单位 m 机翼展长
 GHV_cfg.s_ref = 334.73; %单位 m2 机翼参考面积
 GHV_cfg.x_cg = 2.9; %单位 m 力矩中心到质心的距离
 GHV_cfg.x_cT = 23.16; %单位 m 发动机到参考力矩中心的距离
-GHV_cfg.mass_full = 136077; %单位 kg 飞行器最大质量
+GHV_cfg.mass_full = 115729.19302; %单位 kg 飞行器最大质量136077kg
 GHV_cfg.Ix = -7.1e-5 * GHV_cfg.mass_full ^ 2 + 19.91 * GHV_cfg.mass_full -5.943e4; %单位 kg*m^2 机体x轴的转动惯量
 GHV_cfg.Iy = -8.03e-4 * GHV_cfg.mass_full ^ 2 + 219.74 * GHV_cfg.mass_full -1.69e6; %单位 kg*m^2 机体x轴的转动惯量
 GHV_cfg.Iz = -8.03e-4 * GHV_cfg.mass_full ^ 2 + 219.74 * GHV_cfg.mass_full -1.69e6; %单位 kg*m^2 机体x轴的转动惯量
@@ -32,12 +32,14 @@ GHV_cfg.I = diag([GHV_cfg.Ix, GHV_cfg.Iy, GHV_cfg.Iz]); %单位 kg*m^2 机体转
 Simulink.Bus.createObject(GHV_cfg); %名字是slBus1 作为总线信号 方便simulink调用
 
 %飞行器初始状态
-Ma = 5; %初始马赫数 5
-altitude = 20000; %初始高度 单位 m 20000
+Ma = 8.09149; %初始马赫数 5
+altitude = 48821.37; %初始高度 单位 m 20000
+gamma = deg2rad(-0.00234); %初始飞行航迹倾角 输入单位 deg 0
+alpha = deg2rad(0); %初始攻角 输入单位 deg 3
 [~, vc, ~, ~, ~] = EarthEnvironment(altitude); %获取大气参数
 Position_init = [0; 0; -altitude]; % 初始位置 大地坐标系ned 北东地
 LLA_init = [19.6144722; 110.9510972; altitude]; %初始位置 大地坐标系 纬度 经度 高度
 LLA_aim = [38.87099; -77.05596; 0]; %目标位置 大地坐标系 纬度 经度 高度
-Euler_init = [0; 0; 0]; %初始姿态 欧拉角 机体坐标系相对于大地坐标系ned的角度
-Omega_init = [0; 0; 0]; %初始角速度 机体坐标系
-Speed_init = [Ma * vc; 0; 0]; %初始速度 机体坐标系
+Euler_init = [0; gamma + alpha; 0]; %初始姿态 欧拉角 机体坐标系相对于大地坐标系ned的角度 单位 rad
+Omega_init = [0; -0.00296; 0]; %初始角速度 机体坐标系
+Speed_init = [Ma * vc * cos(alpha); 0; Ma * vc * sin(alpha)]; %初始速度 机体坐标系
