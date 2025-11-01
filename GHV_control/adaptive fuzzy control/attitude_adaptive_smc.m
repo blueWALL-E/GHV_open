@@ -2,7 +2,7 @@
 /*
  * @Author:blueWALL-E
  * @Date:2025-10-12 19:46:57
- * @LastEditTime: 2025-10-26 21:19:10
+ * @LastEditTime: 2025-11-01 22:31:05
  * @FilePath: \GHV_open\GHV_control\adaptive fuzzy control\attitude_adaptive_smc.m
  * @Description:MIMO非仿射自适应姿态控制
  * @Wearing:Read only, do not modify place !!!
@@ -70,30 +70,37 @@ function [LE, RE, RUD, d_rho_smc, S] = attitude_adaptive_smc(I, w, aero_ang, dd_
     n_F = M_F(3, 1);
 
     %控制参数
-    %滑模面权重-比例项
-    lambad_p_mu = 5;
-    lambad_p_alpha = 5;
-    lambad_p_beta = 5;
-    %滑模面权重-积分项
-    lambad_I_mu = 0;
-    lambad_I_alpha = 0.25;
-    lambad_I_beta = 0;
-    %趋近率权重
-    k_mu = 0.1;
-    k_alpha = 0.1;
-    k_beta = 0.1;
-    %滑模面宽度
-    epsilon_mu = 0.005;
-    epsilon_alpha = 0.005;
-    epsilon_beta = 0.005;
-    %自适应增益
-    gamma_rho_mu = 20;
-    gamma_rho_alpha = 130;
-    gamma_rho_beta = 20;
-    %Lyapunov设计项
-    a_mu = 0.001;
-    a_alpha = 0.0001;
-    a_beta = 0.001;
+    %mu通道
+    lambad_p_mu = 5; %滑模面权重-比例项
+    lambad_I_mu = 0; %滑模面权重-积分项
+    k_mu = 0.1; %趋近率权重
+    epsilon_mu = 0.005; %滑模面宽度
+    gamma_rho_mu = 20; %自适应增益
+    a_mu = 0.001; %Lyapunov设计项
+
+    % %alpha通道 h=20000m Ma=5 alpha=6 mass = 136077
+    % lambad_p_alpha = 5; %滑模面权重-比例项
+    % lambad_I_alpha = 0.25; %滑模面权重-积分项
+    % k_alpha = 0.1; %趋近率权重
+    % epsilon_alpha = 0.005; %滑模面宽度
+    % gamma_rho_alpha = 130; %自适应增益
+    % a_alpha = 0.0001; %Lyapunov设计项
+
+    %alpha通道 h=48800m Ma=8 alpha=4 mass = 115729
+    lambad_p_alpha = 1; %滑模面权重-比例项
+    lambad_I_alpha = 0; %滑模面权重-积分项
+    k_alpha = 0.1; %趋近率权重
+    epsilon_alpha = 0.001; %滑模面宽度
+    gamma_rho_alpha = 270; %自适应增益
+    a_alpha = 0.00001; %Lyapunov设计项
+
+    %beta通道
+    lambad_p_beta = 5; %滑模面权重-比例项
+    lambad_I_beta = 0; %滑模面权重-积分项
+    k_beta = 0.1; %趋近率权重
+    epsilon_beta = 0.005; %滑模面宽度
+    gamma_rho_beta = 20; %自适应增益
+    a_beta = 0.001; %Lyapunov设计项
 
     %滑模面计算
     S_mu = d_mu_e ...
