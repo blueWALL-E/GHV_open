@@ -1,7 +1,7 @@
 <!--
  * @Author: blueWALL-E
  * @Date: 2024-10-31 22:45:46
- * @LastEditTime: 2025-10-11 00:24:14
+ * @LastEditTime: 2025-11-03 21:10:13
  * @FilePath: \GHV_open\readme.md
  * @Description: GHV文件的相关说明
  * @Wearing:  Read only, do not modify place!!! 
@@ -29,7 +29,7 @@
 
 ## 背景与依据
 
-&emsp;&emsp;高超声速飞行器的气动参数通常处于保密状态，公开资料相对稀缺且不完整。为避免研究者重复造轮子，并促进社区协作，本平台参考 NASA 于 20 世纪 90 年代公开的 Winged-Cone 高超声速飞行器参数进行构建。
+&emsp;&emsp;高超声速飞行器的气动参数通常处于保密状态，公开资料相对稀缺且不完整。为避免研究者重复造轮子，并促进社区协作，本平台参考 NASA 于 20 世纪 90 年代公开的 Winged-cone 高超声速飞行器参数进行构建。
 
 ## 项目特点
 
@@ -39,7 +39,7 @@
   - `GHV_open_toolbox.slx`：基于 Simulink / Aerospace Toolbox 动力学仿真平台
   - `GHV_open_VarialbeMass_toolbox.slx`：考虑发动机推力模型的变质量动力学仿真平台
   - `GHV_open_VarialbeMass_elliposid_toolbox.slx`：考虑椭球地球的变质量动力学仿真平台
-- 多种控制算法示例：如自适应滑模控制，自适应模糊滑模控制算法等
+- 多种控制算法示例：如自适应滑模控制，自适应滑模切换控制算法等
 - 模块化设计：动力学、气动力、控制算法、发动机推力、地球环境等可替换扩展
 
 ## 目录结构
@@ -50,26 +50,20 @@ GHV_open
 ├─ cache/ - 缓存文件夹
 │  └─ .gitkeep - 保留空文件夹的 Git 文件
 ├─ Control_Schemes/ - 控制方案文件夹
-│  ├─GHV_open_VarialbeMass_toolbox_adaptive_fuzzy.slx
-│  ├─GHV_toolbox_adaptive_fuzzy.slx
-│  └─GHV_toolbox_adaptive_sliding.slx - 自适应模糊控制的 Simulink 仿真文件
+│  ├─GHV_open_VarialbeMass_elliposid_toolbox_MIMO_adaptive_smc.slx - 飞行器变质量椭球地球下自适应滑模控制仿真平台
+│  ├─GHV_open_VarialbeMass_toolbox_adaptive_fuzzy.slx - 飞行器变质量下自适应滑模控制仿真平台
+│  ├─GHV_open_VarialbeMass_toolbox_MIMO_adaptive_fuzzy.slx - 多输入多输出自适应控制仿真平台 
+│  ├─GHV_toolbox_adaptive_fuzzy.slx - 自适应模糊滑模控制仿真平台
+│  └─GHV_toolbox_adaptive_sliding.slx - 自适应滑模控制仿真平台
+├─ data/ - 数据存放文件夹
 ├─ docs/ - 飞行器说明文档文件夹
+├─ GHV_analysis/ - 飞行器性质分析文件夹
 ├─ GHV_control/ - 控制算法文件夹
 │  ├─ adaptive fuzzy control/ - 自适应模糊控制算法文件夹
 │  ├─ FBL_M.m - 反馈线性化控制
 │  ├─ lie_solving.m - 反馈线性化中 Lie 导数求解过程
 │  └─ Sliding_mode.m - 滑模控制
-├─ GHV_model - 飞行器动力学模型文件夹
-│  ├─ Aerodynamic_coefficients.m - GHV 气动参数（工具包仿真版本）
-│  ├─ EarthEnvironment.m - 地球环境
-│  ├─ Get_Aerodynamic.m - GHV 气动参数（纯公式仿真版本）
-│  ├─ Get_Aerodynamic_copy.m - GHV 气动参数备份文件
-│  ├─ Get_Aerodynamic_ident.m - GHV 气动参数（矩阵运算版本，用于参数分析）
-│  ├─ Get_Aerodynamic_Simplified.m - GHV 气动参数简化版（暂未实现，仅保留接口）
-│  ├─ rot_dyn.m - 转动动力学
-│  ├─ rot_kin.m - 转动运动学
-│  ├─ tra_dyn.m - 平动动力学
-│  └─ tra_kin.m - 平动运动学
+├─ GHV_model/ - 飞行器动力学与地球环境模型文件夹
 ├─ .gitignore - Git 忽略文件
 ├─ draft.m - 草稿文件（git未跟踪 可自行建立）
 ├─ GHV_Configuration.m - 飞行器基本参数配置文件
@@ -141,7 +135,7 @@ init  % 加载项目路径与默认配置
 
 ## 致谢
 
-- Winged-Cone高超声速飞行器数据提供者：[美国国家航空航天局](https://github.com/nasa)兰利研究中心
+- Winged-cone高超声速飞行器数据提供者：[美国国家航空航天局](https://github.com/nasa)兰利研究中心
 - 项目作者：[blueWALL-E](https://github.com/blueWALL-E)（原始项目创作者）
 
 ## 备注
