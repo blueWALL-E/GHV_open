@@ -2,7 +2,7 @@
 /*
  * @Author: blueWALL-E
  * @Date: 2025-10-30 10:27:16
- * @LastEditTime: 2025-10-30 20:59:58
+ * @LastEditTime: 2025-11-03 14:34:03
  * @FilePath: \GHV_open\GHV_analysis\L_D_analysis.m
  * @Description: 飞行器升阻比分析
  * @Wearing:  Read only, do not modify place!!!
@@ -112,6 +112,7 @@ shading interp; % 平滑一下表面
 colormap(jet); % 使用jet颜色图
 colorbar; % 显示颜色对应值
 xlabel('Mach Number M');
+xlim([4, 24]);
 ylabel('\alpha (deg)');
 zlabel('L_D');
 title('L_D vs Mach & Angle of Attack');
