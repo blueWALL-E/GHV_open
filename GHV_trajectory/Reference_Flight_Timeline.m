@@ -2,7 +2,7 @@
 /*
  * @Author: blueWALL-E
  * @Date: 2025-10-19 14:52:06
- * @LastEditTime: 2025-11-03 13:47:06
+ * @LastEditTime: 2025-11-03 19:45:35
  * @FilePath: \GHV_open\GHV_trajectory\Reference_Flight_Timeline.m
  * @Description: 参考飞行时序
  * @Wearing:  Read only, do not modify place!!!
@@ -29,6 +29,7 @@ function [aero_ang, Control_Propulsion] = Reference_Flight_Timeline(t, Ma)
     p5 = -9.176;
     p6 = 25.62;
 
+    % 旧版本飞行时序
     % if t <= 140 %时间小于130s 时 维持高攻角爬升
     %     alpha = 6;
     %     PLA = 1;
@@ -49,18 +50,17 @@ function [aero_ang, Control_Propulsion] = Reference_Flight_Timeline(t, Ma)
     % end
 
     transition_time = 2; % 过渡时间（秒）
-    t1 = 60; % 起始时间点 130
+    t1 = 60; % 发动机关机时间
 
     if t < t1
         alpha = 6;
         PLA = 1;
-    elseif t < t1 + transition_time
-        % 平滑过渡：从 alpha = 6 到多项式计算值
+    elseif t < t1 + transition_time %过渡过程
         alpha_start = 6;
         alpha_end = p1 * Ma ^ 5 + p2 * Ma ^ 4 + p3 * Ma ^ 3 + p4 * Ma ^ 2 + p5 * Ma + p6;
         alpha = alpha_start + (alpha_end - alpha_start) * (t - t1) / transition_time;
         PLA = 0;
-    else
+    else %最佳升阻比对应攻角
         alpha = p1 * Ma ^ 5 + p2 * Ma ^ 4 + p3 * Ma ^ 3 + p4 * Ma ^ 2 + p5 * Ma + p6;
         PLA = 0;
     end
