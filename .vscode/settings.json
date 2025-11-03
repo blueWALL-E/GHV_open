@@ -1,6 +1,7 @@
 {
     "todo-tree.tree.scanMode": "current file",
     "conventionalCommits.scopes": [
+        "GHV_config", // 高超声速飞行器配置信息（GHV_configuration.m)：初始位置 速度等信息
         "dyn", // 动力学模型 (Dynamics)：6DoF 刚体方程、运动学、质量与惯量
         "aero", // 气动模型 (Aerodynamics)：升力、阻力、力矩、气动数据库
         "prop", // 推进 (Propulsion)：发动机、推力、油耗等动力学模型
