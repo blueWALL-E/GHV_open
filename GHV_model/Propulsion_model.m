@@ -2,7 +2,7 @@
 /*
  * @Author:blueWALL-E
  * @Date:2025-09-15 14:33:57
- * @LastEditTime: 2025-09-26 00:23:29
+ * @LastEditTime: 2025-10-08 11:25:58
  * @FilePath: \GHV_open\GHV_model\Propulsion_model.m
  * @Description: 组合发动机推力模型
  * @Wearing:Read only, do not modify place !!!
@@ -31,7 +31,7 @@ function [F_T, M_T, Isp, dmass] = Propulsion_model(PLA, H, Ma, delta_y, delta_z,
     M_T = zeros(3, 1); %#ok<PREALL>
     %输入参数提取
     x_cT = GHV_cfg.x_cT;
-    x_cg_element = x_cg(1, 1);
+    x_cg_element = x_cg;
     %输入检查
     if Ma < 0 || Ma > 24 %马赫数检查
         error(' Mach number input error, should be between 0 and 24');
@@ -40,22 +40,23 @@ function [F_T, M_T, Isp, dmass] = Propulsion_model(PLA, H, Ma, delta_y, delta_z,
     elseif PLA == 0 %油门为0时直接返回0
         T_norm = 0;
     elseif Ma <= 2 %涡轮发动机
-        T_norm = PLA * (2.99e-8 -32.81 * H +1.43e-3 * H ^ 2 -2.59e-8 * H ^ 3 +3.75e3 * Ma);
+        T_norm = PLA .* (1.33e6 - 4.45 .* H +5.92e-4 .* H .^ 2 -2.88e-9 .* H .^ 3 +1.67e4 .* Ma .^ 3);
     elseif Ma <= 6 %冲压发动机
-        T_norm = PLA * (3.93e-8 ...
-            +3.94e5 * Ma ...
-            -6.97e5 * Ma .^ 2 ...
-            +8.07e5 * Ma .^ 3 ...
-            -4.36e5 * Ma .^ 4 ...
-            +1.16e5 * Ma .^ 5 ...
-            -1.50e4 * Ma .^ 6 ...
-            +7.53e2 * Ma .^ 7);
+        T_norm = PLA * ( ...
+            3.35e3 .* Ma .^ 7 ...
+            -6.68e4 .* Ma .^ 6 ...
+            +5.16e5 .* Ma .^ 5 ...
+            -1.94e6 .* Ma .^ 4 ...
+            +3.59e6 .* Ma .^ 3 ...
+            -3.10e6 .* Ma .^ 2 ...
+            +1.75e6 .* Ma ...
+            +1.75e+7);
     else %火箭发动机
         %//TODO 油门为0时推力为负数 文献就这样写的 但感觉是个bug
         if H < 17373.6
-            T_norm = -5.43e4 + 2.178 * H +3.24e5 * PLA + 0.374 * H * PLA;
+            T_norm = 2.95 .* H +1.44e6 .* PLA + 1.66 .* H .* PLA;
         else
-            T_norm = -1.64e4 +6.69295e5 * PLA;
+            T_norm = 2.41e6 .* PLA;
         end
 
     end
@@ -65,7 +66,7 @@ function [F_T, M_T, Isp, dmass] = Propulsion_model(PLA, H, Ma, delta_y, delta_z,
     Tx = T_norm * cosd(delta_y) * cosd(delta_z);
     Ty = T_norm * cosd(delta_z) * sind(delta_y);
     Tz = T_norm * sind(delta_z);
-    F_T = [-Tx; Ty; Tz];
+    F_T = [Tx; Ty; Tz];
     %力矩计算
     l = 0; %滚转力矩
     m = (x_cT - x_cg_element) * Tz; %俯仰力矩

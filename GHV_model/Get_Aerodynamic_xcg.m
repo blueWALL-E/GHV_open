@@ -1,12 +1,12 @@
 %{
 /*
- * @Author:blueWALL - E
- * @Date:2025 - 05 - 23 23:25:42
- * @LastEditTime: 2025-10-22 16:57:20
- * @FilePath: \GHV_open\GHV_model\Aerodynamic_coefficients.m
- * @Description:计算气动系数
- * @Wearing:Read only, do not modify place !!!
- * @Shortcut keys: ctrl+alt+/ ctrl+alt+z
+ * @Author: blueWALL-E
+ * @Date: 2024-10-12 20:27:01
+ * @LastEditTime: 2025-10-25 17:11:06
+ * @FilePath: \GHV_open\GHV_model\Get_Aerodynamic_xcg.m
+ * @Description: 高超声速飞行器气动力分析
+ * @Wearing:  Read only, do not modify place!!!
+ * @Shortcut keys:  ctrl+alt+/ ctrl+alt+z
  */
 %}
 
@@ -18,17 +18,16 @@
 % air_ang 单位 弧度 气流角 alpha beta
 % w     单位 rad/s飞行器转动角速度
 % v     单位 m/s 飞行器速度标量
-% M     单位 n.d. 马赫数
-% GHV_cfg 飞行器基本参数结构体
+% vc    单位 m/s GHV所处高度的声速
+% rho   单位 kg/m3 大气密度
+% x_cg  单位 m 质心到力矩中心的距离
 
 %output
-% C     单位n.d.气动参数矩阵  C = [CD; CY; CL; Cl; Cm; Cn];
-% 阻力系数 侧向力系数 升力系数 滚转力矩系数 俯仰力矩系数 偏航力矩系数
-% 所有的气动系数均为无量纲且无方向的 方向的处理不在这个模块完成
-function Coef = Aerodynamic_coefficients(LE, RE, RUD, air_ang, v, w, M, GHV_cfg)
-    %输出变量大小定义
-    Coef = zeros(6, 1);
-
+% M     单位 n.d. 马赫数
+% Fair  单位 N 气动力 在速度坐标系中
+% Mair  单位 N 气动力矩 在机体坐标系中
+% C     单位n.d.气动参数矩阵
+function [M, Fair, Mair, Q, C] = Get_Aerodynamic_xcg(LE, RE, RUD, air_ang, v, w, vc, rho, x_cg)
     % 已对整个气动参数代码格式进行调整 原格式没有可读性
     % _iu表示英制单位 没有下标表示标准单位制
     % 内部计算使用了一部分英制单位参与计算，请一定注意单位制之间的不同
@@ -36,6 +35,32 @@ function Coef = Aerodynamic_coefficients(LE, RE, RUD, air_ang, v, w, M, GHV_cfg)
     % 气动参数并非特别理想，当飞行器攻角大于12度 小于0度 马赫数大于24时 参数失效
     % 在不施加控制率的情况下 因攻角过大 开环仿真结果与实际情况有较大差距
     % 希望有一天能用上中国自己的高超声速飞行器开源模型
+
+    Fair = zeros(3, 1);
+    Mair = zeros(3, 1); %#ok<*PREALL>
+    C = zeros(6, 1);
+    M = zeros(1, 1);
+    Q = zeros(1, 1);
+
+    % % 需要使用的飞行器自身的参数-标准单位制 米 牛顿
+    % b = 18.29; %机翼翼展 单位 m
+    % c = 24.38; %平均几何弦长 单位 m
+    % s = 334.73; %机翼参考面积 单位 m2
+    % x_cg = 4.467; %单位 m 力矩中心到质心的距离
+
+    % 需要使用的飞行器自身的参数-英制单位单位制 英尺 磅
+    b_iu = 60; %机翼翼展 单位 ft
+    c_iu = 80; %平均几何弦长 单位 ft
+    s_iu = 3603; %机翼参考面积 单位 ft^2
+    x_cg_iu = x_cg * 3.28; % 力矩中心到质心的距离 单位 ft
+    % x_cg_iu = 14.6; % 力矩中心到质心的距离 质量最小时 单位 ft
+    % x_cg_iu = 9.51; % 力矩中心到质心的距离 质量最大时 单位 ft
+
+    M = v / vc; %求解飞行器此时马赫数 无量纲单位 不需要换算
+
+    Q = 0.5 * rho * v .^ 2; %飞行器的动压 单位 帕斯卡
+    Q_iu = 0.0209 * Q; %飞行器动压 单位 lb/ft^2
+    v_iu = 3.28 * v; %飞行器速度 单位ft/sec
 
     %匹配 AIAA 命名规则 文献 dio 10.2514/6.2007-6626
     p = w(1, 1); %单位 rad/s 机体旋转角速度在x轴方向的分量 滚转角速度
@@ -45,6 +70,10 @@ function Coef = Aerodynamic_coefficients(LE, RE, RUD, air_ang, v, w, M, GHV_cfg)
     beta = air_ang(2, 1); %读取侧滑角数据
     ALPHA = rad2deg(alpha); %转化为角度
     BETA = beta; %保持弧度不变
+
+    %将舵面偏转角度正负号定义同一遍定义相同 升降舵 下偏为负
+    LE = -LE;
+    RE = -RE;
 
     %以下数据赖在AIAA 文献 dio 10.2514/6.2007-6626
 
@@ -56,26 +85,59 @@ function Coef = Aerodynamic_coefficients(LE, RE, RUD, air_ang, v, w, M, GHV_cfg)
     % if (M > 24)
     %     error('error:M>24');
     % end
-    b = GHV_cfg.b_ref; %单位 m 机翼展长
-    c = GHV_cfg.c_ref; %单位 m 机翼平均弦长
+
     %计算并输出气动参数
     % 0阶连续处理
+    % if (M < 1.15)
+    %     C = low_speed(LE, RE, RUD, M, ALPHA, BETA, p, q, r, v_iu, b_iu, c_iu); % M < 1.25
+    % elseif (M < 1.35)
+    %     C = ((1.35 - M) / 0.2) * low_speed(LE, RE, RUD, M, ALPHA, BETA, p, q, r, v_iu, b_iu, c_iu) ...
+    %         + ((M - 1.15) / 0.2) * medium_speed(LE, RE, RUD, M, ALPHA, BETA, p, q, r, v_iu, b_iu, c_iu);
+    % elseif (M < 3.9)
+    %     C = medium_speed(LE, RE, RUD, M, ALPHA, BETA, p, q, r, v_iu, b_iu, c_iu); % 1.25 < m < 4
+    % elseif (M < 4.1)
+    %     C = ((4.1 - M) / 0.2) * medium_speed(LE, RE, RUD, M, ALPHA, BETA, p, q, r, v_iu, b_iu, c_iu) ...
+    %         + ((M - 3.9) / 0.2) * high_speed(LE, RE, RUD, M, ALPHA, BETA, p, q, r, v_iu, b_iu, c_iu);
+    % else
+    %     C = high_speed(LE, RE, RUD, M, ALPHA, BETA, p, q, r, v_iu, b_iu, c_iu); % M > 4
+    % end
+
     if (M < 1.15)
-        C = low_speed(LE, RE, RUD, M, ALPHA, BETA, p, q, r, v, b, c); % M < 1.25
-    elseif (M < 1.35)
-        C = ((1.35 - M) / 0.2) * low_speed(LE, RE, RUD, M, ALPHA, BETA, p, q, r, v, b, c) ...
-            + ((M - 1.15) / 0.2) * medium_speed(LE, RE, RUD, M, ALPHA, BETA, p, q, r, v, b, c);
-    elseif (M < 3.9)
-        C = medium_speed(LE, RE, RUD, M, ALPHA, BETA, p, q, r, v, b, c); % 1.25 < m < 4
-    elseif (M < 4.1)
-        C = ((4.1 - M) / 0.2) * medium_speed(LE, RE, RUD, M, ALPHA, BETA, p, q, r, v, b, c) ...
-            + ((M - 3.9) / 0.2) * high_speed(LE, RE, RUD, M, ALPHA, BETA, p, q, r, v, b, c);
+        C = low_speed(LE, RE, RUD, M, ALPHA, BETA, p, q, r, v_iu, b_iu, c_iu); % M < 1.25
+
+    elseif (M < 4)
+        C = medium_speed(LE, RE, RUD, M, ALPHA, BETA, p, q, r, v_iu, b_iu, c_iu); % 1.25 < m < 4
+
     else
-        C = high_speed(LE, RE, RUD, M, ALPHA, BETA, p, q, r, v, b, c); % M > 4
+        C = high_speed(LE, RE, RUD, M, ALPHA, BETA, p, q, r, v_iu, b_iu, c_iu); % M > 4
     end
 
-    Coef = reshape(C, 6, 1); %转化为列向量
+    %气动参数写成分量形式
+    CD = C(1, 1);
+    CY = C(2, 1);
+    CL = C(3, 1);
+    Cl = C(4, 1);
+    Cm = C(5, 1);
+    Cn = C(6, 1);
 
+    %气动力定义在速度坐标系下的表达式
+    D_iu = Q_iu .* s_iu .* CD; %阻力Xv
+    Y_iu = Q_iu .* s_iu .* CY; %侧向力Yv
+    L_iu = Q_iu .* s_iu .* CL; %升力Zv
+
+    %气动力矩定义在机体坐标系下的表达式
+    l_iu = Q_iu .* b_iu .* s_iu .* Cl; %滚转力矩 Xb
+    m_iu = Q_iu .* c_iu .* s_iu .* Cm; %俯仰力矩 Yb
+    n_iu = Q_iu .* b_iu .* s_iu .* Cn; %偏航力矩Zb
+
+    %统一成向量形式输出
+    %文献 Hypothesis vehicle simulation model: winged-cone configuraion No. NAS 1.15:102610
+
+    %速度坐标系下 气动力 只计算大小 考虑方向 系数为单位换算 1 lb = 4.44822 N
+    Fair = 4.44822 * [D_iu; Y_iu; L_iu]; %考虑方向的情况[-D_iu; Y_iu; -L_iu]
+    %机体坐标系下 气动力矩 系数为单位换算 1 lb*ft = 1.35582 N*m
+    % Mair = 1.35582 * [l_iu; m_iu + x_cg_iu * (D_iu * sin(alpha) + L_iu * cos(alpha)); n_iu + x_cg_iu * Y_iu];
+    Mair = zeros(3, 1);
 end
 
 %low_speed 低速段飞行器气动参数计算 M < 1.25
@@ -95,6 +157,7 @@ end
 % C     单位n.d.气动参数矩阵   C = [CD; CY; CL; Cl; Cm; Cn];
 function C = low_speed(LE, RE, RUD, M, ALPHA, BETA, p, q, r, v, b, c) % M < 1.25
     C = zeros(6, 1);
+
     CLbv = -5.2491e-004 ...
         +1.5746e-002 * ALPHA ...
         +6.0213e-03 * (ALPHA .* M) ...
@@ -433,7 +496,7 @@ end
 %output
 % C     单位n.d.气动参数矩阵   C = [CD; CY; CL; Cl; Cm; Cn];
 function C = medium_speed(LE, RE, RUD, M, ALPHA, BETA, p, q, r, v, b, c) % 1.25 < M < 4
-    C = zeros(6, 1); %#ok<*PREALL>
+    C = zeros(6, 1);
 
     CLbv = +1.9920e-001 ...
         +2.3402e-001 * M ...
@@ -821,7 +884,7 @@ function C = medium_speed(LE, RE, RUD, M, ALPHA, BETA, p, q, r, v, b, c) % 1.25 
     C = [CD; CY; CL; Cl; Cm; Cn]; %输出气动参数
 end
 
-%high_speed 高速段飞行器气动参数计算  M > 4
+%medium_speed 高速段飞行器气动参数计算  M > 4
 %input
 % LE    单位 度     左舵角度
 % RE    单位 度     右舵角度
@@ -838,6 +901,7 @@ end
 % C     单位n.d.气动参数矩阵   C = [CD; CY; CL; Cl; Cm; Cn];
 function C = high_speed(LE, RE, RUD, M, ALPHA, BETA, p, q, r, v, b, c) % M > 4
     C = zeros(6, 1);
+
     CLbv = -8.19E-02 ...
         +4.70E-02 * M ...
         +1.86E-02 * ALPHA ...
