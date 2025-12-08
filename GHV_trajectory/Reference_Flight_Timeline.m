@@ -2,7 +2,7 @@
 /*
  * @Author: blueWALL-E
  * @Date: 2025-10-19 14:52:06
- * @LastEditTime: 2025-11-03 19:45:35
+ * @LastEditTime: 2025-12-09 00:27:51
  * @FilePath: \GHV_open\GHV_trajectory\Reference_Flight_Timeline.m
  * @Description: 参考飞行时序
  * @Wearing:  Read only, do not modify place!!!
@@ -17,9 +17,9 @@
 %Ma:       单位 n.d.    马赫数
 
 %output:
-%aero_ang: 单位 deg/s    气流角 3*1 （航迹滚转角 攻角 侧滑角）
+%d_aero_ang: 单位 deg/s    期望气流角 3*1 （航迹滚转角 攻角 侧滑角）
 %Control_Propulsion:  单位 n.d. rad/s  发动机油门量与矢量控制角度 3*1
-function [aero_ang, Control_Propulsion] = Reference_Flight_Timeline(t, Ma)
+function [d_aero_ang, Control_Propulsion] = Reference_Flight_Timeline(t, Ma)
 
     %Ma4-24最佳升阻比对应攻角多项式系数
     p1 = -5.447e-05;
@@ -65,6 +65,6 @@ function [aero_ang, Control_Propulsion] = Reference_Flight_Timeline(t, Ma)
         PLA = 0;
     end
 
-    aero_ang = [0; alpha; 0]; %气流攻角与侧滑角
+    d_aero_ang = [0; alpha; 0]; %气流攻角与侧滑角
     Control_Propulsion = [PLA; 0; 0]; %发动机推
 end
