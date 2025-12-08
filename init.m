@@ -11,7 +11,7 @@
  %}
 
 % 获取当前文件夹路径
-clear; %清空工作区
+% clear; %清空工作区
 currentFolder = pwd;
 
 % 生成包含所有子文件夹的路径
