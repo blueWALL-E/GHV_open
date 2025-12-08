@@ -13,6 +13,7 @@
         "data", // 数据 (Data)：输入/输出数据、测试样例、标定/仿真结果
         "test", // 测试 (Testing)：单元测试、集成测试、测试脚本
         "sim", // 仿真 (Simulation)：仿真框架、仿真工具、仿真配置
+        "RL_control", // 强化学习控制 (Reinforcement Learning Control)：强化学习控制器设计与实现
         "*" // 其他 (Other)：不属于上述类别的提交
     ]
 }
