@@ -29,7 +29,10 @@ GHV_cfg.Ix = -7.1e-5 * GHV_cfg.mass_full ^ 2 + 19.91 * GHV_cfg.mass_full -5.943e
 GHV_cfg.Iy = -8.03e-4 * GHV_cfg.mass_full ^ 2 + 219.74 * GHV_cfg.mass_full -1.69e6; %单位 kg*m^2 机体x轴的转动惯量
 GHV_cfg.Iz = -8.03e-4 * GHV_cfg.mass_full ^ 2 + 219.74 * GHV_cfg.mass_full -1.69e6; %单位 kg*m^2 机体x轴的转动惯量
 GHV_cfg.I = diag([GHV_cfg.Ix, GHV_cfg.Iy, GHV_cfg.Iz]); %单位 kg*m^2 机体转动惯量矩阵
+clear slBus1
 Simulink.Bus.createObject(GHV_cfg); %名字是slBus1 作为总线信号 方便simulink调用
+
+
 
 %飞行器初始状态
 Ma = 5; %初始马赫数 5
