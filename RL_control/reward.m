@@ -18,14 +18,15 @@
 % LE:      单位 deg     机翼升降舵偏角
 %output:
 % r:       单位 n.d.     奖励值
-function r = reward(aero_ang_e, w, LE)
+function r = reward(aero_ang_e, w, LE, d_LE)
     %权重系数
     alpha_e = rad2deg(aero_ang_e(2, 1)); %读取俯仰角误差
     q = rad2deg(w(2, 1)); %读取y轴机体角速度 即俯仰角速度
     c1 = 100; % 俯仰角误差权重
     c2 = 10; % 俯仰角速度权重
     c3 = 0.1; % 升降舵偏角权重
+    c4 = 0; % 升降舵偏角变化率权重
 
     %奖励函数计算
-    r =- (c1 * alpha_e ^ 2 + c2 * q ^ 2 + c3 * LE ^ 2);
+    r =- (c1 * alpha_e ^ 2 + c2 * q ^ 2 + c3 * LE ^ 2 + c4 * d_LE ^ 2);
 end
