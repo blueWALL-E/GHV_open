@@ -25,7 +25,7 @@ function flag_stop = RL_stop(Ma, w, air_ang)
 
     flag_stop = false;
     %停止条件
-    if ((Ma <= 4.1) || (alpha <= -2) || (alpha >= 15) || (q >= 30))
+    if ((Ma <= 4.1) || (alpha <= -10) || (alpha >= 30) || (q >= 100))
         flag_stop = true;
     end
 
