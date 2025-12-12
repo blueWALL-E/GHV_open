@@ -2,7 +2,7 @@
 /*
  * @Author: blueWALL-E
  * @Date: 2025-10-19 14:52:06
- * @LastEditTime: 2025-12-09 00:27:51
+ * @LastEditTime: 2025-12-10 16:04:52
  * @FilePath: \GHV_open\GHV_trajectory\Reference_Flight_Timeline.m
  * @Description: 参考飞行时序
  * @Wearing:  Read only, do not modify place!!!
@@ -21,7 +21,8 @@
 %Control_Propulsion:  单位 n.d. rad/s  发动机油门量与矢量控制角度 3*1
 function [d_aero_ang, Control_Propulsion] = Reference_Flight_Timeline(t, Ma)
 
-    %Ma4-24最佳升阻比对应攻角多项式系数
+    % 攻角变化规律
+    % 多项式系数
     p1 = -5.447e-05;
     p2 = 0.003999;
     p3 = -0.1117;
@@ -29,39 +30,48 @@ function [d_aero_ang, Control_Propulsion] = Reference_Flight_Timeline(t, Ma)
     p5 = -9.176;
     p6 = 25.62;
 
-    % 旧版本飞行时序
-    % if t <= 140 %时间小于130s 时 维持高攻角爬升
-    %     alpha = 6;
-    %     PLA = 1;
-    % elseif t <= 2500 % 时间在130s到2500s之间 时 采用最佳升阻比攻角 跳跃滑翔
-    %     alpha = p1 * Ma ^ 5 + p2 * Ma ^ 4 + p3 * Ma ^ 3 + p4 * Ma ^ 2 + p5 * Ma + p6;
-    %     PLA = 0;
-    % else % 时间大于1873s 时 俯冲
-    %     alpha = 0.1;
-    %     PLA = 0;
-    % end
+    % 计算最佳升阻比对应攻角
+    alpha_best = p1 * Ma ^ 5 + p2 * Ma ^ 4 + p3 * Ma ^ 3 + p4 * Ma ^ 2 + p5 * Ma + p6;
 
-    % if t <= 60
-    %     alpha = 6;
-    %     PLA = 1;
-    % else
-    %     alpha = p1 * Ma ^ 5 + p2 * Ma ^ 4 + p3 * Ma ^ 3 + p4 * Ma ^ 2 + p5 * Ma + p6;
-    %     PLA = 0;
-    % end
+    % 阶段时间点
+    t1 = 60; % 阶段 1 结束时间
+    t2 = 120; % 阶段 2 结束时间
+    t3 = 180; % 阶段 3 结束时间
 
-    transition_time = 2; % 过渡时间（秒）
-    t1 = 60; % 发动机关机时间
+    % 方波参数
+    max_value = 5; % 方波最大值
+    min_value = 3; % 方波最小值
+    period = 60; % 方波周期
 
-    if t < t1
+    if t <= t1
+        % 阶段 1：alpha = 6
         alpha = 6;
+    else
+        alpha = alpha_best;
+        % elseif t <= t2
+        %     % 阶段 2：最佳升阻比对应攻角
+        %     alpha = alpha_best;
+        % elseif t <= t3
+        %     % 阶段 3：方波
+        %     % 计算方波值
+        %     phase = mod(t - t2, period); % 当前时间点在周期内的位置
+
+        %     if phase < period / 2
+        %         alpha = max_value; % 方波高值
+        %     else
+        %         alpha = min_value; % 方波低值
+        %     end
+
+        % else
+        %     % 阶段 4：alpha = alpha_best
+        %     alpha = alpha_best;
+    end
+
+    % 发动机推力控制规律
+    if t <= t1
+        % 阶段 1：PLA = 1
         PLA = 1;
-    elseif t < t1 + transition_time %过渡过程
-        alpha_start = 6;
-        alpha_end = p1 * Ma ^ 5 + p2 * Ma ^ 4 + p3 * Ma ^ 3 + p4 * Ma ^ 2 + p5 * Ma + p6;
-        alpha = alpha_start + (alpha_end - alpha_start) * (t - t1) / transition_time;
-        PLA = 0;
-    else %最佳升阻比对应攻角
-        alpha = p1 * Ma ^ 5 + p2 * Ma ^ 4 + p3 * Ma ^ 3 + p4 * Ma ^ 2 + p5 * Ma + p6;
+    else
         PLA = 0;
     end
 
