@@ -2,7 +2,7 @@
 /*
  * @Author:blueWALL-E
  * @Date:2025-10-12 19:46:57
- * @LastEditTime: 2025-11-03 14:02:04
+ * @LastEditTime: 2025-12-10 16:31:28
  * @FilePath: \GHV_open\GHV_control\adaptive fuzzy control\attitude_adaptive_smc.m
  * @Description:MIMO非仿射自适应姿态控制
  * @Wearing:Read only, do not modify place !!!
@@ -98,16 +98,16 @@ function [LE, RE, RUD, d_rho_smc, S] = attitude_adaptive_smc(I, w, aero_ang, dd_
         %alpha通道 h=20000m Ma=5 alpha=6 mass = 136077
         lambad_p_alpha = 5; %滑模面权重-比例项
         lambad_I_alpha = 0.25; %滑模面权重-积分项
-        k_alpha = 0.1; %趋近率权重
+        k_alpha = 10; %趋近率权重
         epsilon_alpha = 0.005; %滑模面宽度
-        gamma_rho_alpha = 130; %自适应增益
+        gamma_rho_alpha = 100; %自适应增益
         a_alpha = 0.0001; %Lyapunov设计项
     else
         %alpha通道 h=47404m Ma=7.62  mass = 129367.82
         lambad_p_alpha = 3; %滑模面权重-比例项
         lambad_I_alpha = 0.01; %滑模面权重-积分项
-        k_alpha = 0.1; %趋近率权重
-        epsilon_alpha = 0.002; %滑模面宽度
+        k_alpha = 10; %趋近率权重
+        epsilon_alpha = 0.005; %滑模面宽度
         gamma_rho_alpha = 80; %自适应增益
         a_alpha = 0.0001; %Lyapunov设计项
     end
