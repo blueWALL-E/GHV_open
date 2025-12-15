@@ -2,7 +2,7 @@
 /*
  * @Author: blueWALL-E
  * @Date: 2025-12-09 10:34:50
- * @LastEditTime: 2025-12-12 16:24:56
+ * @LastEditTime: 2025-12-14 15:24:00
  * @FilePath: \GHV_open\RL_control\init_RL_GHV_open_evn_agent.m
  * @Description: 强化学习环境与智能体初始化脚本
  * @Wearing:  Read only, do not modify place!!!
@@ -38,13 +38,6 @@ env.ResetFcn = @(in)localResetFcn(in);
 
 % 状态重置函数
 function in = localResetFcn(in)
-    % 动力学核心模块路径
-    % blk = sprintf("RL_GHV_open_smc/Custom Variable Mass 6DOF ECEF (Quaternion)"); %
-    % position = [0; 0; 30000]; % 初始位置设定为30000米高度
-    %
-    % % 设置飞行器初始位置
-    % % in = setBlockParameter(in, blk, xg_0 = num2str(position));
-    % in = setBlockParameter(in, blk, xg_0 = mat2str(position));
 
     % 设置飞行器期望攻角
     % alpha_d = 3 + (8 - 3) * rand;
@@ -52,4 +45,20 @@ function in = localResetFcn(in)
     aero_ang_d = [0; alpha_d; 0]; % 期望气动角设定为随机攻角
     blk = sprintf("RL_GHV_open_smc/aero_ang_D");
     in = setBlockParameter(in, blk, Value = mat2str(aero_ang_d));
+
+    % 设置飞行器初始位置
+    h_0 = randi([17, 68]) * 1000; % 初始高度在17000到68000米之间随机
+    pos_0 = [0; 0; h_0]; % 初始位置向量
+    blk = sprintf("RL_GHV_open_smc/6DOF dynamic equation self/xg_0");
+    % blk = sprintf("RL_GHV_open_smc/6DOF dynamic equation self/Vm_0");
+    in = setBlockParameter(in, blk, Value = mat2str(pos_0));
+
+    % 设置飞行器初始速度
+
+    v_candidates = 1388:60:2588; % 所有允许的速度点
+    speed_0 = v_candidates(randi(numel(v_candidates))); %速度在1388到2588m/s之间随机选择 间隔60m/s
+    Vm_0 = [speed_0; 0; 0]; % 初始速度向量
+    blk = sprintf("RL_GHV_open_smc/6DOF dynamic equation self/Vm_0");
+    in = setBlockParameter(in, blk, Value = mat2str(Vm_0));
+
 end
