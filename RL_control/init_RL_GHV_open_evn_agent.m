@@ -22,8 +22,8 @@ obsInfo.Description = "altitude, Mach number, Expected attack";
 
 % 创建动作规定（Action Specification）
 actInfo = rlNumericSpec([5 1], ...
-    'LowerLimit', [-2; -0.1; -5; -0.0005; -20], ...
-    'UpperLimit', [2; 0.1; 5; 0.0005; 50]); % 定义动作为5维标量
+    'LowerLimit', [-4; -0.2; -10; -0.0005; -50], ...
+    'UpperLimit', [4; 0.2; 10; 0.0005; 100]); % 定义动作为5维标量
 actInfo.Name = "control_param"; % 动作名称为“control_param”
 actInfo.Description = "lambad_p_alpha, lambad_I_alpha, k_alpha, epsilon_alpha, gamma_rho_alpha ";
 %滑模面权重-比例项 滑模面权重-积分项 趋近率权重 滑模面宽度 自适应增益
@@ -47,14 +47,13 @@ function in = localResetFcn(in)
     in = setBlockParameter(in, blk, Value = mat2str(aero_ang_d));
 
     % 设置飞行器初始位置
-    h_0 = randi([17, 68]) * 1000; % 初始高度在17000到68000米之间随机
+    h_0 = randi([17, 30]) * 1000; % 初始高度在17000到68000米之间随机
     pos_0 = [0; 0; h_0]; % 初始位置向量
     blk = sprintf("RL_GHV_open_smc/6DOF dynamic equation self/xg_0");
     % blk = sprintf("RL_GHV_open_smc/6DOF dynamic equation self/Vm_0");
     in = setBlockParameter(in, blk, Value = mat2str(pos_0));
 
     % 设置飞行器初始速度
-
     v_candidates = 1388:60:2588; % 所有允许的速度点
     speed_0 = v_candidates(randi(numel(v_candidates))); %速度在1388到2588m/s之间随机选择 间隔60m/s
     Vm_0 = [speed_0; 0; 0]; % 初始速度向量
