@@ -2,7 +2,7 @@
 /*
  * @Author: blueWALL-E
  * @Date: 2025-12-07 17:51:00
- * @LastEditTime: 2025-12-08 23:35:40
+ * @LastEditTime: 2025-12-19 23:36:13
  * @FilePath: \GHV_open\RL_control\RL_BaseController.m
  * @Description: 强化学习基础控制器 俯仰通道自适应滑模控制
  * @Wearing:  Read only, do not modify place!!!
@@ -32,8 +32,8 @@
 % S          单位 n.d.  滑模面向量 3*1
 function [LE, RE, RUD, d_rho_smc, S] = RL_BaseController(dd_aero_ang_d, aero_ang_e, d_aero_ang_e, i_aero_ang_e, rho_smc, control_param)
     %输出变量初始化
-    d_rho_smc = zeros(3, 1); %#ok<PREALL>
-    S = zeros(3, 1); %#ok<PREALL>
+    d_rho_smc = zeros(3, 1);
+    S = zeros(3, 1);
     %输入变量赋值
     lambad_p_alpha = control_param(1, 1); %滑模面权重-比例项
     lambad_I_alpha = control_param(2, 1); %滑模面权重-积分项
@@ -156,6 +156,23 @@ function [LE, RE, RUD, d_rho_smc, S] = RL_BaseController(dd_aero_ang_d, aero_ang
 
     RUD = u_beta; %方向舵偏转角度
 
-    d_rho_smc = [d_rho_smc_mu; d_rho_smc_alpha; d_rho_smc_beta]; %自适应权重更新向量
-    S = [S_mu; S_alpha; S_beta]; %滑模面向量
-end
+    if LE > 30
+        LE = 30;
+    elseif LE < -30
+        LE = -30;
+    end
+
+    if RE > 30
+        RE = 30;
+    elseif RE < -30
+        RE = -30;
+    end
+
+    if RUD > 30
+        RUD = 30;
+    elseif RUD < -30
+        RUD = -30;
+
+        d_rho_smc = [d_rho_smc_mu; d_rho_smc_alpha; d_rho_smc_beta]; %自适应权重更新向量
+        S = [S_mu; S_alpha; S_beta]; %滑模面向量
+    end
