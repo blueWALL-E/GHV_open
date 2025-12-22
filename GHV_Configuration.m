@@ -2,7 +2,7 @@
 /*
  * @Author:blueWALL-E
  * @Date:2025-05-23 21:43:50
- * @LastEditTime: 2025-11-03 11:38:17
+ * @LastEditTime: 2025-12-21 17:08:21
  * @FilePath: \GHV_open\GHV_Configuration.m
  * @Description: 飞行器基本参数信息
  * @Wearing:Read only, do not modify place !!!
@@ -32,8 +32,6 @@ GHV_cfg.I = diag([GHV_cfg.Ix, GHV_cfg.Iy, GHV_cfg.Iz]); %单位 kg*m^2 机体转
 clear slBus1
 Simulink.Bus.createObject(GHV_cfg); %名字是slBus1 作为总线信号 方便simulink调用
 
-
-
 %飞行器初始状态
 Ma = 5; %初始马赫数 5
 altitude = 20000; %初始高度 单位 m 20000
@@ -41,8 +39,8 @@ gamma = deg2rad(0); %初始飞行航迹倾角 输入单位 deg 0
 alpha = deg2rad(0); %初始攻角 输入单位 deg 4
 [~, vc, ~, ~, ~] = EarthEnvironment(altitude); %获取大气参数
 Position_init = [0; 0; -altitude]; % 初始位置 大地坐标系ned 北东地
-LLA_init = [19.6144722; 110.9510972; altitude]; %初始位置 大地坐标系 纬度 经度 高度
+LLA_init = [31.936363; 118.794870; altitude]; %初始位置 大地坐标系 纬度 经度 高度
 LLA_aim = [38.87099; -77.05596; 0]; %目标位置 大地坐标系 纬度 经度 高度
-Euler_init = [0; gamma + alpha; 0]; %初始姿态 欧拉角 机体坐标系相对于大地坐标系ned的角度 单位 rad
+Euler_init = [0; gamma + alpha; deg2rad(75)]; %初始姿态 欧拉角 机体坐标系相对于大地坐标系ned的角度 单位 rad
 Omega_init = [0; 0; 0]; %初始角速度 机体坐标系
 Speed_init = [Ma * vc * cos(alpha); 0; Ma * vc * sin(alpha)]; %初始速度 机体坐标系
