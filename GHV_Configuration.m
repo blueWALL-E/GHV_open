@@ -2,7 +2,7 @@
 /*
  * @Author:blueWALL-E
  * @Date:2025-05-23 21:43:50
- * @LastEditTime: 2025-12-21 17:08:21
+ * @LastEditTime: 2025-12-25 11:12:22
  * @FilePath: \GHV_open\GHV_Configuration.m
  * @Description: 飞行器基本参数信息
  * @Wearing:Read only, do not modify place !!!
@@ -24,7 +24,7 @@ GHV_cfg.b_ref = 18.29; %单位 m 机翼展长
 GHV_cfg.s_ref = 334.73; %单位 m2 机翼参考面积
 GHV_cfg.x_cg = 2.9; %单位 m 力矩中心到质心的距离
 GHV_cfg.x_cT = 23.16; %单位 m 发动机到参考力矩中心的距离
-GHV_cfg.mass_full = 136077; %单位 kg 飞行器最大质量136077kg
+GHV_cfg.mass_full = 136077; %单位 kg 飞行器最大质量136077kg 60s 6度攻角满功率爬升后滑翔质量 129273.68kg
 GHV_cfg.Ix = -7.1e-5 * GHV_cfg.mass_full ^ 2 + 19.91 * GHV_cfg.mass_full -5.943e4; %单位 kg*m^2 机体x轴的转动惯量
 GHV_cfg.Iy = -8.03e-4 * GHV_cfg.mass_full ^ 2 + 219.74 * GHV_cfg.mass_full -1.69e6; %单位 kg*m^2 机体x轴的转动惯量
 GHV_cfg.Iz = -8.03e-4 * GHV_cfg.mass_full ^ 2 + 219.74 * GHV_cfg.mass_full -1.69e6; %单位 kg*m^2 机体x轴的转动惯量
