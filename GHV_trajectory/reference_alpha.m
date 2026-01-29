@@ -2,7 +2,7 @@
 /*
  * @Author: blueWALL-E
  * @Date: 2025-10-23 22:15:21
- * @LastEditTime: 2025-12-22 00:04:55
+ * @LastEditTime: 2026-01-11 22:28:22
  * @FilePath: \GHV_open\GHV_trajectory\reference_alpha.m
  * @Description: 参考攻角变化规律
  * @Wearing:  Read only, do not modify place!!!
@@ -72,8 +72,8 @@ function alpha = reference_alpha(t, Ma)
     t1 = 60;
 
     % ===== 回合时间窗 =====
-    round2_begin = 200; round2_end = 240; % 阶跃保持
-    round3_begin = 270; round3_end = 450; % doublet
+    round2_begin = 270; round2_end = 290; % doublet
+    round3_begin = 430; round3_end = 450; % doublet
     round4_begin = 560; round4_end = 820; % chirp
 
     % ===== 幅值调度 =====
@@ -97,12 +97,15 @@ function alpha = reference_alpha(t, Ma)
     if t >= round2_begin && t < round2_end
         tau = t - round2_begin;
 
-        if tau < 30
-            delta = +A2;
-        elseif tau < 50
-            delta = 0;
-        elseif tau < 80
-            delta = -A2;
+        T = 10;
+        gap = 20;
+        cycle = 2 * T + gap;
+        k = mod(tau, cycle);
+
+        if k < T
+            delta = +A3;
+        elseif k < 2 * T
+            delta = -A3;
         else
             delta = 0;
         end
