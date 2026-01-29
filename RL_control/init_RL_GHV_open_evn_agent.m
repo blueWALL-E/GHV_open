@@ -18,7 +18,7 @@ open_system(evn_path);
 obsInfo = rlNumericSpec([3, 1]); % 定义观测值为3维向量
 % Name和Description是可选的，仅用于标识
 obsInfo.Name = "observations";
-obsInfo.Description = "altitude, Mach number, Expected attack";
+obsInfo.Description = "altitude, Mach number, attack error";
 
 % 创建动作规定（Action Specification）
 actInfo = rlNumericSpec([5 1], ...
