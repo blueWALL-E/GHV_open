@@ -2,7 +2,7 @@
 /*
  * @Author: blueWALL-E
  * @Date: 2025-12-07 17:51:00
- * @LastEditTime: 2025-12-19 23:36:13
+ * @LastEditTime: 2026-01-21 11:26:22
  * @FilePath: \GHV_open\RL_control\RL_BaseController.m
  * @Description: 强化学习基础控制器 俯仰通道自适应滑模控制
  * @Wearing:  Read only, do not modify place!!!
@@ -30,16 +30,29 @@
 % RUD        单位 deg   方向舵偏转角度
 % d_rho_smc  单位 n.d.  自适应权重更新向量 3*1
 % S          单位 n.d.  滑模面向量 3*1
-function [LE, RE, RUD, d_rho_smc, S] = RL_BaseController(dd_aero_ang_d, aero_ang_e, d_aero_ang_e, i_aero_ang_e, rho_smc, control_param)
+function [LE, RE, RUD, d_rho_smc, S] = RL_BaseController(dd_aero_ang_d, aero_ang_e, d_aero_ang_e, i_aero_ang_e, rho_smc, control_param_alpha, control_param_bate, control_param_mu)
     %输出变量初始化
     d_rho_smc = zeros(3, 1);
     S = zeros(3, 1);
     %输入变量赋值
-    lambad_p_alpha = control_param(1, 1); %滑模面权重-比例项
-    lambad_I_alpha = control_param(2, 1); %滑模面权重-积分项
-    k_alpha = control_param(3, 1); %趋近率权重
-    epsilon_alpha = control_param(4, 1); %滑模面宽度
-    gamma_rho_alpha = control_param(5, 1); %自适应增益
+
+    lambad_p_mu = control_param_mu(1, 1); %滑模面权重-比例项
+    lambad_I_mu = control_param_mu(2, 1); %滑模面
+    k_mu = control_param_mu(3, 1); %趋近率权重
+    epsilon_mu = control_param_mu(4, 1); %滑模面宽度
+    gamma_rho_mu = control_param_mu(5, 1); %自适应增益
+
+    lambad_p_alpha = control_param_alpha(1, 1); %滑模面权重-比例项
+    lambad_I_alpha = control_param_alpha(2, 1); %滑模面权重-积分项
+    k_alpha = control_param_alpha(3, 1); %趋近率权重
+    epsilon_alpha = control_param_alpha(4, 1); %滑模面宽度
+    gamma_rho_alpha = control_param_alpha(5, 1); %自适应增益
+
+    lambad_p_beta = control_param_bate(1, 1); %滑模面权重-比例项
+    lambad_I_beta = control_param_bate(2, 1); %滑模面权重-积分项
+    k_beta = control_param_bate(3, 1); %趋近率权重
+    epsilon_beta = control_param_bate(4, 1); %滑模面宽度
+    gamma_rho_beta = control_param_bate(5, 1); %自适应增益
 
     %期望姿态控制角度二阶导
     dd_mu_d = dd_aero_ang_d(1, 1);
@@ -63,56 +76,10 @@ function [LE, RE, RUD, d_rho_smc, S] = RL_BaseController(dd_aero_ang_d, aero_ang
     rho_beta = rho_smc(3, 1);
 
     %控制参数
-    %mu通道
-    lambad_p_mu = 5; %滑模面权重-比例项
-    lambad_I_mu = 0; %滑模面权重-积分项
-    k_mu = 0.1; %趋近率权重
-    epsilon_mu = 0.005; %滑模面宽度
-    gamma_rho_mu = 20; %自适应增益
-    a_mu = 0.001; %Lyapunov设计项
 
-    % %alpha通道 h=20000m Ma=5 alpha=6 mass = 136077
-    % lambad_p_alpha = 5; %滑模面权重-比例项
-    % lambad_I_alpha = 0.25; %滑模面权重-积分项
-    % k_alpha = 0.1; %趋近率权重
-    % epsilon_alpha = 0.005; %滑模面宽度
-    % gamma_rho_alpha = 130; %自适应增益
-    % a_alpha = 0.0001; %Lyapunov设计项
-
-    % %alpha通道 h=48800m Ma=8 alpha=4 mass = 115729
-    % lambad_p_alpha = 1; %滑模面权重-比例项
-    % lambad_I_alpha = 0; %滑模面权重-积分项
-    % k_alpha = 0.1; %趋近率权重
-    % epsilon_alpha = 0.001; %滑模面宽度
-    % gamma_rho_alpha = 270; %自适应增益
-    % a_alpha = 0.00001; %Lyapunov设计项
-
-    % if t <= 60
-    %     %alpha通道 h=20000m Ma=5 alpha=6 mass = 136077
-    %     lambad_p_alpha = 5; %滑模面权重-比例项
-    %     lambad_I_alpha = 0.25; %滑模面权重-积分项
-    %     k_alpha = 10; %趋近率权重
-    %     epsilon_alpha = 0.005; %滑模面宽度
-    %     gamma_rho_alpha = 100; %自适应增益
-    %     a_alpha = 0.0001; %Lyapunov设计项
-    % else
-    %     %alpha通道 h=47404m Ma=7.62  mass = 129367.82
-    %     lambad_p_alpha = 3; %滑模面权重-比例项
-    %     lambad_I_alpha = 0.01; %滑模面权重-积分项
-    %     k_alpha = 0.1; %趋近率权重
-    %     epsilon_alpha = 0.002; %滑模面宽度
-    %     gamma_rho_alpha = 80; %自适应增益
-    %     a_alpha = 0.0001; %Lyapunov设计项
-    % end
+    a_mu = 0.0001; %Lyapunov设计项
     a_alpha = 0.0001; %Lyapunov设计项
-
-    %beta通道
-    lambad_p_beta = 5; %滑模面权重-比例项
-    lambad_I_beta = 0; %滑模面权重-积分项
-    k_beta = 0.1; %趋近率权重
-    epsilon_beta = 0.005; %滑模面宽度
-    gamma_rho_beta = 20; %自适应增益
-    a_beta = 0.001; %Lyapunov设计项
+    a_beta = 0.0001; %Lyapunov设计项
 
     %滑模面计算
     S_mu = d_mu_e ...
@@ -130,14 +97,15 @@ function [LE, RE, RUD, d_rho_smc, S] = RL_BaseController(dd_aero_ang_d, aero_ang
     % u_eq_mu = dd_mu_d + lambad_p_mu * d_mu_e + lambad_I_mu * mu_e - F_mu + k_mu * S_mu; %等效控制律
     u_ro_mu = rho_mu * tanh(S_mu / epsilon_mu); %鲁棒控制律
     u_mu = u_eq_mu + u_ro_mu; %#ok<NASGU> %总控制律
-    u_mu = 0; %总控制律
+    % u_mu = 0;
     d_rho_smc_mu = gamma_rho_mu * (abs(S_mu) - 0.2785 * epsilon_mu - a_mu * rho_mu); %自适应律
 
     %alpha通道控制律
     u_eq_alpha = dd_alpha_d + lambad_p_alpha * d_alpha_e + lambad_I_alpha * alpha_e + k_alpha * S_alpha; %等效控制律
     % u_eq_alpha = dd_alpha_d + lambad_p_alpha * d_alpha_e + lambad_I_alpha * alpha_e - F_alpha + k_alpha * S_alpha; %等效控制律
     u_ro_alpha = rho_alpha * tanh(S_alpha / epsilon_alpha); %鲁棒控制律
-    u_alpha = u_eq_alpha + u_ro_alpha; %总控制律
+    u_alpha = u_eq_alpha + u_ro_alpha; %#ok<NASGU> %总控制律
+    % u_alpha = 0;
     d_rho_smc_alpha = gamma_rho_alpha * (abs(S_alpha) - 0.2785 * epsilon_alpha - a_alpha * rho_alpha); %自适应律
 
     %beta通道控制律
@@ -145,14 +113,14 @@ function [LE, RE, RUD, d_rho_smc, S] = RL_BaseController(dd_aero_ang_d, aero_ang
     % u_eq_beta = dd_beta_d + lambad_p_beta * d_beta_e + lambad_I_beta * beta_e - F_beta + k_beta * S_beta; %等效控制律
     u_ro_beta = rho_beta * tanh(S_beta / epsilon_beta); %鲁棒控制律
     u_beta = u_eq_beta + u_ro_beta; %#ok<NASGU> %总控制律
-    u_beta = 0; %总控制律
+    % u_beta = 0;
     d_rho_smc_beta = gamma_rho_beta * (abs(S_beta) - 0.2785 * epsilon_beta - a_beta * rho_beta); %自适应律
 
     %输出
     %舵面计算
-    LE = u_alpha + u_mu; %左舵偏转角度
+    LE = u_alpha - u_mu; %左舵偏转角度
 
-    RE = u_alpha - u_mu; %右舵偏转角度
+    RE = u_alpha + u_mu; %右舵偏转角度
 
     RUD = u_beta; %方向舵偏转角度
 
