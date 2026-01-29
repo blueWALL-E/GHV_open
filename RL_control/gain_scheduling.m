@@ -2,7 +2,7 @@
 /*
  * @Author: blueWALL-E
  * @Date: 2025-12-20 21:38:10
- * @LastEditTime: 2026-01-01 22:35:43
+ * @LastEditTime: 2026-01-27 20:23:45
  * @FilePath: \GHV_open\RL_control\gain_scheduling.m
  * @Description: alpha 通道增益调度函数 线性插值
  * @Wearing:  Read only, do not modify place!!!
@@ -34,8 +34,8 @@ function [lambad_p_alpha, lambad_I_alpha, k_alpha, epsilon_alpha, gamma_rho_alph
 
     lambad_p_data = [5; 3; 2; 1.5; 1; 0.8; 0.5];
     lambad_I_data = [0.1; 0.2; 0.2; 0.05; 0.05; 0.01; 0.001];
-    k_data = [300; 500; 800; 170; 2500; 3500; 4500];
-    epsilon_data = [0.001; 0.001; 0.001; 0.001; 0.0001; 0.0001; 0.0001];
+    k_data = [300; 500; 800; 1700; 2500; 3500; 4500];
+    epsilon_data = [0.0001; 0.0001; 0.0001; 0.0001; 0.0001; 0.0001; 0.0001];
     gamma_rho_data = [100; 180; 150; 230; 130; 230; 250];
 
     % ================== 插值设置 ==================
