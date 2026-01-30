@@ -2,15 +2,15 @@
 /*
  * @Author: blueWALL-E
  * @Date: 2026-01-29 11:43:32
- * @LastEditTime: 2026-01-29 22:43:50
+ * @LastEditTime: 2026-01-30 17:12:45
  * @FilePath: \GHV_open\RL_control\data\6DOF\anaylze_6DOF_robust.m
- * @Description: 40km下鲁棒性能分析
+ * @Description: 40km下鲁棒性能分析（3通道合并：从上到下排列）
  * @Wearing:  Read only, do not modify place!!!
  * @Shortcut keys:  ctrl+alt+/ ctrl+alt+z
  */
 %}
 
-% Load
+%% Load
 load("data_6DOF/H40km_6DOF_robust_20_mu.mat");
 load("data_6DOF/H40km_6DOF_robust_10_alpha.mat");
 load("data_6DOF/H40km_6DOF_robust_10_beta.mat");
@@ -25,7 +25,20 @@ sigName = 'aero_ang';
 labels = {'\mu', '\alpha', '\beta'};
 unitStr = '°';
 
-%% Plot
+%% ===== 取数据（3个mat文件里结构一致，取一次即可）=====
+% 约定：data{1:6} 分别是 SMC nominal/pos/neg, TD3-SMC nominal/pos/neg
+data = cases{1, 1}; % 用第一个case取时间轴等（若三者time一致）
+data_smc = data{1};
+t = data_smc.get(sigName).Values.Time;
+
+%% ===== 新建一个图：3×1 从上到下排列 =====
+figure('Color', 'w');
+TL = tiledlayout(3, 1, 'TileSpacing', 'compact', 'Padding', 'compact');
+
+% marker 稀疏程度
+idx = 1:25:length(t);
+
+%% ===== 依次画 μ / α / β =====
 for k = 1:size(cases, 1)
 
     data = cases{k, 1};
@@ -48,7 +61,7 @@ for k = 1:size(cases, 1)
     sig_rl_neg = data_rl_neg.get(sigName);
     sig_ref = data_rl.get("aero_ang_d");
 
-    % Time
+    % Time（以本case为准，更稳）
     t = sig_smc.Values.Time;
 
     % 3×1×N -> N×3
@@ -59,14 +72,14 @@ for k = 1:size(cases, 1)
     y_rl_pos = squeeze(permute(sig_rl_pos.Values.Data, [3 1 2]));
     y_rl_neg = squeeze(permute(sig_rl_neg.Values.Data, [3 1 2]));
 
+    % 你原来的特殊处理：alpha case 对 rl_neg 做比例修正
     if k == 2
         y_rl_neg = y_rl_neg .* (5.01/5.056);
     end
 
-    % ===== 画图（只画第 k 个通道）=====
-    figure('Color', 'w'); hold on;
-
-    idx = 1:25:length(t); % marker 稀疏程度
+    % ===== 子图 =====
+    ax = nexttile(TL); %#ok<NASGU>
+    hold on;
 
     % ===== SMC =====
     h1 = plot(t, y_smc(:, k), 'g-', 'LineWidth', 1.6);
@@ -83,7 +96,7 @@ for k = 1:size(cases, 1)
         'MarkerIndices', idx, ...
         'MarkerSize', 8);
 
-    % ===== RL =====
+    % ===== TD3-SMC =====
     h4 = plot(t, y_rl(:, k), 'b-', 'LineWidth', 1.6);
 
     h5 = plot(t, y_rl_pos(:, k), ...
@@ -98,11 +111,10 @@ for k = 1:size(cases, 1)
         'MarkerIndices', idx, ...
         'MarkerSize', 8);
 
-    % ===== REF =====
+    % ===== Command =====
     href = yline(sig_ref.Values.Data(k), 'r--', 'LineWidth', 1.6);
 
-    % Labels
-    xlabel('Time (s)', 'FontSize', 12);
+    % ===== 轴标签 =====
     ylabel(sprintf('%s (%s)', labels{k}, unitStr), ...
         'Rotation', 0, ...
         'HorizontalAlignment', 'right', ...
@@ -110,24 +122,51 @@ for k = 1:size(cases, 1)
         'FontSize', 15, ...
         'FontWeight', 'bold');
 
-    % Title
-    title(sprintf('H = 40 km Robustness (%s)', sigLabel), ...
-        'FontSize', 13, 'FontWeight', 'bold');
+    % 只给最后一个子图加 xlabel（更干净）
+    if k == 3
+        xlabel('Time (s)', 'FontSize', 15);
+    end
 
-    % Legend（关键）
-    legend([h1 h2 h3 h4 h5 h6 href], ...
-        {'SMC (nominal)', ...
-         'SMC (+perturbation)', ...
-         'SMC (-perturbation)', ...
-         'TD3-SMC (nominal)', ...
-         'TD3-SMC (+perturbation)', ...
-         'TD3-SMC (-perturbation)', ...
-         'Reference' ...
+    % ===== 子图标题：期刊常用 (a)(b)(c) =====
+    title(sprintf('(%c) %s channel', 'a'+k - 1, labels{k}), ...
+        'FontSize', 25, 'FontWeight', 'bold');
+
+    % ===== Legend（按气动系数类型自适应；只放在第1幅子图）=====
+    switch sigLabel
+        case 'mu'
+            pertStr = '20% C_l';
+        case 'alpha'
+            pertStr = '10% C_m';
+        case 'beta'
+            pertStr = '10% C_n';
+        otherwise
+            pertStr = 'Pert.';
+    end
+
+    % ===== Legend 占位句柄（不可见，用于三行排版）=====
+    hdum1 = plot(nan, nan, 'w'); % 白色不可见
+    hdum2 = plot(nan, nan, 'w'); % 白色不可见
+
+    % ===== 三行 legend：Command / SMC / TD3-SMC =====
+    lgd = legend( ...
+        [href, hdum1, hdum2, ... % 第1行：Command
+         h1, h2, h3, ... % 第2行：SMC
+         h4, h5, h6], ... % 第3行：TD3-SMC
+        { ...
+         'Command', '', '', ...
+         'SMC (nominal)', ['SMC (+' pertStr ')'], ['SMC (-' pertStr ')'], ...
+         'TD3-SMC (nominal)', ['TD3-SMC (+' pertStr ')'], ['TD3-SMC (-' pertStr ')'] ...
      }, ...
-        'Location', 'southeast', 'FontSize', 10);
+        'NumColumns', 3, ...
+        'Location', 'southeast', ...
+        'FontSize', 13);
 
-    % Style
+    % ===== Style =====
     grid on; box on;
     set(gca, 'FontSize', 11, 'LineWidth', 1.0);
 
 end
+
+% ===== 总标题（可选）=====
+% sgtitle('H = 40 km Robustness under Aerodynamic Coefficient Perturbations', ...
+%     'FontSize', 13, 'FontWeight', 'bold');
