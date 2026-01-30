@@ -2,7 +2,7 @@
 /*
  * @Author: blueWALL-E
  * @Date: 2026-01-27 20:17:32
- * @LastEditTime: 2026-01-28 22:45:38
+ * @LastEditTime: 2026-01-30 23:31:50
  * @FilePath: \GHV_open\RL_control\gain_scheduling_6dof.m
  * @Description: 三通道六自由度增益调度函数 线性插值
  * @Wearing:  Read only, do not modify place!!!
@@ -17,6 +17,13 @@
 % control_param_alpha   单位 n.d.  控制参数 alpha
 % control_param_beta    单位 n.d.  控制参数 beta
 function [control_param_mu, control_param_alpha, control_param_beta] = gain_scheduling_6dof(H)
+
+    if H < 25000
+        H = 25000;
+    elseif H > 40000
+        H = 40000;
+    end
+
     H_sample = [25000; 30000; 35000; 40000];
     method = 'linear';
     % ================== mu ==================
