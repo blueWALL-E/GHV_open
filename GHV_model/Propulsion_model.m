@@ -2,7 +2,7 @@
 /*
  * @Author:blueWALL-E
  * @Date:2025-09-15 14:33:57
- * @LastEditTime: 2025-10-08 11:25:58
+ * @LastEditTime: 2026-02-05 18:12:23
  * @FilePath: \GHV_open\GHV_model\Propulsion_model.m
  * @Description: 组合发动机推力模型
  * @Wearing:Read only, do not modify place !!!
@@ -12,20 +12,21 @@
 
 %Propulsion_model 组合发动机推力模型
 %input
-% PLA    单位 [%] 油门开度
-% H     单位 m 飞行高度
-% Ma    单位 n.d. 马赫数
-% delta_y 单位 deg 矢量发动机偏转角
-% delta_z 单位 deg 矢量发动机偏转角
-% GHV_cfg 飞行器基本参数结构体
+% PLA       单位 [%]    油门开度
+% H         单位 m      飞行高度
+% Ma        单位 n.d.   马赫数
+% delta_y   单位 deg    矢量发动机偏转角y方向
+% delta_z   单位 deg    矢量发动机偏转角x方向
+% GHV_cfg   单位 NaN    飞行器基本参数结构体
+% x_cg      单位 m      飞行器质心位置
 
 %output
-% F_T     单位 N 发动机推力 3*1向量
-% M_T     单位 N*m 发动机力矩 3*1向量
-% Isp   单位 s 比冲
-% dmass 单位 kg/s 燃料消耗率
+% F_T       单位 N      发动机推力 3*1向量
+% M_T       单位 N*m    发动机力矩 3*1向量
+% Isp       单位 s      比冲
+% d_mass    单位 kg/s   燃料消耗率
 %//TODO Ma＞6 油门为0时推力为负数 Ma5左右 推力为负数 文献就这样写的 但感觉是个bug
-function [F_T, M_T, Isp, dmass] = Propulsion_model(PLA, H, Ma, delta_y, delta_z, GHV_cfg, x_cg)
+function [F_T, M_T, Isp, d_mass] = Propulsion_model(PLA, H, Ma, delta_y, delta_z, GHV_cfg, x_cg)
     %输出矩阵定义
     F_T = zeros(3, 1); %#ok<PREALL>
     M_T = zeros(3, 1); %#ok<PREALL>
@@ -33,11 +34,20 @@ function [F_T, M_T, Isp, dmass] = Propulsion_model(PLA, H, Ma, delta_y, delta_z,
     x_cT = GHV_cfg.x_cT;
     x_cg_element = x_cg;
     %输入检查
-    if Ma < 0 || Ma > 24 %马赫数检查
-        error(' Mach number input error, should be between 0 and 24');
-    elseif PLA < 0 || PLA > 1 %油门开度检查
-        error(' PLA input error, should be between 0 and 1');
-    elseif PLA == 0 %油门为0时直接返回0
+    % 输入检查
+    if Ma < 0 % 马赫数小于0
+        error('Mach number input error: Ma should not be less than 0');
+    elseif Ma > 24 % 马赫数大于24
+        error('Mach number input error: Ma should not exceed 24');
+    end
+
+    if PLA < 0 % 油门开度小于0
+        error('PLA input error: PLA should not be less than 0');
+    elseif PLA > 1 % 油门开度大于1
+        error('PLA input error: PLA should not exceed 1');
+    end
+
+    if PLA == 0 %油门为0时直接返回0
         T_norm = 0;
     elseif Ma <= 2 %涡轮发动机
         T_norm = PLA .* (1.33e6 - 4.45 .* H +5.92e-4 .* H .^ 2 -2.88e-9 .* H .^ 3 +1.67e4 .* Ma .^ 3);
@@ -83,6 +93,6 @@ function [F_T, M_T, Isp, dmass] = Propulsion_model(PLA, H, Ma, delta_y, delta_z,
         - 0.0007576 * Ma .^ 6;
     %燃料消耗率
     g0 = 9.80665; %标准重力加速度 单位 m/s^2
-    dmass = -T_norm / (Isp * g0); %燃料消耗率
+    d_mass = -T_norm / (Isp * g0); %燃料消耗率
 
 end
