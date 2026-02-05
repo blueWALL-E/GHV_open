@@ -2,7 +2,7 @@
 /*
  * @Author:blueWALL-E
  * @Date:2025-05-23 21:43:50
- * @LastEditTime: 2025-11-03 11:38:17
+ * @LastEditTime: 2026-02-05 18:57:37
  * @FilePath: \GHV_open\GHV_Configuration.m
  * @Description: 飞行器基本参数信息
  * @Wearing:Read only, do not modify place !!!
@@ -10,7 +10,7 @@
  */
 %}
 
-%单位换算常数 尽量避免使用吧 但保留这个接口
+%单位换算常数 尽量避免使用 但保留这个接口
 d2r = pi / 180; % Conversion Deg to Rad
 m2ft = 3.28084; % meter to feet
 Kg2slug = 0.0685218; % Kg to slug
@@ -29,6 +29,7 @@ GHV_cfg.Ix = -7.1e-5 * GHV_cfg.mass_full ^ 2 + 19.91 * GHV_cfg.mass_full -5.943e
 GHV_cfg.Iy = -8.03e-4 * GHV_cfg.mass_full ^ 2 + 219.74 * GHV_cfg.mass_full -1.69e6; %单位 kg*m^2 机体x轴的转动惯量
 GHV_cfg.Iz = -8.03e-4 * GHV_cfg.mass_full ^ 2 + 219.74 * GHV_cfg.mass_full -1.69e6; %单位 kg*m^2 机体x轴的转动惯量
 GHV_cfg.I = diag([GHV_cfg.Ix, GHV_cfg.Iy, GHV_cfg.Iz]); %单位 kg*m^2 机体转动惯量矩阵
+clear slBus1 %清除之前的总线对象 避免冲突和多次运行产生新对象
 Simulink.Bus.createObject(GHV_cfg); %名字是slBus1 作为总线信号 方便simulink调用
 
 %飞行器初始状态
