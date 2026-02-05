@@ -2,13 +2,24 @@
 /*
  * @Author: blueWALL-E
  * @Date: 2025-10-22 15:15:40
- * @LastEditTime: 2025-10-22 16:48:35
+ * @LastEditTime: 2026-02-05 17:53:35
  * @FilePath: \GHV_open\GHV_model\aero_forces_moments.m
  * @Description: 根据气动参数计算在机体坐标系下所受的气动力和气动力矩
  * @Wearing:  Read only, do not modify place!!!
  * @Shortcut keys:  ctrl+alt+/ ctrl+alt+z
  */
 %}
+
+% 计算在机体坐标系下所受的气动力和气动力矩
+%input
+% Coef      单位 n.d.    气动参数矩阵  C = [CD; CY; CL; Cl; Cm; Cn];
+% q         单位 Pa      动压
+% GHV_cfg   单位 NaN     飞行器基本参数结构体
+% air_ang   单位 rad     气流角 alpha攻角 beta侧滑角 air_ang = [alpha; beta];
+
+%output
+% Fair_body    单位 N      机体坐标系下气动力向量  Fair_body = [Xb; Yb; Zb];
+% Mair_body    单位 N·m    机体坐标系下气动力矩向量 Mair_body = [lb; mb; nb];
 function [Fair_body, Mair_body] = aero_forces_moments(Coef, q, GHV_cfg, x_cg, air_ang)
     %输出变量大小定义
     Fair_body = zeros(3, 1); %#ok<PREALL>
