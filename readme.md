@@ -1,7 +1,7 @@
 <!--
  * @Author: blueWALL-E
  * @Date: 2024-10-31 22:45:46
- * @LastEditTime: 2025-11-03 21:10:13
+ * @LastEditTime: 2026-02-05 21:46:58
  * @FilePath: \GHV_open\readme.md
  * @Description: GHV文件的相关说明
  * @Wearing:  Read only, do not modify place!!! 
@@ -14,7 +14,7 @@
 
 ## 简介
 
-&emsp;&emsp;**GHV_open** 是一个面向高超声速飞行器（Generic Hypersonic Vehicle）的开源动力学与 GNC（制导、导航与控制）仿真研究平台。项目包含完整的 6 自由度动力学模型、气动力模型、发动机模型、地球环境以及多种控制算法示例，旨在为研究人员和飞控工程师提供一个可扩展、可复现的高超声速飞行器综合仿真平台。  
+&emsp;&emsp;**GHV_open** 是一个高超声速飞行器（Generic Hypersonic Vehicle）动力学与 GNC（制导、导航与控制）开源仿真平台。项目包含完整的 6 自由度动力学模型、气动力模型、发动机模型、地球环境以及多种控制算法示例，旨在为研究人员和飞控工程师提供一个可扩展、可复现的高超声速飞行器综合仿真平台。  
 
 <p align="center">
   <img src="docs/仿真平台截图.jpg" alt="GHV_open **picture**" width="100%">
