@@ -2,7 +2,7 @@
 /*
  * @Author: blueWALL-E
  * @Date: 2026-01-29 11:43:32
- * @LastEditTime: 2026-01-30 17:12:45
+ * @LastEditTime: 2026-03-07 17:05:34
  * @FilePath: \GHV_open\RL_control\data\6DOF\anaylze_6DOF_robust.m
  * @Description: 40km下鲁棒性能分析（3通道合并：从上到下排列）
  * @Wearing:  Read only, do not modify place!!!
@@ -78,7 +78,7 @@ for k = 1:size(cases, 1)
     end
 
     % ===== 子图 =====
-    ax = nexttile(TL); %#ok<NASGU>
+    ax = nexttile(TL);
     hold on;
 
     % ===== SMC =====
