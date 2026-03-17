@@ -1,5 +1,5 @@
 # 排除临时文件
-draft.m
+draft.*
 *.mldatx
 *.slxc
 *.mat
