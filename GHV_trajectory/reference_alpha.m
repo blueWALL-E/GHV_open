@@ -66,89 +66,89 @@ function alpha = reference_alpha(t, Ma)
     p4 = 1.475; p5 = -9.176; p6 = 25.62;
     alpha_best = p1 * Ma ^ 5 + p2 * Ma ^ 4 + p3 * Ma ^ 3 + ...
         p4 * Ma ^ 2 + p5 * Ma + p6;
-
-    % ===== 起始段 =====
-    transition_time = 5;
-    t1 = 60;
-
-    % ===== 回合时间窗 =====
-    round2_begin = 270; round2_end = 290; % doublet
-    round3_begin = 430; round3_end = 450; % doublet
-    round4_begin = 560; round4_end = 820; % chirp
-
-    % ===== 幅值调度 =====
-    A2 = 1.0 * 1;
-    A3 = 0.8 * 1;
-    A4 = 0.2 * 1;
-
-    % ===== 默认扰动 =====
-    delta = 0;
-
-    % ===== 起始与过渡 =====
-    if t < t1
-        alpha = 6;
-        return;
-    elseif t < t1 + transition_time
-        alpha = 6 + (alpha_best - 6) * (t - t1) / transition_time;
-        return;
-    end
-
-    % ===== 回合2：阶跃保持 =====
-    if t >= round2_begin && t < round2_end
-        tau = t - round2_begin;
-
-        T = 10;
-        gap = 20;
-        cycle = 2 * T + gap;
-        k = mod(tau, cycle);
-
-        if k < T
-            delta = +A3;
-        elseif k < 2 * T
-            delta = -A3;
-        else
-            delta = 0;
-        end
-
-        alpha = 4 + delta;
-        return;
-    end
-
-    % ===== 回合3：doublet =====
-    if t >= round3_begin && t < round3_end
-        tau = t - round3_begin;
-
-        T = 10;
-        gap = 20;
-        cycle = 2 * T + gap;
-        k = mod(tau, cycle);
-
-        if k < T
-            delta = +A3;
-        elseif k < 2 * T
-            delta = -A3;
-        else
-            delta = 0;
-        end
-
-        alpha = 4 + delta;
-        return;
-    end
-
-    % ===== 回合4：chirp =====
-    if t >= round4_begin && t < round4_end
-        tau = t - round4_begin;
-        dur = round4_end - round4_begin;
-
-        f0 = 1/50;
-        f1 = 1/30;
-        f = f0 + (f1 - f0) * (tau / dur);
-
-        delta = A4 * sin(2 * pi * f * tau);
-
-        alpha = alpha_best + delta;
-        return;
-    end
+    % 
+    % % ===== 起始段 =====
+    % transition_time = 5;
+    % t1 = 60;
+    % 
+    % % ===== 回合时间窗 =====
+    % round2_begin = 270; round2_end = 290; % doublet
+    % round3_begin = 430; round3_end = 450; % doublet
+    % round4_begin = 560; round4_end = 820; % chirp
+    % 
+    % % ===== 幅值调度 =====
+    % A2 = 1.0 * 1;
+    % A3 = 0.8 * 1;
+    % A4 = 0.2 * 1;
+    % 
+    % % ===== 默认扰动 =====
+    % delta = 0;
+    % 
+    % % ===== 起始与过渡 =====
+    % if t < t1
+    %     alpha = 6;
+    %     return;
+    % elseif t < t1 + transition_time
+    %     alpha = 6 + (alpha_best - 6) * (t - t1) / transition_time;
+    %     return;
+    % end
+    % 
+    % % ===== 回合2：阶跃保持 =====
+    % if t >= round2_begin && t < round2_end
+    %     tau = t - round2_begin;
+    % 
+    %     T = 10;
+    %     gap = 20;
+    %     cycle = 2 * T + gap;
+    %     k = mod(tau, cycle);
+    % 
+    %     if k < T
+    %         delta = +A3;
+    %     elseif k < 2 * T
+    %         delta = -A3;
+    %     else
+    %         delta = 0;
+    %     end
+    % 
+    %     alpha = 4 + delta;
+    %     return;
+    % end
+    % 
+    % % ===== 回合3：doublet =====
+    % if t >= round3_begin && t < round3_end
+    %     tau = t - round3_begin;
+    % 
+    %     T = 10;
+    %     gap = 20;
+    %     cycle = 2 * T + gap;
+    %     k = mod(tau, cycle);
+    % 
+    %     if k < T
+    %         delta = +A3;
+    %     elseif k < 2 * T
+    %         delta = -A3;
+    %     else
+    %         delta = 0;
+    %     end
+    % 
+    %     alpha = 4 + delta;
+    %     return;
+    % end
+    % 
+    % % ===== 回合4：chirp =====
+    % if t >= round4_begin && t < round4_end
+    %     tau = t - round4_begin;
+    %     dur = round4_end - round4_begin;
+    % 
+    %     f0 = 1/50;
+    %     f1 = 1/30;
+    %     f = f0 + (f1 - f0) * (tau / dur);
+    % 
+    %     delta = A4 * sin(2 * pi * f * tau);
+    % 
+    %     alpha = alpha_best + delta;
+    %     return;
+    % end
 
     % ===== 其它时间 =====
     alpha = alpha_best;
