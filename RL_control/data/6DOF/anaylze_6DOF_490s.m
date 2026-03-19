@@ -2,7 +2,7 @@
 /*
  * @Author: blueWALL-E
  * @Date: 2026-03-16 22:57:18
- * @LastEditTime: 2026-03-18 22:45:18
+ * @LastEditTime: 2026-03-19 22:57:55
  * @FilePath: \GHV_open\RL_control\data\6DOF\anaylze_6DOF_490s.m
  * @Description: 飞行器490s仿真结果分析脚本
  * @Wearing:  Read only, do not modify place!!!
@@ -33,7 +33,7 @@ calculate_performance_metrics( ...
     ds_TD3_neg, ds_TD3_norm, ds_TD3_pos, ...
 'aero_ang_e');
 
-%% ===== 画三维弹道图 =====
+% %% ===== 画三维弹道图 =====
 % plot_trajectory_3d( ...
 %     ds_GS_neg, ds_GS_norm, ds_GS_pos, ...
 %     ds_TD3_neg, ds_TD3_norm, ds_TD3_pos, data_command);
@@ -168,17 +168,17 @@ function plot_aero_ang( ...
 
         % ===== 坐标轴 =====
         ylabel(sprintf('%s (%s)', labels{k}, unitStr), 'Rotation', 0, 'HorizontalAlignment', 'right', ...
-            'VerticalAlignment', 'middle', 'FontSize', 14, 'FontWeight', 'bold');
+            'VerticalAlignment', 'middle', 'FontSize', 20, 'FontWeight', 'bold');
 
         if k == 3
-            xlabel('Time (s)', 'FontSize', 14, 'FontWeight', 'bold');
+            xlabel('Time (s)', 'FontSize', 20, 'FontWeight', 'bold');
         end
 
-        title(sprintf('(%c) %s channel', 'a' + k - 1, labels{k}), 'FontSize', 18, 'FontWeight', 'bold');
+        title(sprintf('(%c) %s channel', 'a' + k - 1, labels{k}), 'FontSize', 20, 'FontWeight', 'bold');
 
         grid on;
         box on;
-        set(gca, 'FontSize', 12, 'LineWidth', 1.1);
+        set(gca, 'FontSize', 15, 'LineWidth', 1.1);
 
         % ===== Legend（仅在第1幅子图中显示）=====
         if k == 3
@@ -191,7 +191,7 @@ function plot_aero_ang( ...
                  'TD3-SMC (nominal)', 'TD3-SMC (-10%)', 'TD3-SMC (+10%)'}, ...
                 'NumColumns', 7, ...
                 'Location', 'southoutside', ...
-                'FontSize', 11);
+                'FontSize', 15);
         end
 
     end
@@ -256,11 +256,15 @@ function plot_aero_ang_e( ...
             'VerticalAlignment', 'middle', 'FontSize', 14, 'FontWeight', 'bold');
 
         if k == 3
-            xlabel('Time (s)', 'FontSize', 14, 'FontWeight', 'bold');
+            xlabel('Time (s)', 'FontSize', 20, 'FontWeight', 'bold');
             ylim([-0.08, 0.15]);
         end
 
-        title(sprintf('(%c) %s channel', 'a' + k - 1, labels{k}), 'FontSize', 18, 'FontWeight', 'bold');
+        if k == 2
+            ylim([-0.3, 0.2]);
+        end
+
+        title(sprintf('(%c) %s channel', 'a' + k - 1, labels{k}), 'FontSize', 20, 'FontWeight', 'bold');
 
         % % ===== 总图例 =====
         if k == 3
@@ -271,17 +275,17 @@ function plot_aero_ang_e( ...
                  'TD3-SMC (nominal)', 'TD3-SMC (-10%)', 'TD3-SMC (+10%)'}, ...
                 'NumColumns', 6, ...
                 'Location', 'southoutside', ...
-                'FontSize', 11);
+                'FontSize', 15);
         end
 
         grid on;
         box on;
-        set(gca, 'FontSize', 12, 'LineWidth', 1.1);
+        set(gca, 'FontSize', 15, 'LineWidth', 1.1);
 
         % ===== 局部放大图 =====
         if k == 1
             % ---- mu 通道: k = 1 ----
-            ax_in1 = axes('Position', [0.25 0.835 0.22 0.11]); % 可再微调
+            ax_in1 = axes('Position', [0.24 0.86 0.22 0.11]); % 可再微调
             hold(ax_in1, 'on');
 
             plot(t, y_GS_norm(:, k), 'g-', 'LineWidth', 1.8);
@@ -304,7 +308,7 @@ function plot_aero_ang_e( ...
             ylim([-0.00055 0.00005]);
             grid on;
             box on;
-            set(ax_in1, 'FontSize', 9, 'LineWidth', 0.8);
+            set(ax_in1, 'FontSize', 15, 'LineWidth', 0.8);
 
             % 主图上标出放大区域
             rectangle(ax, ...
@@ -314,7 +318,7 @@ function plot_aero_ang_e( ...
                 'LineWidth', 1.0);
         elseif k == 3
             % ---- beta 通道: k = 3 ----
-            ax_in2 = axes('Position', [0.6 0.22 0.22 0.11]); % 可再微调
+            ax_in2 = axes('Position', [0.6 0.26 0.22 0.11]); % 可再微调
             hold(ax_in2, 'on');
 
             plot(t, y_GS_norm(:, k), 'g-', 'LineWidth', 1.8);
@@ -337,7 +341,7 @@ function plot_aero_ang_e( ...
             ylim([-0.001 0.0006]);
             grid on;
             box on;
-            set(ax_in2, 'FontSize', 9, 'LineWidth', 0.8);
+            set(ax_in2, 'FontSize', 15, 'LineWidth', 0.8);
 
             % 主图上标出放大区域
             rectangle(ax, ...
@@ -451,17 +455,17 @@ function plot_additional_signals( ...
 
         % ===== 坐标轴 =====
         ylabel(sprintf('%s (%s)', labels{k}, unitStrs{k}), 'Rotation', 0, 'HorizontalAlignment', 'right', ...
-            'VerticalAlignment', 'middle', 'FontSize', 14, 'FontWeight', 'bold');
+            'VerticalAlignment', 'middle', 'FontSize', 20, 'FontWeight', 'bold');
 
         if k == 3
-            xlabel('Time (s)', 'FontSize', 14, 'FontWeight', 'bold');
+            xlabel('Time (s)', 'FontSize', 20, 'FontWeight', 'bold');
         end
 
-        title(sprintf('(%c) %s', 'a' + k - 1, labels{k}), 'FontSize', 18, 'FontWeight', 'bold');
+        title(sprintf('(%c) %s', 'a' + k - 1, labels{k}), 'FontSize', 20, 'FontWeight', 'bold');
 
         grid on;
         box on;
-        set(gca, 'FontSize', 12, 'LineWidth', 1.1);
+        set(gca, 'FontSize', 15, 'LineWidth', 1.1);
 
         % ===== Legend（仅在第1幅子图中显示）=====
         if k == 3
@@ -472,7 +476,7 @@ function plot_additional_signals( ...
                  'TD3-SMC (nominal)', 'TD3-SMC (-10%)', 'TD3-SMC (+10%)'}, ...
                 'NumColumns', 7, ...
                 'Location', 'southoutside', ...
-                'FontSize', 11);
+                'FontSize', 15);
         end
 
     end
@@ -546,9 +550,10 @@ function plot_trajectory_3d( ...
         'DisplayName', 'Command');
 
     % ===== 坐标轴 =====
-    xlabel('X (m)', 'FontSize', 14, 'FontWeight', 'bold');
-    ylabel('Y (m)', 'FontSize', 14, 'FontWeight', 'bold');
-    zlabel('Altitude (m)', 'FontSize', 14, 'FontWeight', 'bold', 'Rotation', 0);
+    xlabel('X (m)', 'FontSize', 20, 'FontWeight', 'bold');
+    ylabel('Y (m)', 'FontSize', 20, 'FontWeight', 'bold');
+    zlabel('Altitude (m)', 'FontSize', 20, 'FontWeight', 'bold', 'Rotation', 0);
+    set(gca, 'FontSize', 15); % 控制刻度数字大小
     % title('3D Trajectories', 'FontSize', 18, 'FontWeight', 'bold');
 
     % ===== 图例 =====
@@ -559,7 +564,7 @@ function plot_trajectory_3d( ...
          'TD3-SMC (nominal)', 'TD3-SMC (-10%)', 'TD3-SMC (+10%)'}, ...
         'NumColumns', 1, ...
         'Location', 'southoutside', ...
-        'FontSize', 11);
+        'FontSize', 15);
 
     view(3); % 设置为 3D 视图
 end
