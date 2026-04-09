@@ -2,7 +2,7 @@
 /*
  * @Author:blueWALL-E
  * @Date:2025-05-23 21:43:50
- * @LastEditTime: 2026-03-16 11:55:15
+ * @LastEditTime: 2026-04-10 00:05:56
  * @FilePath: \GHV_open\GHV_Configuration.m
  * @Description: 飞行器基本参数信息
  * @Wearing:Read only, do not modify place !!!
@@ -33,22 +33,14 @@ clear slBus1
 Simulink.Bus.createObject(GHV_cfg); %名字是slBus1 作为总线信号 方便simulink调用
 
 %飞行器初始状态
-Ma = 6.7; %初始马赫数 5
-altitude = 55027.499; %初始高度 单位 m 20000
+Ma = 7; %初始马赫数 5
+altitude = 20000; %初始高度 单位 m 20000
 gamma = deg2rad(0); %初始飞行航迹倾角 输入单位 deg 0
-alpha = deg2rad(4.0846); %初始攻角 输入单位 deg 4
+alpha = deg2rad(0); %初始攻角 输入单位 deg 4
 [~, vc, ~, ~, ~] = EarthEnvironment(altitude); %获取大气参数
 Position_init = [0; 0; -altitude]; % 初始位置 大地坐标系ned 北东地
 LLA_init = [30.007975; 122.010549; altitude]; %初始位置 大地坐标系 纬度 经度 高度 31.936363; 118.794870; altitude
 LLA_aim = [38.87099; -77.05596; 0]; %目标位置 大地坐标系 纬度 经度 高度
-Euler_init = [0; gamma + alpha; deg2rad(75)]; %初始姿态 欧拉角 机体坐标系相对于大地坐标系ned的角度 单位 rad
+Euler_init = [0; gamma + alpha; deg2rad(0)]; %初始姿态 欧拉角 机体坐标系相对于大地坐标系ned的角度 单位 rad
 Omega_init = [0; 0; 0]; %初始角速度 机体坐标系
 Speed_init = [Ma * vc * cos(alpha); 0; Ma * vc * sin(alpha)]; %初始速度 机体坐标系
-
-%设定飞行攻角导航数据
-load("data\alpha_command.mat");
-alpha_d_sample = alpha_command.Data;
-t_sample = alpha_command.Time;
-
-%导入强化学习智能体
-load("RL_control\data\Agent\agent_smc_RL_Trained_1.mat");
