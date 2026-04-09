@@ -77,9 +77,9 @@ function [LE, RE, RUD, d_rho_smc, S] = RL_BaseController(dd_aero_ang_d, aero_ang
 
     %控制参数
 
-    a_mu = 0.0001; %Lyapunov设计项
+    a_mu = 0.00001; %Lyapunov设计项
     a_alpha = 0.0001; %Lyapunov设计项
-    a_beta = 0.0001; %Lyapunov设计项
+    a_beta = 0.00001; %Lyapunov设计项
 
     %滑模面计算
     S_mu = d_mu_e ...
@@ -97,7 +97,7 @@ function [LE, RE, RUD, d_rho_smc, S] = RL_BaseController(dd_aero_ang_d, aero_ang
     % u_eq_mu = dd_mu_d + lambad_p_mu * d_mu_e + lambad_I_mu * mu_e - F_mu + k_mu * S_mu; %等效控制律
     u_ro_mu = rho_mu * tanh(S_mu / epsilon_mu); %鲁棒控制律
     u_mu = u_eq_mu + u_ro_mu; %#ok<NASGU> %总控制律
-    % u_mu = 0;
+    u_mu = 0;
     d_rho_smc_mu = gamma_rho_mu * (abs(S_mu) - 0.2785 * epsilon_mu - a_mu * rho_mu); %自适应律
 
     %alpha通道控制律
@@ -113,7 +113,7 @@ function [LE, RE, RUD, d_rho_smc, S] = RL_BaseController(dd_aero_ang_d, aero_ang
     % u_eq_beta = dd_beta_d + lambad_p_beta * d_beta_e + lambad_I_beta * beta_e - F_beta + k_beta * S_beta; %等效控制律
     u_ro_beta = rho_beta * tanh(S_beta / epsilon_beta); %鲁棒控制律
     u_beta = u_eq_beta + u_ro_beta; %#ok<NASGU> %总控制律
-    % u_beta = 0;
+    u_beta = 0;
     d_rho_smc_beta = gamma_rho_beta * (abs(S_beta) - 0.2785 * epsilon_beta - a_beta * rho_beta); %自适应律
 
     %输出
