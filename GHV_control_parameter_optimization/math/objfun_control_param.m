@@ -2,7 +2,7 @@
 /*
  * @Author: blueWALL-E
  * @Date: 2026-04-09 22:24:39
- * @LastEditTime: 2026-04-09 23:03:59
+ * @LastEditTime: 2026-04-11 16:17:23
  * @FilePath: \GHV_open\GHV_control_parameter_optimization\math\objfun_control_param.m
  * @Description: 目标函数构造
  * @Wearing:  Read only, do not modify place!!!
@@ -29,13 +29,15 @@ function J = objfun_control_param(control_param, model, blk_control_param)
 
     % 4) 目标函数
 
-    S = stepinfo(alpha_data, t, 6);
-    J_IAE = trapz(t, abs(alpha_data - 6));
-    J_IAEref =1.439065738871150;
+    S = stepinfo(alpha_data, t, 5);
+    J_IAE = trapz(t, abs(alpha_data - 5));
+    J_IAEref = 1.094496772711917;
     J_int = J_IAE / J_IAEref;
     J_signal = S.Overshoot;
     J_tss = S.SettlingTime;
-    J_tr = S.RiseTime;
-    J = 1 * J_int + 1 * J_signal + 1 * J_tss + 1 * J_tr;
+    J_tp = S.PeakTime;
+    J_ess = abs(alpha_data(end) - 5);
+    % J = 1 * J_int + 1 * J_signal + 1 * J_tss + 3 * J_tp + 20 * J_ess;
+    J = 1 * J_int + 1 * J_signal + 10 * J_tss;
 
 end
