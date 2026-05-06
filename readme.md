@@ -1,7 +1,7 @@
 <!--
  * @Author: blueWALL-E
  * @Date: 2024-10-31 22:45:46
- * @LastEditTime: 2026-02-05 21:46:58
+ * @LastEditTime: 2026-05-06 21:22:10
  * @FilePath: \GHV_open\readme.md
  * @Description: GHV文件的相关说明
  * @Wearing:  Read only, do not modify place!!! 
@@ -38,7 +38,7 @@
   - `GHV_open_equation.slx`：基于 MATLAB 纯公式实现动力学仿真平台
   - `GHV_open_toolbox.slx`：基于 Simulink / Aerospace Toolbox 动力学仿真平台
   - `GHV_open_VarialbeMass_toolbox.slx`：考虑发动机推力模型的变质量动力学仿真平台
-  - `GHV_open_VarialbeMass_elliposid_toolbox.slx`：考虑椭球地球的变质量动力学仿真平台
+  - `GHV_open_VarialbeMass_ellipsoid_toolbox.slx`：考虑椭球地球的变质量动力学仿真平台
 - 多种控制算法示例：如自适应滑模控制，自适应滑模切换控制算法等
 - 模块化设计：动力学、气动力、控制算法、发动机推力、地球环境等可替换扩展
 
@@ -99,14 +99,14 @@ cd GHV_open
 init  % 加载项目路径与默认配置
 ```
 
-#### Step 3 — 运行仿真平台
+#### **Step3** — 运行仿真平台
 
 根据需求选择以下仿真平台：
 
 - `GHV_open_equation.slx`：基于 MATLAB 纯公式实现动力学仿真平台  
 - `GHV_open_toolbox.slx`：基于 Simulink / Aerospace Toolbox 动力学仿真平台  
 - `GHV_open_VarialbeMass_toolbox.slx`：考虑发动机推力模型的变质量动力学仿真平台  
-- `GHV_open_VarialbeMass_elliposid_toolbox.slx`：考虑椭球地球的变质量动力学仿真平台  
+- `GHV_open_VarialbeMass_ellipsoid_toolbox.slx`：考虑椭球地球的变质量动力学仿真平台  
 
 💡 建议新手从 `GHV_open_toolbox.slx` 入手；更多控制方法示例见 `Control_Schemes/`。
 
