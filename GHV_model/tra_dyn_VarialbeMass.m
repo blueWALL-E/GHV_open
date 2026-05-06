@@ -2,7 +2,7 @@
 /*
  * @Author: blueWALL-E
  * @Date: 2024-10-15 20:26:14
- * @LastEditTime: 2025-10-19 16:40:45
+ * @LastEditTime: 2026-05-06 21:11:20
  * @FilePath: \GHV_open\GHV_model\tra_dyn_VarialbeMass.m
  * @Description: 平动动力学 第三组方程 变质量的简化模型
  * @Wearing:  Read only, do not modify place!!!
@@ -55,7 +55,7 @@ function [d_V, d_air_ang] = tra_dyn_VarialbeMass(Fair, T, g, V, air_ang, att_ang
         gza = g * (sin(alpha) * sin(theta) + cos(alpha) * cos(phi) * cos(theta));
 
         d_V = (1 / m) * (T * cos(alpha) * cos(beta) - D) + gxa;
-        d_beta = (1 / V * m) * (-T * cos(alpha) * sin(beta) + Y) ...
+        d_beta = (1 / (V * m)) * (-T * cos(alpha) * sin(beta) + Y) ...
             - (-wx * sin(alpha) + wz * cos(alpha)) + (1 / V) * gya;
         d_alpha = (1 / (m * V * cos(beta))) * (-T * sin(alpha) - L) ...
             + (1 / cos(beta)) * (-wx * cos(alpha) * sin(beta) + wy * cos(beta) - wz * sin(alpha) * sin(beta)) ...
