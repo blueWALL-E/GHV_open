@@ -1,7 +1,7 @@
 <!--
  * @Author: blueWALL-E
  * @Date: 2024-10-31 22:45:46
- * @LastEditTime: 2025-11-03 21:10:13
+ * @LastEditTime: 2026-05-18 23:01:15
  * @FilePath: \GHV_open\readme.md
  * @Description: GHV文件的相关说明
  * @Wearing:  Read only, do not modify place!!! 
@@ -34,13 +34,13 @@
 ## 项目特点
 
 - 完整高超声速飞行器6自由度动力学模型
+- 模块化设计：动力学、气动力、控制算法、发动机推力、地球环境等可替换扩展
 - 提供多种仿真平台和工况支持：
   - `GHV_open_equation.slx`：基于 MATLAB 纯公式实现动力学仿真平台
   - `GHV_open_toolbox.slx`：基于 Simulink / Aerospace Toolbox 动力学仿真平台
   - `GHV_open_VarialbeMass_toolbox.slx`：考虑发动机推力模型的变质量动力学仿真平台
   - `GHV_open_VarialbeMass_elliposid_toolbox.slx`：考虑椭球地球的变质量动力学仿真平台
 - 多种控制算法示例：如自适应滑模控制，自适应滑模切换控制算法等
-- 模块化设计：动力学、气动力、控制算法、发动机推力、地球环境等可替换扩展
 
 ## 目录结构
 
@@ -48,13 +48,18 @@
 GHV_open
 ├─ .vscode/ - VS Code 配置文件夹
 ├─ cache/ - 缓存文件夹
-│  └─ .gitkeep - 保留空文件夹的 Git 文件
+│   └─ .gitkeep - 保留空文件夹的 Git 文件
 ├─ Control_Schemes/ - 控制方案文件夹
-│  ├─GHV_open_VarialbeMass_elliposid_toolbox_MIMO_adaptive_smc.slx - 飞行器变质量椭球地球下自适应滑模控制仿真平台
-│  ├─GHV_open_VarialbeMass_toolbox_adaptive_fuzzy.slx - 飞行器变质量下自适应滑模控制仿真平台
-│  ├─GHV_open_VarialbeMass_toolbox_MIMO_adaptive_fuzzy.slx - 多输入多输出自适应控制仿真平台 
-│  ├─GHV_toolbox_adaptive_fuzzy.slx - 自适应模糊滑模控制仿真平台
-│  └─GHV_toolbox_adaptive_sliding.slx - 自适应滑模控制仿真平台
+│  ├── GHV_control_parameter_optimization/ - 自适应滑模控制算法及SQP控制参数优化方法
+│  │    ├── adaptive_sliding_mode_controller.m - 自适应滑模控制算法
+│  │    ├── GHV_open_smc_sq.slx - 自适应滑模控制算法仿真平台
+│  │    ├── sqp.m - SQP控制参数优化算法
+│  │    └── math/ - 相关数据运算函数
+│  │         ├── area_between_signal_and_threshold.m
+│  │         ├── nonCon_control_param.m
+│  │         ├── objfun_control_param.m
+│  │         └── reshape_to_n3.m
+│  └─XXX.slx - 其他控制算法仿真平台
 ├─ data/ - 数据存放文件夹
 ├─ docs/ - 飞行器说明文档文件夹
 ├─ GHV_analysis/ - 飞行器性质分析文件夹
