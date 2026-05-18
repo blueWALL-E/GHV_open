@@ -1,7 +1,7 @@
 <!--
  * @Author: blueWALL-E
  * @Date: 2024-10-31 22:45:46
- * @LastEditTime: 2026-05-18 23:14:22
+ * @LastEditTime: 2026-05-18 23:22:44
  * @FilePath: \GHV_open\readme.md
  * @Description: GHV文件的相关说明
  * @Wearing:  Read only, do not modify place!!! 
@@ -50,16 +50,15 @@ GHV_open
 ├─ cache/ - 缓存文件夹
 │   └─ .gitkeep - 保留空文件夹的 Git 文件
 ├─ Control_Schemes/ - 控制方案文件夹
-│  ├── GHV_control_parameter_optimization/ - 自适应滑模控制算法及SQP控制参数优化方法
-│  │    ├── adaptive_sliding_mode_controller.m - 自适应滑模控制算法
-│  │    ├── GHV_open_smc_sq.slx - 自适应滑模控制算法仿真平台
-│  │    ├── sqp.m - SQP控制参数优化算法
-│  │    └── math/ - 相关数据运算函数
-│  │         ├── area_between_signal_and_threshold.m
-│  │         ├── nonCon_control_param.m
-│  │         ├── objfun_control_param.m
-│  │         └── reshape_to_n3.m
-│  └─XXX.slx - 其他控制算法仿真平台
+│   └─ GHV_control_parameter_optimization/ - 自适应滑模控制算法及SQP控制参数优化方法
+│      ├── adaptive_sliding_mode_controller.m - 自适应滑模控制算法
+│      ├── GHV_open_smc_sq.slx - 自适应滑模控制算法仿真平台
+│      ├── sqp.m - SQP控制参数优化算法
+│      └── math/ - 相关数据运算函数
+│           ├── area_between_signal_and_threshold.m
+│           ├── nonCon_control_param.m
+│           ├── objfun_control_param.m
+│           └── reshape_to_n3.m
 ├─ data/ - 数据存放文件夹
 ├─ docs/ - 飞行器说明文档文件夹
 ├─ GHV_analysis/ - 飞行器性质分析文件夹
@@ -70,7 +69,6 @@ GHV_open
 │  └─ Sliding_mode.m - 滑模控制
 ├─ GHV_model/ - 飞行器动力学与地球环境模型文件夹
 ├─ .gitignore - Git 忽略文件
-├─ draft.m - 草稿文件（git未跟踪 可自行建立）
 ├─ GHV_Configuration.m - 飞行器基本参数配置文件
 ├─ GHV_open_equation.slx - 基于 MATLAB 纯公式实现动力学仿真平台
 ├─ GHV_open_toolbox.slx - 基于 Simulink/Aerospace Toolbox 动力学仿真平台
@@ -113,7 +111,7 @@ init  % 加载项目路径与默认配置
 - `GHV_open_VarialbeMass_toolbox.slx`：考虑发动机推力模型的变质量动力学仿真平台  
 - `GHV_open_VarialbeMass_ellipsoid_toolbox.slx`：考虑椭球地球的变质量动力学仿真平台  
 
-💡 建议新手从 `GHV_open_toolbox.slx` 入手；更多控制方法示例见 `Control_Schemes/`。
+💡 建议新手从 `GHV_open_toolbox.slx` 入手；控制方法示例见 `Control_Schemes/`。
 
 ## 贡献指南
 
