@@ -4,5 +4,6 @@ draft.*
 *.slxc
 *.mat
 *.jpg
+*txt
 # 排除缓存文件夹
 slprj/
