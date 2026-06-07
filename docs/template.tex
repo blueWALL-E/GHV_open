@@ -1,0 +1,99 @@
+\documentclass[11pt,a4paper,UTF8]{ctexart}
+
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath,amssymb,bm}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  urlcolor=blue,
+  citecolor=blue
+/**
+ * @brief: 
+ * @note: 
+ * @return {*}
+ */
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{中英文单栏模板}
+\rhead{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\title{一个适用于中英文的单栏 LaTeX 模板}
+\author{Your Name}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+这是一个可以直接拿来改的单栏模板，适合中文和英文混合写作。你可以把它用于课程论文、简短报告、笔记整理，或者作为更正式文档的起点。
+
+This is a simple single-column template for mixed Chinese and English writing. It is suitable for short reports, class notes, and as a starting point for more formal documents.
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+\section{引言 Introduction}
+这里放引言内容。你可以先交代背景，再说明本文要解决的问题，最后给出结构安排。
+
+For example, you may describe the background first, then state the problem, and finally outline the structure of the document.
+
+\section{正文 Main Text}
+这一部分可以写你的主要内容。下面给出几个常见的写法示例。
+
+\subsection{公式示例}
+如果需要写公式，可以直接使用行内公式 $E=mc^2$，或者使用独立公式：
+\begin{equation}
+  \int_0^1 x^2 \, dx = \frac{1}{3}.
+\end{equation}
+
+\subsection{列表示例}
+\begin{itemize}[leftmargin=2em]
+  \item 第一条内容 / First item
+  \item 第二条内容 / Second item
+  \item 第三条内容 / Third item
+\end{itemize}
+
+\subsection{表格示例}
+\begin{table}[h]
+  \centering
+  \caption{示例表格 Example Table}
+  \begin{tabular}{llc}
+    \toprule
+    项目 Item & 说明 Description & 数值 Value \\
+    \midrule
+    A & 示例内容 Example text & 1 \\
+    B & 示例内容 Example text & 2 \\
+    C & 示例内容 Example text & 3 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsection{图表示例}
+如果你有图片，可以这样插入：
+\begin{figure}[h]
+  \centering
+  \fbox{\parbox[c][4cm][c]{0.75\linewidth}{\centering 在这里放图 / Put your figure here}}
+  \caption{图示例 Figure Example}
+\end{figure}
+
+\section{结论 Conclusion}
+这里写结论，总结你在文中得到的主要结果，并可以简单说明后续工作。
+
+In the conclusion, summarize the main results and briefly mention future work if needed.
+
+\section*{致谢 Acknowledgment}
+感谢所有帮助过你的人、课程、项目或数据来源。
+
+\end{document}
