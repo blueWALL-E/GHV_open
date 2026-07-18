@@ -1,0 +1,251 @@
+\documentclass[11pt,a4paper,UTF8]{ctexart}
+
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath,amssymb,bm}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{bookmark}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  urlcolor=blue,
+  citecolor=blue,
+  pdftitle={高超声速飞行器姿态控制算法1——自适应滑模控制}
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{高超声速飞行器姿态控制}
+\rhead{\thepage}
+\setlength{\headheight}{14pt}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\setlength{\parindent}{2em}
+\setlength{\parskip}{0.25em}
+
+\title{高超声速飞行器姿态控制算法1——自适应滑模控制}
+\author{}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+  这是一个可以直接拿来改的单栏模板，适合中文和英文混合写作。你可以把它用于课程论文、简短报告、笔记整理，或者作为更正式文档的起点。
+  
+  This is a simple single-column template for mixed Chinese and English writing. It is suitable for short reports, class notes, and as a starting point for more formal documents.
+\end{abstract}
+  
+\tableofcontents
+\newpage
+
+
+\section{GHV动力学建模与基本假设}
+
+GHV存在显著的强耦合、强非线性、快时变和高不确定性，其
+\href{./docs/Hypersonic\%20vehicle\%20simulation\%20model\%20Winged-cone\%20configuration.pdf}{动力学模型}
+具有复杂的
+\href{./docs/Development\%20of\%20an\%20Aerodynamic\%20Database\%20for\%20a\%20generic\%20Hypersonic\%20Air\%20Vehicle.pdf}{气动特性}，
+且非仿射项将显著影响GHV的动力学特性。因此，为实现GHV的高性能控制，非仿射项不应被简单忽略。GHV的姿态动力学方程可表示为如下MIMO非线性非仿射系统：
+
+\begin{equation}
+  \ddot{\Omega}(t)
+  =F\bigl(x(t)\bigr)+G\bigl(x(t),u(t)\bigr)+\Delta\bigl(x(t),t\bigr).
+\end{equation}
+
+\begin{equation}
+\begin{gathered}
+  x(t)=\left[\Omega(t)^{T},\omega(t)^{T}\right]^{T},\\
+  \Omega(t)=\left[\mu,\alpha,\beta\right]^{T},\\
+  \omega(t)=\left[p,q,r\right]^{T}.
+\end{gathered}
+\end{equation}
+
+其中：
+
+\begin{description}[style=nextline,leftmargin=3.6em,labelsep=0.8em]
+  \item[$\Omega(t)$] GHV三通道姿态向量，其中$\mu$为滚转角，$\alpha$为攻角，$\beta$为侧滑角。
+  \item[$\omega(t)$] GHV机体坐标系下三轴角速度向量，其中$p$为滚转角速度，$q$为俯仰角速度，$r$为偏航角速度。
+  \item[$x(t)$] GHV状态向量。
+  \item[$u(t)$] 系统控制输入向量，
+  \[
+    u(t)=\left[\delta_a,\delta_e,\delta_r\right]^T,
+  \]
+  其中$\delta_a$为右升降副翼偏转角，$\delta_e$为左升降副翼偏转角，$\delta_r$为方向舵偏转角。
+  \item[$F\bigl(x(t)\bigr)$] GHV非线性函数向量。
+  \item[$G\bigl(x(t),u(t)\bigr)$] GHV非线性、非仿射控制函数向量。
+  \item[$\Delta\bigl(x(t),t\bigr)$] 系统不确定项，由未建模动态和外部干扰组成。
+\end{description}
+
+为便于自适应滑模控制律设计，将GHV动力学模型改写为如下形式：
+
+\begin{equation}
+\boxed{
+\begin{gathered}
+  \ddot{\Omega}(t)
+  =F\bigl(x(t)\bigr)+\widetilde{G}\bigl(x(t),u(t)\bigr)+u(t)+\Delta\bigl(x(t),t\bigr),\\
+  G\bigl(x(t),u(t)\bigr)
+  =\widetilde{G}\bigl(x(t),u(t)\bigr)+u(t).
+\end{gathered}
+}
+\end{equation}
+
+这样处理后，控制输入$u(t)$能够显式出现在系统方程中，而剩余的非仿射影响、未建模动态及扰动可统一视为等效不确定项。该处理方式的核心目的是将复杂非仿射控制问题转化为便于滑模控制设计的等效形式。
+
+同时，对GHV动力学模型和期望指令作如下假设。
+
+\paragraph{假设1：GHV的不确定项和非仿射项均有界。}
+存在正常数$\bar d$和$\bar l$，使得
+
+\begin{equation}
+\begin{gathered}
+  \left\|\Delta\bigl(x(t),t\bigr)\right\|_{\infty}\leq \bar d,\\
+  \left\|\widetilde{G}\bigl(x(t),u(t)\bigr)\right\|_{\infty}\leq \bar l,\\
+  \rho=\bar d+\bar l.
+\end{gathered}
+\end{equation}
+
+\paragraph{假设2：期望指令二阶可导。}
+期望指令
+\[
+  \Omega_d(t)=\left[\mu_d,\alpha_d,\beta_d\right]^T
+\]
+中，$\mu_d$为滚转期望指令，$\alpha_d$为攻角期望指令，$\beta_d$为侧滑角期望指令，并满足
+
+\begin{equation}
+  \Omega_d(t)\in C^2,\qquad
+  \Omega_d(t),\ \dot{\Omega}_d(t),\ \ddot{\Omega}_d(t)\in L_{\infty}.
+\end{equation}
+
+\section{控制器设计}
+
+\subsection{误差定义}
+
+定义姿态跟踪误差为
+
+\begin{equation}
+  e(t)=\Omega_d(t)-\Omega(t)
+  =\left[e_{\mu},e_{\alpha},e_{\beta}\right]^T,
+\end{equation}
+
+其中，$e_{\mu}$、$e_{\alpha}$和$e_{\beta}$分别表示滚转角、攻角和侧滑角的跟踪误差。
+
+\subsection{滑模面设计}
+
+为了降低跟踪误差，针对每一个姿态通道构造如下积分型滑模面：
+
+\begin{equation}
+  s_{\Omega}(t)
+  =\dot e_{\Omega}(t)
+  +\lambda_{p,\Omega}e_{\Omega}(t)
+  +\lambda_{I,\Omega}\int_{0}^{t}e_{\Omega}(\tau)\,\mathrm{d}\tau,
+  \qquad \Omega\in\{\mu,\alpha,\beta\}.
+\end{equation}
+
+其中：
+
+\begin{description}[style=nextline,leftmargin=6.4em,labelsep=0.8em]
+  \item[$\lambda_{p,\Omega}>0$] $\Omega$通道比例误差权重。
+  \item[$\lambda_{I,\Omega}>0$] $\Omega$通道积分误差权重。
+\end{description}
+
+\subsection{控制律设计}
+
+对滑模面两边同时求导，得
+
+\begin{equation}
+\begin{aligned}
+  \dot{s}_{\Omega}(t)
+  &=\ddot e_{\Omega}(t)
+    +\lambda_{p,\Omega}\dot e_{\Omega}(t)
+    +\lambda_{I,\Omega}e_{\Omega}(t)\\
+  &=\ddot{\Omega}_{d}(t)
+    +\lambda_{p,\Omega}\dot e_{\Omega}(t)
+    +\lambda_{I,\Omega}e_{\Omega}(t)
+    -F_{\Omega}-\widetilde{G}_{\Omega}-\Delta_{\Omega}-u_{\Omega}.
+\end{aligned}
+\end{equation}
+
+趋近律可以设计为：
+
+% TODO：在此处补充趋近律的具体表达式。
+
+则控制律可以表示为
+
+\begin{equation}
+\boxed{
+\begin{aligned}
+  u_{\Omega}
+  &=u_{eq,\Omega}+u_{ro,\Omega},\\
+  u_{eq,\Omega}
+  &=\ddot{\Omega}_{d}
+    +\lambda_{p,\Omega}\dot e_{\Omega}(t)
+    +\lambda_{I,\Omega}e_{\Omega}(t)
+    -F_{\Omega}+k_{\Omega}s_{\Omega},\\
+  u_{ro,\Omega}
+  &=\hat{\rho}_{\Omega}
+    \tanh\!\left(\frac{s_{\Omega}}{\varepsilon_{\Omega}}\right),\\
+  \dot{\hat{\rho}}_{\Omega}
+  &=\gamma_{\rho_{\Omega}}
+    \left(
+      \lvert s_{\Omega}\rvert
+      -0.2785\varepsilon_{\Omega}
+      -a_{\Omega}\hat{\rho}_{\Omega}
+    \right).
+\end{aligned}
+}
+\end{equation}
+
+其中：
+
+\begin{description}[style=nextline,leftmargin=7.5em,labelsep=0.8em]
+  \item[$k_{\Omega}>0$] 等效滑模控制参数。
+  \item[$\varepsilon_{\Omega}>0$] 滑模面宽度。
+  \item[$\hat{\rho}_{\Omega}$] $\rho_{\Omega}$的估计值。
+  \item[$\gamma_{\rho_{\Omega}}>0$] 自适应调节参数。
+  \item[$a_{\Omega}>0$] 修正项。
+\end{description}
+
+\subsection{控制分配与限幅}
+
+控制器最终将虚拟控制量转换为舵面偏转：
+
+\begin{equation}
+\begin{aligned}
+  \delta_a
+  &=\operatorname{sat}_{[-30^{\circ},\,30^{\circ}]}
+    \bigl(u_{\alpha}+u_{\mu}\bigr),\\
+  \delta_e
+  &=\operatorname{sat}_{[-30^{\circ},\,30^{\circ}]}
+    \bigl(u_{\alpha}-u_{\mu}\bigr),\\
+  \delta_r
+  &=\operatorname{sat}_{[-30^{\circ},\,30^{\circ}]}
+    \bigl(u_{\beta}\bigr).
+\end{aligned}
+\end{equation}
+
+饱和函数定义为
+
+\begin{equation}
+  \operatorname{sat}_{[-30^{\circ},\,30^{\circ}]}(x)
+  =
+  \begin{cases}
+    30^{\circ}, & x>30^{\circ},\\
+    x, & -30^{\circ}\leq x\leq 30^{\circ},\\
+    -30^{\circ}, & x<-30^{\circ}.
+  \end{cases}
+\end{equation}
+
+\section{稳定性证明}
+% 本节内容待补充。
+
+\section{仿真结果}
+% 本节内容待补充。
+
+\end{document}

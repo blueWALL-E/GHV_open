@@ -25,6 +25,7 @@
 \fancyhf{}
 \lhead{中英文单栏模板}
 \rhead{\thepage}
+\setlength{\headheight}{14pt}
 \renewcommand{\headrulewidth}{0.4pt}
 
 \title{一个适用于中英文的单栏 LaTeX 模板}
@@ -66,7 +67,7 @@ For example, you may describe the background first, then state the problem, and 
 \end{itemize}
 
 \subsection{表格示例}
-\begin{table}[h]
+\begin{table}[ht]
   \centering
   \caption{示例表格 Example Table}
   \begin{tabular}{llc}
@@ -82,7 +83,7 @@ For example, you may describe the background first, then state the problem, and 
 
 \subsection{图表示例}
 如果你有图片，可以这样插入：
-\begin{figure}[h]
+\begin{figure}[ht]
   \centering
   \fbox{\parbox[c][4cm][c]{0.75\linewidth}{\centering 在这里放图 / Put your figure here}}
   \caption{图示例 Figure Example}
