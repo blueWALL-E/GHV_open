@@ -2,7 +2,7 @@
 /*
  * @Author:blueWALL-E
  * @Date:2025-05-23 21:43:50
- * @LastEditTime: 2026-04-10 00:05:56
+ * @LastEditTime: 2026-07-22 21:44:36
  * @FilePath: \GHV_open\GHV_Configuration.m
  * @Description: 飞行器基本参数信息
  * @Wearing:Read only, do not modify place !!!
@@ -10,11 +10,14 @@
  */
 %}
 
-%单位换算常数 尽量避免使用 但保留这个接口
+%单位换算常数
 d2r = pi / 180; % Conversion Deg to Rad
 m2ft = 3.28084; % meter to feet
 Kg2slug = 0.0685218; % Kg to slug
 Kg2lb = 2.20462; % Kg to lb
+psf2Pa = 47.88025898033584; % 1 lbf/ft^2 = 47.88025898 Pa
+lbm2kg = 0.45359237; % 1 lbm = 0.45359237 kg
+g0 = 9.80665; % m/s^2
 
 % 飞行器基本参数
 % 需要使用的飞行器自身的参数-标准单位制 米 牛顿
