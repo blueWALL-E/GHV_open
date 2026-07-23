@@ -2,22 +2,13 @@
 /*
  * @Author:blueWALL-E
  * @Date:2025-05-23 21:43:50
- * @LastEditTime: 2026-07-22 21:44:36
+ * @LastEditTime: 2026-07-23 22:24:47
  * @FilePath: \GHV_open\GHV_Configuration.m
  * @Description: 飞行器基本参数信息
  * @Wearing:Read only, do not modify place !!!
  * @Shortcut keys: ctrl+alt+/ ctrl+alt+z
  */
 %}
-
-%单位换算常数
-d2r = pi / 180; % Conversion Deg to Rad
-m2ft = 3.28084; % meter to feet
-Kg2slug = 0.0685218; % Kg to slug
-Kg2lb = 2.20462; % Kg to lb
-psf2Pa = 47.88025898033584; % 1 lbf/ft^2 = 47.88025898 Pa
-lbm2kg = 0.45359237; % 1 lbm = 0.45359237 kg
-g0 = 9.80665; % m/s^2
 
 % 飞行器基本参数
 % 需要使用的飞行器自身的参数-标准单位制 米 牛顿
@@ -47,3 +38,5 @@ LLA_aim = [38.87099; -77.05596; 0]; %目标位置 大地坐标系 纬度 经度 
 Euler_init = [0; gamma + alpha; deg2rad(0)]; %初始姿态 欧拉角 机体坐标系相对于大地坐标系ned的角度 单位 rad
 Omega_init = [0; 0; 0]; %初始角速度 机体坐标系
 Speed_init = [Ma * vc * cos(alpha); 0; Ma * vc * sin(alpha)]; %初始速度 机体坐标系
+%推力矢量发动机使能
+engine_enable = 1; %发动机使能 0：关闭 1：开启
