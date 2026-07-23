@@ -17,7 +17,7 @@
 &emsp;&emsp;**GHV_open** 是一个高超声速飞行器（Generic Hypersonic Vehicle）动力学与 GNC（制导、导航与控制）开源仿真平台。项目包含完整的 6 自由度动力学模型、气动力模型、发动机模型、地球环境以及多种控制算法示例，旨在为研究人员和飞控工程师提供一个可扩展、可复现的高超声速飞行器综合仿真平台。  
 
 <p align="center">
-  <img src="docs/仿真平台截图.jpg" alt="GHV_open **picture**" width="100%">
+  <img src="docs/仿真平台.jpg" alt="GHV_open **picture**" width="100%">
   <br>
   <em>图 1：高超声速飞行器动力学仿真平台</em>
 </p>
